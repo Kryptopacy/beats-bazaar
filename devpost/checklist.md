@@ -9,7 +9,7 @@ Build mode: fast
 
 ## Slices
 
-- [ ] **1. Next.js Foundation & Seeded Marketplace Audio Player**
+- [x] **1. Next.js Foundation & Seeded Marketplace Audio Player**
   Becomes usable: The Next.js application runs locally in the dark studio aesthetic (`#0B0F12`), displaying the top Navbar and the Marketplace with pre-seeded Afrobeats & Amapiano tracks that can be played, paused, and scrubbed via the central audio player.
   Why now: Proves the whole foundation end to end on slice one—scaffold, dependencies, styling, state, and audio playback—so every later slice has a solid platform to build upon.
   PRD ref: `prd.md > Screens and Layout` (1. Global Navigation Bar, 2. Marketplace Surface), `prd.md > Look and Feel`, `prd.md > Audio Playback & Cypher Auto-Advance`
