@@ -1,0 +1,64 @@
+import { Beat } from '@/types';
+
+export const INITIAL_BEATS: Beat[] = [
+  {
+    id: 'beat-1',
+    title: 'Lagos Nightdrive',
+    producer: 'SarzAura',
+    genre: 'Afrobeats',
+    bpm: 104,
+    audioUrl: '',
+    leasePrice: 35,
+    exclusivePrice: 350,
+    inCypher: true,
+    isSoldExclusive: false,
+    uploadedAt: '2026-10-18T14:30:00Z',
+    tags: ['Burnaboy Vibe', 'Bouncy', 'Saxophone', 'Club'],
+    coverArt: 'linear-gradient(135deg, #00E599 0%, #151B22 100%)'
+  },
+  {
+    id: 'beat-2',
+    title: 'Joburg Sunset (Log Drum)',
+    producer: 'KabzaFlow',
+    genre: 'Amapiano',
+    bpm: 112,
+    audioUrl: '',
+    leasePrice: 40,
+    exclusivePrice: 400,
+    inCypher: true,
+    isSoldExclusive: false,
+    uploadedAt: '2026-10-18T16:00:00Z',
+    tags: ['Heavy Log Drum', 'Deep Piano', 'Private School'],
+    coverArt: 'linear-gradient(135deg, #F59E0B 0%, #0B0F12 100%)'
+  },
+  {
+    id: 'beat-3',
+    title: 'Mainland Drill 2.0',
+    producer: 'AbujaBeatz',
+    genre: 'Afro-Drill',
+    bpm: 140,
+    audioUrl: '',
+    leasePrice: 30,
+    exclusivePrice: 280,
+    inCypher: true,
+    isSoldExclusive: false,
+    uploadedAt: '2026-10-19T09:15:00Z',
+    tags: ['Aggressive 808', 'Dark Strings', 'Cypher Ready'],
+    coverArt: 'linear-gradient(135deg, #EC4899 0%, #111827 100%)'
+  },
+  {
+    id: 'beat-4',
+    title: 'Eko Soul & Palmwine',
+    producer: 'DoctorOpto',
+    genre: 'Alté',
+    bpm: 98,
+    audioUrl: '',
+    leasePrice: 45,
+    exclusivePrice: 450,
+    inCypher: true,
+    isSoldExclusive: false,
+    uploadedAt: '2026-10-19T11:00:00Z',
+    tags: ['Guitar Licks', 'Chill', 'Melodic', 'Freestyle Gold'],
+    coverArt: 'linear-gradient(135deg, #8B5CF6 0%, #064E3B 100%)'
+  }
+];

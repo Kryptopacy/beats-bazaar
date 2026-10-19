@@ -1,0 +1,12 @@
+# Personal learner profile (Devpost Learn)
+/devpost/learner-profile.md
+
+# Local environment / credentials
+.env
+.env.*
+!.env.example
+# Node / Next.js
+node_modules/
+.next/
+out/
+build/
