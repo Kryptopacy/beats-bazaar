@@ -98,7 +98,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
             </span>
           </h1>
           <p className="mt-3 text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">
-            Where underground heat meets global reach. Audition protected previews, freestyle in the cypher, and legally license master rights directly from producers—powered by <span className="text-accent-yellow font-bold">Bachs</span> for seamless fiat (NGN, GHS, USD, EUR) &amp; crypto checkout.
+            Where underground heat meets global reach. Audition protected previews, freestyle in the cypher, and legally license master rights directly from producers—with instant checkout across fiat (NGN, GHS, USD, EUR) and crypto.
           </p>
         </div>
       </div>

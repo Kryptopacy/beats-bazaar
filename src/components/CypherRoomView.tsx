@@ -238,7 +238,7 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat }: CypherRoomViewP
                 className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-2xl bg-surface border border-accent-gold/50 text-accent-yellow hover:bg-accent-gold hover:text-black font-extrabold text-sm shadow-md transition-all active:scale-95"
               >
                 <Coins className="w-4 h-4" />
-                <span>Tip Producer (Bachs)</span>
+                <span>Tip Producer</span>
               </button>
 
               <button

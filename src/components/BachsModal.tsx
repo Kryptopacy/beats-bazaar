@@ -57,8 +57,8 @@ export function BachsModal({
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-accent-yellow bg-accent-gold/10 px-2 py-0.5 rounded">
-                  Bachs Inline Checkout
+                <span className="text-xs font-bold uppercase tracking-wider text-accent-green bg-accent-green/10 px-2 py-0.5 rounded">
+                  Instant Checkout
                 </span>
               </div>
               <h3 className="text-xl font-black text-white mt-0.5">
@@ -125,7 +125,7 @@ export function BachsModal({
 
         {/* Payment Rails Selector (Fiat vs Crypto) */}
         <div className="mt-6">
-          <label className="block text-xs font-bold text-gray-300 mb-2">Select Payment Rail (Bachs Dual Rail)</label>
+          <label className="block text-xs font-bold text-gray-300 mb-2">Select Payment Method</label>
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
@@ -186,7 +186,7 @@ export function BachsModal({
             {isProcessing ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Processing via Bachs...</span>
+                <span>Processing Payment...</span>
               </>
             ) : (
               <>

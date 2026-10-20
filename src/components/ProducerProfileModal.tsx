@@ -143,7 +143,7 @@ export function ProducerProfileModal({
                 className="mt-4 inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-accent-gold/15 border border-accent-gold/40 text-accent-yellow hover:bg-accent-gold hover:text-black font-bold text-xs shadow-sm transition-all"
               >
                 <Coins className="w-4 h-4" />
-                <span>Tip {producerName} via Bachs</span>
+                <span>Tip {producerName}</span>
               </button>
             )}
           </div>

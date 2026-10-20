@@ -61,7 +61,7 @@ export default function Home() {
     setBachsState(prev => ({ ...prev, isOpen: false }));
 
     if (currentMode === 'tip') {
-      alert(`Success! Tip of $${amount} sent to ${currentBeat?.producer} via Bachs (${method.toUpperCase()}). TxRef: ${txRef}`);
+      alert(`Success! Tip of $${amount} sent directly to ${currentBeat?.producer} (${method.toUpperCase()}). TxRef: ${txRef}`);
       return;
     }
 

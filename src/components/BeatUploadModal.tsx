@@ -236,7 +236,7 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
               <label htmlFor="sponsorBoost" className="text-xs font-bold text-white cursor-pointer select-none">
                 <div className="flex items-center gap-1.5 text-amber-300">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Boost &amp; Sponsor Beat ($15 via Bachs)</span>
+                  <span>Boost &amp; Sponsor Beat ($15)</span>
                 </div>
                 <span className="text-[11px] text-gray-400 font-normal block mt-0.5">
                   Pins your track to the top of the Marketplace &amp; features with a gold flame badge.
