@@ -56,14 +56,10 @@ export function BachsModal({
               <Zap className="w-6 h-6 text-black font-black" />
             </div>
             <div>
-              <div className="flex items-center space-x-2">
-                <span className="text-[10px] font-black uppercase tracking-wider text-accent-green bg-accent-green/10 border border-accent-green/20 px-2.5 py-0.5 rounded-full">
-                  Instant Checkout
-                </span>
-              </div>
-              <h3 className="text-xl font-black text-white mt-1 tracking-tight">
+              <h3 className="text-xl font-black text-white tracking-tight">
                 {mode === 'license' ? `License: ${tier}` : `Tip ${beat.producer}`}
               </h3>
+              <p className="text-xs text-gray-400 mt-0.5">Secure payment processing</p>
             </div>
           </div>
           <button 

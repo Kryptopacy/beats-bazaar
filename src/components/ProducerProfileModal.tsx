@@ -273,7 +273,7 @@ export function ProducerProfileModal({
                     </div>
 
                     <div className="flex items-center space-x-3 flex-shrink-0">
-                      <span className="text-[11px] font-bold text-gray-300 bg-white/[0.04] px-3 py-1 rounded-full border border-white/[0.06]">
+                      <span className="text-xs font-semibold text-gray-400">
                         {song.platform}
                       </span>
                       <a

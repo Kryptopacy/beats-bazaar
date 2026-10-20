@@ -92,12 +92,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat }: AiDjModalProps) {
               <Sparkles className="w-6 h-6 text-black font-black" />
             </div>
             <div>
-              <div className="flex items-center space-x-2">
-                <span className="text-xl sm:text-2xl font-black text-white tracking-tight">AI Cypher DJ</span>
-                <span className="text-[10px] font-black uppercase tracking-wider bg-accent-green/15 text-accent-green border border-accent-green/30 px-2.5 py-0.5 rounded-full font-mono">
-                  Gemini 3.8 Flash
-                </span>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">AI Cypher DJ</h2>
               <p className="text-xs text-gray-400 mt-0.5">Describe what you want to hear in plain English.</p>
             </div>
           </div>
@@ -176,10 +171,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat }: AiDjModalProps) {
           <div className="mt-6 p-6 rounded-3xl bg-white/[0.03] border border-accent-green/40 shadow-xl space-y-4 animate-fadeIn">
             <div className="flex items-start justify-between">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-accent-green bg-accent-green/10 border border-accent-green/20 px-2.5 py-0.5 rounded-full">
-                  AI DJ Selection
-                </span>
-                <h3 className="text-xl font-black text-white mt-2 tracking-tight">
+                <h3 className="text-xl font-black text-white tracking-tight">
                   {result.recommendedBeat.title}
                 </h3>
                 <p className="text-xs text-gray-400 mt-0.5">

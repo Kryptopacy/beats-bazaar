@@ -101,13 +101,7 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
             <Radio className="w-6 h-6 text-accent-yellow animate-pulse" />
           </div>
           <div>
-            <div className="flex items-center space-x-2">
-              <h2 className="text-xl font-black text-white tracking-tight">Freestyle Cypher Room</h2>
-              <span className="text-[10px] font-extrabold uppercase bg-red-500/10 text-red-400 border border-red-500/30 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
-                LIVE STREAM
-              </span>
-            </div>
+            <h2 className="text-xl font-black text-white tracking-tight">Freestyle Cypher Room</h2>
             <p className="text-xs text-gray-400 mt-0.5">Infinite streaming beats for vocalists, MCs, and campus cyphers.</p>
           </div>
         </div>
@@ -123,7 +117,6 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
             >
               <Sparkles className="w-3.5 h-3.5 text-accent-green animate-pulse" />
               <span>AI Cypher DJ</span>
-              <span className="text-[9px] font-mono font-extrabold uppercase bg-accent-green/20 text-accent-green px-1.5 py-0.5 rounded-full border border-accent-green/30">Gemini 3.8</span>
             </button>
           )}
 

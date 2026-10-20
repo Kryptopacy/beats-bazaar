@@ -93,14 +93,6 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
         <div className="absolute bottom-0 left-1/3 -mb-20 w-96 h-96 bg-accent-gold/5 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 max-w-4xl">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-bold text-gray-300 mb-6 backdrop-blur-md">
-            <span className="flex items-center gap-1.5 text-accent-green font-black">
-              <Sparkles className="w-3.5 h-3.5" /> Beats Bazaar
-            </span>
-            <span className="text-gray-600">•</span>
-            <span>Marketplace &amp; Freestyle Hub</span>
-          </div>
-
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1]">
             The Global Beat Marketplace <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-green via-emerald-300 to-accent-gold">
@@ -131,7 +123,6 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
             >
               <Radio className="w-4 h-4 text-accent-gold animate-pulse" />
               <span>Enter Cypher Room</span>
-              <span className="text-[10px] uppercase font-black bg-accent-gold/20 text-accent-yellow border border-accent-gold/40 px-2 py-0.5 rounded-full ml-1">Live 24/7</span>
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </button>
           </div>
@@ -302,26 +293,21 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
 
                       {/* Metadata */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-1.5 flex-wrap gap-y-1">
+                        <div className="flex items-center space-x-2 text-xs flex-wrap">
                           {beat.isSponsored && (
-                            <span className="text-[10px] font-black uppercase tracking-wider text-black bg-gradient-to-r from-amber-400 to-yellow-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm shadow-yellow-500/20">
-                              <Flame className="w-3 h-3 fill-black text-black" />
-                              SPONSORED
-                            </span>
+                            <>
+                              <span className="text-[11px] font-black uppercase tracking-wider text-amber-400 flex items-center gap-1">
+                                <Flame className="w-3 h-3 fill-amber-400 text-amber-400" />
+                                Sponsored
+                              </span>
+                              <span className="text-gray-600">•</span>
+                            </>
                           )}
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-accent-green bg-accent-green/10 border border-accent-green/20 px-2.5 py-0.5 rounded-full">
-                            {beat.genre}
-                          </span>
-                          <span className="text-[10px] font-semibold text-gray-300 bg-white/[0.04] border border-white/[0.06] px-2.5 py-0.5 rounded-full font-mono">
-                            {beat.bpm} BPM
-                          </span>
-                          {beat.inCypher && (
-                            <span className="text-[10px] font-bold text-accent-yellow bg-accent-gold/15 border border-accent-gold/30 px-2.5 py-0.5 rounded-full">
-                              CYPHER
-                            </span>
-                          )}
+                          <span className="font-bold text-accent-green">{beat.genre}</span>
+                          <span className="text-gray-600">•</span>
+                          <span className="text-gray-400 font-mono">{beat.bpm} BPM</span>
                         </div>
-                        <h3 className="mt-2 text-base font-black text-white truncate group-hover:text-accent-green transition-colors tracking-tight">
+                        <h3 className="mt-1.5 text-base font-black text-white truncate group-hover:text-accent-green transition-colors tracking-tight">
                           {beat.title}
                         </h3>
                         <p className="text-xs text-gray-400 mt-0.5">

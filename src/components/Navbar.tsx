@@ -39,7 +39,7 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
 
           <button
             onClick={() => setActiveSurface('cypher')}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 relative ${
+            className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 ${
               activeSurface === 'cypher'
                 ? 'bg-gradient-to-r from-accent-gold to-yellow-400 text-black shadow-md shadow-accent-gold/20'
                 : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
@@ -47,13 +47,6 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
           >
             <Radio className={`w-4 h-4 ${activeSurface === 'cypher' ? 'text-black' : 'text-accent-gold'} animate-pulse`} />
             <span>Cypher Room</span>
-            <span className={`hidden md:inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider ${
-              activeSurface === 'cypher'
-                ? 'bg-black/20 text-black'
-                : 'bg-accent-gold/15 text-accent-yellow border border-accent-gold/30'
-            }`}>
-              Live
-            </span>
           </button>
         </nav>
 

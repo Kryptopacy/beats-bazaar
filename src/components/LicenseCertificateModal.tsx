@@ -48,11 +48,8 @@ export function LicenseCertificateModal({
               <Award className="w-6 h-6 text-black" />
             </div>
             <div>
-              <div className="inline-flex items-center space-x-1.5 text-[10px] font-black uppercase tracking-wider text-accent-yellow bg-accent-gold/15 border border-accent-gold/30 px-3 py-0.5 rounded-full">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Verified Legal Grant</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-white mt-1 tracking-tight">Digital License Certificate</h2>
+              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Digital License Certificate</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Commercial synchronization rights agreement</p>
             </div>
           </div>
           <button 
