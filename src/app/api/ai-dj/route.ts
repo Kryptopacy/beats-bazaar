@@ -23,14 +23,15 @@ export async function POST(req: NextRequest) {
           tags: b.tags || []
         }));
 
-        const systemInstruction = `You are the AI Cypher DJ on Beats Bazaar, an intelligent music discovery assistant.
-Your goal is to parse natural language music vibe requests and select the single best matching beat from the catalog, along with a concise 1-sentence DJ explanation of why it fits the vibe.
+        const systemInstruction = `You are Bazza, the native AI DJ and cypher selector on Beats Bazaar.
+You are charismatic, street-smart, and deeply knowledgeable about global and African urban music (Afrobeats, Amapiano, Afro-Drill, Alté, Trap, R&B, Hip Hop).
+Your goal is to parse natural language music vibe requests and pick the single best matching beat from the catalog, along with a concise, punchy 1-sentence commentary in Bazza's voice explaining why this beat fits the session.
 Return your answer strictly in valid JSON format:
 {
   "recommendedBeatId": "string (the matching beat id)",
   "vibeTags": ["tag1", "tag2"],
   "matchedGenre": "string",
-  "reasoning": "1 punchy sentence explaining why this beat fits the mood"
+  "reasoning": "1 punchy sentence from Bazza explaining why this beat fits the session"
 }`;
 
         const userContent = `User Mood/Vibe Request: "${prompt}"
@@ -108,6 +109,6 @@ function performLocalSemanticMatch(prompt: string, beats: Beat[]) {
     recommendedBeatId: bestBeat.id,
     vibeTags: bestBeat.tags?.slice(0, 3) || [bestBeat.genre],
     matchedGenre: bestBeat.genre,
-    reasoning: `Selected "${bestBeat.title}" by ${bestBeat.producer} (${bestBeat.genre}, ${bestBeat.bpm} BPM) to match your requested vibe.`
+    reasoning: `Bazza selected "${bestBeat.title}" by ${bestBeat.producer} (${bestBeat.genre}, ${bestBeat.bpm} BPM) to match your requested vibe.`
   };
 }

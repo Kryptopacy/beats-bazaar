@@ -14,6 +14,7 @@ export const INITIAL_BEATS: Beat[] = [
     isSoldExclusive: false,
     isSponsored: true,
     likes: 94,
+    producerAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80',
     uploadedAt: '2026-10-18T14:30:00Z',
     tags: ['Burnaboy Vibe', 'Bouncy', 'Saxophone', 'Club'],
     coverArt: 'linear-gradient(135deg, #00E599 0%, #151B22 100%)'
@@ -30,6 +31,7 @@ export const INITIAL_BEATS: Beat[] = [
     inCypher: true,
     isSoldExclusive: false,
     likes: 218,
+    producerAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80',
     uploadedAt: '2026-10-18T16:00:00Z',
     tags: ['Heavy Log Drum', 'Deep Piano', 'Private School'],
     coverArt: 'linear-gradient(135deg, #F59E0B 0%, #0B0F12 100%)'
@@ -46,6 +48,7 @@ export const INITIAL_BEATS: Beat[] = [
     inCypher: true,
     isSoldExclusive: false,
     likes: 185,
+    producerAvatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=250&q=80',
     uploadedAt: '2026-10-19T09:15:00Z',
     tags: ['Aggressive 808', 'Dark Strings', 'Cypher Ready'],
     coverArt: 'linear-gradient(135deg, #EC4899 0%, #111827 100%)'
@@ -62,6 +65,7 @@ export const INITIAL_BEATS: Beat[] = [
     inCypher: true,
     isSoldExclusive: false,
     likes: 342,
+    producerAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80',
     uploadedAt: '2026-10-19T11:00:00Z',
     tags: ['Guitar Licks', 'Chill', 'Melodic', 'Freestyle Gold'],
     coverArt: 'linear-gradient(135deg, #8B5CF6 0%, #064E3B 100%)'

@@ -23,6 +23,7 @@ export interface Beat {
   coverArt?: string;
   isSponsored?: boolean;
   likes?: number;
+  producerAvatar?: string;
 }
 
 export interface StreamingPlacement {

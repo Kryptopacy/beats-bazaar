@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { WaveformVisualizer } from '@/components/WaveformVisualizer';
+import { BazzaMascot } from '@/components/BazzaMascot';
 import { Beat, Genre } from '@/types';
 import { 
   Play, 
@@ -112,11 +113,11 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
             <button
               type="button"
               onClick={onOpenAiDj}
-              className="flex items-center space-x-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-accent-green/20 via-emerald-500/15 to-accent-green/10 border border-accent-green/40 hover:border-accent-green/70 text-accent-green hover:text-white text-xs font-bold transition-all active:scale-95 shadow-sm shadow-accent-green/10 cursor-pointer"
-              title="Ask AI Cypher DJ to match a vibe"
+              className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gradient-to-r from-accent-green/20 via-emerald-500/15 to-accent-green/10 border border-accent-green/40 hover:border-accent-green/70 text-accent-green hover:text-white text-xs font-bold transition-all active:scale-95 shadow-sm shadow-accent-green/10 cursor-pointer group"
+              title="Ask Bazza (Native AI DJ)"
             >
-              <Sparkles className="w-3.5 h-3.5 text-accent-green animate-pulse" />
-              <span>AI Cypher DJ</span>
+              <BazzaMascot size="sm" glow={false} className="group-hover:scale-110 transition-transform" />
+              <span>Ask Bazza</span>
             </button>
           )}
 

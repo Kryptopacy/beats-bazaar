@@ -18,6 +18,8 @@ interface AudioContextType {
   activeSurface: 'marketplace' | 'cypher';
   selectedGenre: Genre | 'All' | 'Sponsored';
   likedBeatIds: string[];
+  producerAvatars: Record<string, string>;
+  setProducerAvatar: (producerName: string, avatarUrl: string) => void;
   playBeat: (beat: Beat) => void;
   togglePlay: () => void;
   seek: (time: number) => void;
@@ -49,6 +51,12 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [activeSurface, setActiveSurface] = useState<'marketplace' | 'cypher'>('marketplace');
   const [selectedGenre, setSelectedGenre] = useState<Genre | 'All' | 'Sponsored'>('All');
   const [likedBeatIds, setLikedBeatIds] = useState<string[]>([]);
+  const [producerAvatars, setProducerAvatars] = useState<Record<string, string>>({
+    'TCG-m': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80',
+    'SarzAura': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80',
+    'KabzaFlow': 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80',
+    'AbujaBeatz': 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=250&q=80'
+  });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const crossfadeTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -60,6 +68,16 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       const savedLikes = localStorage.getItem('beats_bazaar_likes');
       if (savedLikes) {
         setLikedBeatIds(JSON.parse(savedLikes));
+      }
+    } catch (e) {}
+
+    // Load saved producer avatars
+    let savedAvatarsObj: Record<string, string> = {};
+    try {
+      const savedAvatars = localStorage.getItem('beats_bazaar_producer_avatars');
+      if (savedAvatars) {
+        savedAvatarsObj = JSON.parse(savedAvatars);
+        setProducerAvatars(prev => ({ ...prev, ...savedAvatarsObj }));
       }
     } catch (e) {}
 
@@ -75,12 +93,13 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       loadedBeats = INITIAL_BEATS;
     }
 
-    // Ensure all seed beats have valid audio URLs and likes
+    // Ensure all seed beats have valid audio URLs, likes, and producer avatars
     const initializedBeats = loadedBeats.map((b) => {
       const seedMatch = INITIAL_BEATS.find(sb => sb.id === b.id);
       return {
         ...b,
         likes: b.likes ?? (seedMatch?.likes || 0),
+        producerAvatar: b.producerAvatar || savedAvatarsObj[b.producer] || seedMatch?.producerAvatar,
         audioUrl: b.audioUrl || generateBeatAudioUrl(b.genre, b.bpm)
       };
     });
@@ -259,6 +278,19 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     saveBeats(updatedBeats);
   };
 
+  const setProducerAvatar = (producerName: string, avatarUrl: string) => {
+    setProducerAvatars(prev => {
+      const updated = { ...prev, [producerName]: avatarUrl };
+      try {
+        localStorage.setItem('beats_bazaar_producer_avatars', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+
+    const updatedBeats = beats.map(b => b.producer === producerName ? { ...b, producerAvatar: avatarUrl } : b);
+    saveBeats(updatedBeats);
+  };
+
   return (
     <AudioContext.Provider value={{
       beats,
@@ -273,6 +305,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       activeSurface,
       selectedGenre,
       likedBeatIds,
+      producerAvatars,
+      setProducerAvatar,
       playBeat,
       togglePlay,
       seek,

@@ -15,7 +15,9 @@ import {
   Award,
   ExternalLink,
   Headphones,
-  Flame
+  Flame,
+  Camera,
+  Upload
 } from 'lucide-react';
 
 interface ProducerProfileModalProps {
@@ -78,10 +80,26 @@ export function ProducerProfileModal({
   onTipProducer,
   onLicenseBeat
 }: ProducerProfileModalProps) {
-  const { beats, activeBeat, isPlaying, playBeat, togglePlay } = useAudio();
+  const { beats, activeBeat, isPlaying, playBeat, togglePlay, producerAvatars, setProducerAvatar } = useAudio();
   const [activeTab, setActiveTab] = useState<'beats' | 'placements'>('beats');
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   if (!isOpen || !producerName) return null;
+
+  const currentAvatar = producerName ? producerAvatars[producerName] : undefined;
+
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && producerName) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          setProducerAvatar(producerName, reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const producerBeats = beats.filter(b => b.producer.toLowerCase() === producerName.toLowerCase());
   const meta = PRODUCER_BIOS[producerName] || {
@@ -100,15 +118,40 @@ export function ProducerProfileModal({
         {/* Close Button */}
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 text-gray-400 hover:text-white rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-all"
+          className="absolute top-6 right-6 p-2 text-gray-400 hover:text-white rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-all cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Profile Header */}
         <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 pb-6 border-b border-white/[0.08]">
-          <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-accent-green to-accent-gold flex items-center justify-center shadow-xl shadow-accent-green/20 flex-shrink-0 ring-1 ring-white/20">
-            <Music className="w-10 h-10 text-black font-black" />
+          <div className="relative group/avatar">
+            <div className="w-20 h-20 rounded-3xl overflow-hidden bg-gradient-to-tr from-accent-green to-accent-gold flex items-center justify-center shadow-xl shadow-accent-green/20 flex-shrink-0 ring-1 ring-white/20">
+              {currentAvatar ? (
+                <img 
+                  src={currentAvatar} 
+                  alt={producerName} 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Music className="w-10 h-10 text-black font-black" />
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-accent-green text-black flex items-center justify-center shadow-md hover:scale-110 active:scale-95 transition-all cursor-pointer border-2 border-[#121820]"
+              title="Set producer profile avatar"
+            >
+              <Camera className="w-3.5 h-3.5" />
+            </button>
+            <input 
+              ref={fileInputRef}
+              type="file" 
+              accept="image/*" 
+              onChange={handleAvatarUpload}
+              className="hidden" 
+            />
           </div>
 
           <div className="flex-1 text-center sm:text-left">

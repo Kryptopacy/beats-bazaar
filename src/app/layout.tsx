@@ -3,7 +3,7 @@ import './globals.css';
 import { AudioProvider } from '@/context/AudioContext';
 
 export const metadata: Metadata = {
-  title: 'Beats Bazaar — Global Beat Marketplace & Freestyle Cypher',
+  title: 'Beats Bazaar | Beat Marketplace & Freestyle Cypher',
   description: 'Connecting music producers and artists worldwide. Audition beats, jump into the live freestyle cypher room, and license master rights directly.',
 };
 

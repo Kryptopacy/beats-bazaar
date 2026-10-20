@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { Beat, Genre } from '@/types';
-import { X, Upload, Music, Sparkles, CheckCircle2 } from 'lucide-react';
+import { X, Upload, Music, Sparkles, CheckCircle2, Camera } from 'lucide-react';
 
 interface BeatUploadModalProps {
   isOpen: boolean;
@@ -21,10 +21,11 @@ const GRADIENTS = [
 ];
 
 export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
-  const { addNewBeat } = useAudio();
+  const { addNewBeat, producerAvatars, setProducerAvatar } = useAudio();
 
   const [title, setTitle] = useState('');
-  const [producer, setProducer] = useState('');
+  const [producer, setProducer] = useState('TCG-m');
+  const [customAvatar, setCustomAvatar] = useState('');
   const [genre, setGenre] = useState<Genre>('Afrobeats');
   const [bpm, setBpm] = useState(105);
   const [leasePrice, setLeasePrice] = useState(35);
@@ -52,10 +53,17 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
     e.preventDefault();
     if (!title.trim() || !producer.trim()) return;
 
+    const trimmedProducer = producer.trim();
+    if (customAvatar) {
+      setProducerAvatar(trimmedProducer, customAvatar);
+    }
+
+    const resolvedAvatar = customAvatar || (producerAvatars && producerAvatars[trimmedProducer]);
+
     const newBeat: Beat = {
       id: `beat-${Date.now()}`,
       title: title.trim(),
-      producer: producer.trim(),
+      producer: trimmedProducer,
       genre,
       bpm: Number(bpm) || 100,
       audioUrl: audioUrl || '', // If empty, AudioContext generates a synth track
@@ -64,6 +72,7 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
       inCypher,
       isSoldExclusive: false,
       isSponsored,
+      producerAvatar: resolvedAvatar,
       uploadedAt: new Date().toISOString(),
       tags: tagsInput.split(',').map(t => t.trim()).filter(Boolean),
       coverArt: selectedGradient
@@ -129,14 +138,47 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
 
               <div>
                 <label className="block text-xs font-bold text-gray-300 mb-1.5">Producer Handle *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. TCG-m / Sarz"
-                  value={producer}
-                  onChange={(e) => setProducer(e.target.value)}
-                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-sm text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all"
-                />
+                <div className="flex items-center space-x-2.5">
+                  <div className="relative group/avatar flex-shrink-0" title="Upload custom producer avatar">
+                    <div className="w-11 h-11 rounded-2xl overflow-hidden bg-white/[0.04] border border-white/[0.1] hover:border-accent-green/50 flex items-center justify-center transition-all cursor-pointer">
+                      {customAvatar || (producer && producerAvatars && producerAvatars[producer]) ? (
+                        <img 
+                          src={customAvatar || (producerAvatars && producerAvatars[producer])} 
+                          alt="avatar" 
+                          className="w-full h-full object-cover" 
+                        />
+                      ) : (
+                        <Camera className="w-4 h-4 text-gray-400 group-hover/avatar:text-accent-green transition-colors" />
+                      )}
+                    </div>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = () => {
+                            if (typeof reader.result === 'string') {
+                              setCustomAvatar(reader.result);
+                            }
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                      title="Upload custom avatar image"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. TCG-m / Sarz"
+                    value={producer}
+                    onChange={(e) => setProducer(e.target.value)}
+                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-sm text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all"
+                  />
+                </div>
               </div>
             </div>
 

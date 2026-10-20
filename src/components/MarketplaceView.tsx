@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { Beat } from '@/types';
+import { BazzaMascot } from '@/components/BazzaMascot';
 import { 
   Play, 
   Pause, 
@@ -45,7 +46,8 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
     seek,
     setActiveSurface,
     likedBeatIds,
-    toggleLikeBeat
+    toggleLikeBeat,
+    producerAvatars
   } = useAudio();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -130,7 +132,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
           </h1>
 
           <p className="mt-5 text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">
-            Where music creators connect, jam, and do business. Jump into the <strong className="text-white">Freestyle Cypher Room</strong> for non-stop beat streaming with custom crossfading to test your bars—or license untagged master rights directly in the <strong className="text-white">Marketplace</strong> with instant fiat and crypto checkout.
+            Stream continuous beats in the <strong className="text-white">Freestyle Cypher Room</strong> with custom crossfading, or buy untagged master rights directly in the <strong className="text-white">Marketplace</strong> with instant checkout.
           </p>
 
           {/* Dual Action CTAs */}
@@ -297,12 +299,12 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
               <button
                 type="button"
                 onClick={onOpenAiDj}
-                className="flex items-center space-x-2 px-4 py-3 rounded-2xl bg-gradient-to-r from-accent-green/15 via-emerald-500/10 to-accent-green/5 border border-accent-green/30 hover:border-accent-green/60 text-accent-green hover:text-white text-xs sm:text-sm font-bold shadow-lg shadow-accent-green/10 hover:shadow-accent-green/20 transition-all duration-200 active:scale-95 whitespace-nowrap cursor-pointer"
-                title="Match vibe with AI Cypher DJ (Gemini 3.8 Flash)"
+                className="flex items-center space-x-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-accent-green/15 via-emerald-500/10 to-accent-green/5 border border-accent-green/30 hover:border-accent-green/60 text-accent-green hover:text-white text-xs sm:text-sm font-bold shadow-lg shadow-accent-green/10 hover:shadow-accent-green/20 transition-all duration-200 active:scale-95 whitespace-nowrap cursor-pointer group"
+                title="Ask Bazza (Native AI DJ)"
               >
-                <Sparkles className="w-4 h-4 text-accent-green animate-pulse" />
-                <span className="hidden sm:inline">AI Vibe Match</span>
-                <span className="sm:hidden">AI Match</span>
+                <BazzaMascot size="sm" glow={false} className="group-hover:scale-110 transition-transform" />
+                <span className="hidden sm:inline">Ask Bazza</span>
+                <span className="sm:hidden">Bazza</span>
               </button>
             )}
           </div>
@@ -445,11 +447,19 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                               e.stopPropagation();
                               onSelectProducer(beat.producer);
                             }}
-                            className="text-white hover:text-accent-green font-bold transition-all inline-flex items-center gap-1 hover:underline"
+                            className="text-white hover:text-accent-green font-bold transition-all inline-flex items-center gap-1.5 hover:underline cursor-pointer"
                             title="View producer public storefront"
                           >
+                            {(producerAvatars && producerAvatars[beat.producer]) || beat.producerAvatar ? (
+                              <img
+                                src={(producerAvatars && producerAvatars[beat.producer]) || beat.producerAvatar}
+                                alt={beat.producer}
+                                className="w-4 h-4 rounded-full object-cover ring-1 ring-white/20"
+                              />
+                            ) : (
+                              <UserCheck className="w-3.5 h-3.5 text-accent-green" />
+                            )}
                             <span>{beat.producer}</span>
-                            <UserCheck className="w-3.5 h-3.5 text-accent-green" />
                           </button>
                         </p>
                       </div>

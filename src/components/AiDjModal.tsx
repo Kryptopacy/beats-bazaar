@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { Beat } from '@/types';
+import { BazzaMascot } from '@/components/BazzaMascot';
 import { 
   X, 
   Sparkles, 
@@ -88,17 +89,18 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat }: AiDjModalProps) {
         {/* Header */}
         <div className="flex items-center justify-between pb-6 border-b border-white/[0.08]">
           <div className="flex items-center space-x-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent-green via-emerald-400 to-[#00E599] flex items-center justify-center shadow-lg shadow-accent-green/20 ring-1 ring-white/20">
-              <Sparkles className="w-6 h-6 text-black font-black" />
-            </div>
+            <BazzaMascot 
+              state={isLoading ? 'mixing' : result ? 'success' : 'idle'} 
+              size="md" 
+            />
             <div>
-              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">AI Cypher DJ</h2>
-              <p className="text-xs text-gray-400 mt-0.5">Describe what you want to hear in plain English.</p>
+              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">Bazza</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Native AI Cypher DJ • Describe your mood, tempo, or vibe in plain English.</p>
             </div>
           </div>
           <button 
             onClick={onClose} 
-            className="p-2 text-gray-400 hover:text-white rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-all"
+            className="p-2 text-gray-400 hover:text-white rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-all cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -118,7 +120,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat }: AiDjModalProps) {
 
           {/* Preset Inspiration Pills */}
           <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-2">Or choose a vibe:</div>
+            <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-2">Or ask Bazza for one of these:</div>
             <div className="flex flex-wrap gap-2">
               {PRESET_VIBES.map((pv, idx) => (
                 <button
@@ -128,7 +130,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat }: AiDjModalProps) {
                     setPrompt(pv.prompt);
                     handleAskDj(pv.prompt);
                   }}
-                  className="px-3.5 py-2 rounded-full text-xs font-semibold bg-white/[0.03] hover:bg-white/[0.08] text-gray-300 hover:text-white border border-white/[0.06] transition-all active:scale-95 text-left"
+                  className="px-3.5 py-2 rounded-full text-xs font-semibold bg-white/[0.03] hover:bg-white/[0.08] text-gray-300 hover:text-white border border-white/[0.06] transition-all active:scale-95 text-left cursor-pointer"
                 >
                   {pv.label}
                 </button>
@@ -142,17 +144,17 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat }: AiDjModalProps) {
               type="button"
               disabled={isLoading || !prompt.trim()}
               onClick={() => handleAskDj()}
-              className="flex items-center space-x-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black font-black text-sm shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 disabled:opacity-40 transition-all ring-1 ring-white/20"
+              className="flex items-center space-x-2.5 px-8 py-3.5 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black font-black text-sm shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 disabled:opacity-40 transition-all ring-1 ring-white/20 cursor-pointer"
             >
               {isLoading ? (
                 <>
-                  <Disc3 className="w-4 h-4 animate-spin text-black" />
-                  <span>DJ Mixing &amp; Analyzing...</span>
+                  <BazzaMascot state="mixing" size="sm" glow={false} />
+                  <span>Bazza is digging through crates...</span>
                 </>
               ) : (
                 <>
                   <Wand2 className="w-4 h-4" />
-                  <span>Find Beat Match</span>
+                  <span>Ask Bazza</span>
                 </>
               )}
             </button>
@@ -187,9 +189,15 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat }: AiDjModalProps) {
               </div>
             </div>
 
-            {/* AI Reasoning */}
-            <div className="p-3.5 rounded-2xl bg-[#090D10] border border-white/[0.06] text-xs text-gray-300 leading-relaxed italic">
-              &ldquo;{result.reasoning}&rdquo;
+            {/* Bazza's Verdict Commentary */}
+            <div className="flex items-start space-x-3.5 p-4 rounded-2xl bg-[#090D10] border border-white/[0.08]">
+              <BazzaMascot state="success" size="sm" glow={false} />
+              <div className="flex-1 min-w-0">
+                <div className="text-[11px] font-black uppercase tracking-wider text-accent-green mb-0.5">Bazza&apos;s Verdict</div>
+                <p className="text-xs text-gray-200 leading-relaxed italic">
+                  &ldquo;{result.reasoning}&rdquo;
+                </p>
+              </div>
             </div>
 
             {/* Actions */}
