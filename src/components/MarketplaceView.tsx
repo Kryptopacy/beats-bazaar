@@ -94,7 +94,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
             The Global Beat Bazaar. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-green via-emerald-300 to-accent-gold">
-              Own Rights. Direct Bag.
+              Own Master Rights. License Direct.
             </span>
           </h1>
           <p className="mt-3 text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">

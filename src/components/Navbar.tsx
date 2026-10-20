@@ -20,15 +20,7 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-accent-green to-accent-gold flex items-center justify-center shadow-lg shadow-accent-green/20">
             <Music2 className="w-6 h-6 text-black font-black" />
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="text-xl font-extrabold tracking-tight text-white">Beats Bazaar</span>
-              <span className="text-[10px] font-semibold bg-accent-green/10 text-accent-green border border-accent-green/30 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                AFRO-GLOBAL
-              </span>
-            </div>
-            <p className="text-xs text-gray-400 font-medium hidden sm:block">Underground Beats. Direct Bag.</p>
-          </div>
+          <span className="text-xl font-extrabold tracking-tight text-white">Beats Bazaar</span>
         </div>
 
         {/* Surface Switcher Tabs */}
