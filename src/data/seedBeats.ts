@@ -47,6 +47,7 @@ export const INITIAL_BEATS: Beat[] = [
     exclusivePrice: 280,
     inCypher: true,
     isSoldExclusive: false,
+    isSponsored: true,
     likes: 185,
     producerAvatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=250&q=80',
     uploadedAt: '2026-10-19T09:15:00Z',

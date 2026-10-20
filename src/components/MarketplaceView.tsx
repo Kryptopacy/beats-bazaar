@@ -60,6 +60,24 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
     setCurrentPage(1);
   }, [selectedGenre, searchQuery, sortBy]);
 
+  // Dedicated rotating showcase for sponsored tracks
+  const sponsoredBeats = beats.filter(b => b.isSponsored);
+  const [activeSponsoredIndex, setActiveSponsoredIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto-rotate sponsored showcase every 6 seconds for equal visibility share
+  // Automatically pauses when user hovers or is actively previewing audio
+  useEffect(() => {
+    if (sponsoredBeats.length <= 1 || isPaused) return;
+    const isCurrentPlaying = activeBeat && sponsoredBeats.some(b => b.id === activeBeat.id) && isPlaying;
+    if (isCurrentPlaying) return;
+
+    const timer = setInterval(() => {
+      setActiveSponsoredIndex((prev) => (prev + 1) % sponsoredBeats.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [sponsoredBeats.length, isPaused, activeBeat, isPlaying]);
+
   // Dynamically compute all unique genres present in active catalog + 'All'
   const dynamicGenres = [
     'All',
@@ -79,12 +97,9 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
     return matchesGenre && matchesQuery;
   });
 
-  // Sponsored beats are pinned directly to the top of the primary catalog for maximum visibility without buttons
-  // Organic beats immediately follow, ranked meritocratically by community likes (or user sort)
+  // Main catalog grid ranked strictly by community merit (Likes by default)
+  // Organic tracks with high community acclaim are never overshadowed
   const sortedBeats = [...filteredBeats].sort((a, b) => {
-    if (a.isSponsored && !b.isSponsored) return -1;
-    if (!a.isSponsored && b.isSponsored) return 1;
-
     if (sortBy === 'likes') {
       return (b.likes || 0) - (a.likes || 0);
     }
@@ -195,6 +210,208 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
 
         </div>
       </div>
+
+      {/* Dedicated Top-Pinned Rotating Sponsored Row (Guarantees 100% prime visibility with fair-share rotation) */}
+      {sponsoredBeats.length > 0 && (
+        <div 
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-amber-500/10 via-[#151D28] to-[#0D1219] border border-amber-400/30 p-5 sm:p-6 shadow-2xl transition-all"
+        >
+          {/* Subtle Golden Ambient Light */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+
+          {/* Header Bar */}
+          <div className="relative z-10 flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-7 h-7 rounded-lg bg-amber-400/20 border border-amber-400/40 flex items-center justify-center">
+                <Flame className="w-4 h-4 text-amber-400 fill-amber-400" />
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs font-black uppercase tracking-wider text-amber-300">Sponsored Spotlight</span>
+                <span className="text-xs text-gray-500">•</span>
+                <span className="text-xs text-gray-400 hidden sm:inline">Guaranteed Creator Visibility with Fair-Share Rotation</span>
+              </div>
+            </div>
+
+            {/* Rotation Controls & Impression Counter */}
+            {sponsoredBeats.length > 1 && (
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 px-2.5 py-1 rounded-xl bg-black/40 border border-white/10 text-[11px] font-mono text-gray-300">
+                  <span className="text-amber-400 font-bold">{activeSponsoredIndex + 1}</span>
+                  <span className="text-gray-500">/</span>
+                  <span>{sponsoredBeats.length}</span>
+                </div>
+
+                <div className="flex items-center space-x-1">
+                  <button
+                    type="button"
+                    onClick={() => setActiveSponsoredIndex((prev) => (prev - 1 + sponsoredBeats.length) % sponsoredBeats.length)}
+                    className="w-7 h-7 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white transition-all cursor-pointer"
+                    title="Previous sponsored beat"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveSponsoredIndex((prev) => (prev + 1) % sponsoredBeats.length)}
+                    className="w-7 h-7 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white transition-all cursor-pointer"
+                    title="Next sponsored beat"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Active Promoted Beat Card */}
+          {(() => {
+            const currentSponsoredBeat = sponsoredBeats[activeSponsoredIndex % sponsoredBeats.length];
+            if (!currentSponsoredBeat) return null;
+            const isThisPlaying = activeBeat?.id === currentSponsoredBeat.id && isPlaying;
+
+            return (
+              <div className="relative z-10 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-5 p-4 sm:p-5 rounded-2xl bg-black/40 border border-white/[0.08] backdrop-blur-md">
+                
+                {/* Left Side: Thumbnail & Title & Metadata */}
+                <div className="flex items-start sm:items-center space-x-4 min-w-0 flex-1">
+                  <div
+                    onClick={() => playBeat(currentSponsoredBeat)}
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center cursor-pointer flex-shrink-0 shadow-lg relative group/play overflow-hidden ring-1 ring-white/15"
+                    style={{ background: currentSponsoredBeat.coverArt || 'linear-gradient(135deg, #F5A623, #151D28)' }}
+                  >
+                    <div className="absolute inset-0 bg-black/35 backdrop-blur-[1px] flex items-center justify-center group-hover/play:bg-black/20 transition-all">
+                      {isThisPlaying ? (
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-accent-green text-black flex items-center justify-center shadow-lg shadow-accent-green/30 animate-pulse">
+                          <Pause className="w-4 h-4 sm:w-5 sm:h-5 fill-black" />
+                        </div>
+                      ) : (
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-md group-hover/play:bg-accent-green group-hover/play:text-black">
+                          <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current ml-0.5" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center space-x-2 text-xs flex-wrap mb-1">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-wider">
+                        <Flame className="w-3 h-3 fill-amber-400 text-amber-400" />
+                        Featured Drop
+                      </span>
+                      <span className="font-bold text-accent-green">{currentSponsoredBeat.genre}</span>
+                      <span className="text-gray-600">•</span>
+                      <span className="text-gray-400 font-mono">{currentSponsoredBeat.bpm} BPM</span>
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-black text-white truncate hover:text-amber-300 transition-colors">
+                      {currentSponsoredBeat.title}
+                    </h3>
+
+                    <p className="text-xs text-gray-400 mt-1 flex items-center space-x-1.5 flex-wrap">
+                      <span>Produced by</span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelectProducer(currentSponsoredBeat.producer);
+                        }}
+                        className="text-white hover:text-accent-green font-bold transition-all inline-flex items-center gap-1.5 hover:underline cursor-pointer"
+                      >
+                        {(producerAvatars && producerAvatars[currentSponsoredBeat.producer]) || currentSponsoredBeat.producerAvatar ? (
+                          <img
+                            src={(producerAvatars && producerAvatars[currentSponsoredBeat.producer]) || currentSponsoredBeat.producerAvatar}
+                            alt={currentSponsoredBeat.producer}
+                            className="w-4 h-4 rounded-full object-cover ring-1 ring-white/20"
+                          />
+                        ) : (
+                          <UserCheck className="w-3.5 h-3.5 text-accent-green" />
+                        )}
+                        <span>{currentSponsoredBeat.producer}</span>
+                      </button>
+                    </p>
+
+                    {/* Scrubber when active */}
+                    {isThisPlaying && (
+                      <div className="mt-3 pt-2 border-t border-white/[0.06] max-w-md">
+                        <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1 font-mono">
+                          <span className="flex items-center gap-1 text-accent-yellow text-[10px] font-bold uppercase tracking-wider">
+                            <Lock className="w-3 h-3" /> Tagged Preview
+                          </span>
+                          <span>{formatTime(currentTime)} / {formatTime(duration)}</span>
+                        </div>
+                        <input
+                          type="range"
+                          min={0}
+                          max={duration || 100}
+                          value={currentTime}
+                          onChange={(e) => seek(parseFloat(e.target.value))}
+                          className="w-full h-1.5 bg-white/[0.08] rounded-lg appearance-none cursor-pointer accent-accent-green hover:accent-emerald-300 transition-all"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Right Side: Like & Licensing Actions */}
+                <div className="flex items-center justify-between md:justify-end space-x-3 pt-3 md:pt-0 border-t md:border-t-0 border-white/[0.06] flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => toggleLikeBeat(currentSponsoredBeat.id)}
+                    className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl border text-xs font-bold transition-all cursor-pointer active:scale-95 ${
+                      likedBeatIds.includes(currentSponsoredBeat.id)
+                        ? 'bg-rose-500/15 border-rose-500/40 text-rose-400 shadow-sm shadow-rose-500/10'
+                        : 'bg-white/[0.04] border-white/[0.08] text-gray-400 hover:text-white'
+                    }`}
+                    title={likedBeatIds.includes(currentSponsoredBeat.id) ? 'Unlike' : 'Like'}
+                  >
+                    <Heart className={`w-3.5 h-3.5 ${likedBeatIds.includes(currentSponsoredBeat.id) ? 'fill-rose-500 text-rose-500' : ''}`} />
+                    <span className="font-mono text-xs">{currentSponsoredBeat.likes || 0}</span>
+                  </button>
+
+                  <div className="flex items-center space-x-2">
+                    <button
+                      type="button"
+                      onClick={() => onLicenseBeat(currentSponsoredBeat, 'Standard Lease')}
+                      className="px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-white text-xs font-bold transition-all active:scale-95 cursor-pointer"
+                    >
+                      Lease (${currentSponsoredBeat.leasePrice})
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => onLicenseBeat(currentSponsoredBeat, 'Exclusive Rights')}
+                      className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black text-xs font-black shadow-lg shadow-amber-500/20 hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+                    >
+                      Buyout (${currentSponsoredBeat.exclusivePrice})
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            );
+          })()}
+
+          {/* Dots Indicator for Rotation */}
+          {sponsoredBeats.length > 1 && (
+            <div className="flex items-center justify-center space-x-1.5 mt-3 pt-3 border-t border-white/[0.06]">
+              {sponsoredBeats.map((sBeat, idx) => (
+                <button
+                  key={sBeat.id}
+                  onClick={() => setActiveSponsoredIndex(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    idx === activeSponsoredIndex ? 'w-6 bg-amber-400 shadow-sm shadow-amber-400/50' : 'w-1.5 bg-white/20 hover:bg-white/40'
+                  }`}
+                  title={`View promoted track: ${sBeat.title}`}
+                />
+              ))}
+            </div>
+          )}
+
+        </div>
+      )}
 
       {/* Controls & Scalable Filters Bar */}
       <div id="catalog-controls" className="space-y-4 pt-4">
