@@ -16,7 +16,10 @@ import {
   ChevronLeft,
   ChevronRight,
   UserCheck,
-  Flame
+  Flame,
+  Music2,
+  Radio,
+  Mic2
 } from 'lucide-react';
 
 interface MarketplaceViewProps {
@@ -36,7 +39,8 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
     setSelectedGenre,
     currentTime,
     duration,
-    seek
+    seek,
+    setActiveSurface
   } = useAudio();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -82,24 +86,101 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
   return (
     <div className="space-y-8 pb-32">
       
-      {/* Hero Banner (Global Scope) */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-surface to-[#1A222D] border border-border p-6 sm:p-10 shadow-2xl">
-        <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-accent-green/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative z-10 max-w-3xl">
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-            The Global Beat Bazaar. <br />
+      {/* Hero Banner (Dual Marketplace & Cypher Landing Experience) */}
+      <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-b from-[#151D28] via-[#0E141C] to-[#0A0D12] border border-white/[0.08] p-6 sm:p-12 shadow-2xl">
+        <div className="absolute top-0 right-0 -mt-16 -mr-16 w-[30rem] h-[30rem] bg-accent-green/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 -mb-20 w-96 h-96 bg-accent-gold/5 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="relative z-10 max-w-4xl">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-bold text-gray-300 mb-6 backdrop-blur-md">
+            <span className="flex items-center gap-1.5 text-accent-green font-black">
+              <Sparkles className="w-3.5 h-3.5" /> Beats Bazaar
+            </span>
+            <span className="text-gray-600">•</span>
+            <span>Marketplace &amp; Freestyle Hub</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1]">
+            The Global Beat Marketplace <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-green via-emerald-300 to-accent-gold">
-              Own Master Rights. License Direct.
+              &amp; 24/7 Freestyle Cypher Room.
             </span>
           </h1>
-          <p className="mt-4 text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">
-            Connecting producers and artists worldwide. Audition tracks, jump into the live freestyle cypher room, and license master rights directly with instant checkout across fiat and crypto.
+
+          <p className="mt-5 text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">
+            Where music creators connect, jam, and do business. Jump into the <strong className="text-white">Freestyle Cypher Room</strong> for non-stop beat streaming with custom crossfading to test your bars—or license untagged master rights directly in the <strong className="text-white">Marketplace</strong> with instant fiat and crypto checkout.
           </p>
+
+          {/* Dual Action CTAs */}
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <button
+              onClick={() => {
+                const el = document.getElementById('catalog-controls');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="flex items-center space-x-2.5 bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black px-7 py-3.5 rounded-full text-xs sm:text-sm font-black shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 ring-1 ring-white/20"
+            >
+              <Music2 className="w-4 h-4" />
+              <span>Explore Marketplace</span>
+            </button>
+
+            <button
+              onClick={() => setActiveSurface('cypher')}
+              className="flex items-center space-x-2.5 bg-white/[0.05] hover:bg-white/[0.1] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold border border-white/[0.1] hover:border-white/[0.2] active:scale-95 transition-all duration-200 group backdrop-blur-md"
+            >
+              <Radio className="w-4 h-4 text-accent-gold animate-pulse" />
+              <span>Enter Cypher Room</span>
+              <span className="text-[10px] uppercase font-black bg-accent-gold/20 text-accent-yellow border border-accent-gold/40 px-2 py-0.5 rounded-full ml-1">Live 24/7</span>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+            </button>
+          </div>
+
+          {/* Interactive Dual-Engine Feature Cards */}
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 pt-8 border-t border-white/[0.08]">
+            {/* Engine A: The Marketplace */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.15] transition-all">
+              <div className="flex items-center space-x-3 mb-2">
+                <div className="w-9 h-9 rounded-xl bg-accent-green/15 border border-accent-green/30 flex items-center justify-center">
+                  <ShieldCheck className="w-5 h-5 text-accent-green" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white">Direct Beat Licensing</h3>
+                  <span className="text-[10px] text-gray-400">Lease or Exclusive Buyout</span>
+                </div>
+              </div>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Clear contract tiers, verified legal license certificates stamped on purchase, and immediate untagged WAV downloads.
+              </p>
+            </div>
+
+            {/* Engine B: The Cypher Room */}
+            <div 
+              onClick={() => setActiveSurface('cypher')}
+              className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-accent-gold/40 hover:bg-accent-gold/[0.02] transition-all cursor-pointer group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center space-x-3">
+                  <div className="w-9 h-9 rounded-xl bg-accent-gold/15 border border-accent-gold/30 flex items-center justify-center">
+                    <Mic2 className="w-5 h-5 text-accent-yellow" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-white group-hover:text-accent-yellow transition-colors">Freestyle Cypher Room</h3>
+                    <span className="text-[10px] text-gray-400">Continuous Auto-Advance &amp; Crossfade</span>
+                  </div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-accent-yellow group-hover:translate-x-1 transition-all" />
+              </div>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Seamless infinite beat streaming designed for MCs, rappers, and studio jam sessions. Set your crossfade and flow non-stop.
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
 
       {/* Controls & Scalable Filters Bar */}
-      <div className="space-y-4">
+      <div id="catalog-controls" className="space-y-4 pt-4">
         
         {/* Search & Metadata Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
