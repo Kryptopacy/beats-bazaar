@@ -1,16 +1,31 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { Beat } from '@/types';
-import { Play, Pause, Disc3, ShieldCheck, Zap, Sparkles, Search, SlidersHorizontal, Lock, ArrowRight } from 'lucide-react';
+import { 
+  Play, 
+  Pause, 
+  Disc3, 
+  ShieldCheck, 
+  Zap, 
+  Sparkles, 
+  Search, 
+  SlidersHorizontal, 
+  Lock, 
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  UserCheck
+} from 'lucide-react';
 
 interface MarketplaceViewProps {
   onLicenseBeat: (beat: Beat, tier: 'Standard Lease' | 'Exclusive Rights') => void;
   onOpenUpload: () => void;
+  onSelectProducer: (producerName: string) => void;
 }
 
-export function MarketplaceView({ onLicenseBeat, onOpenUpload }: MarketplaceViewProps) {
+export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer }: MarketplaceViewProps) {
   const { 
     beats, 
     activeBeat, 
@@ -25,6 +40,13 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload }: MarketplaceView
   } = useAudio();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  // Reset to page 1 when filtering or searching
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedGenre, searchQuery]);
 
   // Dynamically compute all unique genres present in the active catalog + 'All'
   const dynamicGenres = ['All', ...Array.from(new Set(beats.map(b => b.genre)))];
@@ -40,6 +62,9 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload }: MarketplaceView
       (b.tags && b.tags.some(t => t.toLowerCase().includes(query)));
     return matchesGenre && matchesQuery;
   });
+
+  const totalPages = Math.max(1, Math.ceil(filteredBeats.length / itemsPerPage));
+  const paginatedBeats = filteredBeats.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const formatTime = (secs: number) => {
     const mins = Math.floor(secs / 60);
@@ -87,7 +112,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload }: MarketplaceView
           </div>
 
           <div className="text-xs text-gray-400 font-semibold self-center sm:self-auto">
-            Showing <span className="text-white font-bold">{filteredBeats.length}</span> of <span className="text-white font-bold">{beats.length}</span> beats
+            Showing <span className="text-white font-bold">{filteredBeats.length}</span> of <span className="text-white font-bold">{beats.length}</span> beats (Page {currentPage} of {totalPages})
           </div>
         </div>
 
@@ -134,124 +159,179 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload }: MarketplaceView
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredBeats.map((beat) => {
-            const isThisActive = activeBeat?.id === beat.id;
-            const isThisPlaying = isThisActive && isPlaying;
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedBeats.map((beat) => {
+              const isThisActive = activeBeat?.id === beat.id;
+              const isThisPlaying = isThisActive && isPlaying;
 
-            return (
-              <div
-                key={beat.id}
-                className={`group rounded-2xl border transition-all duration-300 overflow-hidden flex flex-col justify-between ${
-                  isThisActive 
-                    ? 'bg-surface border-accent-green/60 shadow-xl shadow-accent-green/10' 
-                    : 'bg-surface/80 hover:bg-surface border-border hover:border-gray-700'
-                }`}
-              >
-                {/* Card Top */}
-                <div className="p-5">
-                  <div className="flex items-start justify-between space-x-4">
-                    {/* Visualizer Thumbnail */}
-                    <div 
-                      className="w-16 h-16 rounded-xl flex items-center justify-center relative cursor-pointer shadow-md overflow-hidden flex-shrink-0"
-                      style={{ background: beat.coverArt || 'linear-gradient(135deg, #10B981, #0B0F12)' }}
-                      onClick={() => isThisActive ? togglePlay() : playBeat(beat)}
-                    >
-                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
-                        {isThisPlaying ? (
-                          <Pause className="w-8 h-8 text-white fill-white animate-pulse" />
-                        ) : (
-                          <Play className="w-8 h-8 text-white fill-white ml-1" />
-                        )}
+              return (
+                <div
+                  key={beat.id}
+                  className={`group rounded-2xl border transition-all duration-300 overflow-hidden flex flex-col justify-between ${
+                    isThisActive 
+                      ? 'bg-surface border-accent-green/60 shadow-xl shadow-accent-green/10' 
+                      : 'bg-surface/80 hover:bg-surface border-border hover:border-gray-700'
+                  }`}
+                >
+                  {/* Card Top */}
+                  <div className="p-5">
+                    <div className="flex items-start justify-between space-x-4">
+                      {/* Visualizer Thumbnail */}
+                      <div 
+                        className="w-16 h-16 rounded-xl flex items-center justify-center relative cursor-pointer shadow-md overflow-hidden flex-shrink-0"
+                        style={{ background: beat.coverArt || 'linear-gradient(135deg, #10B981, #0B0F12)' }}
+                        onClick={() => isThisActive ? togglePlay() : playBeat(beat)}
+                      >
+                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
+                          {isThisPlaying ? (
+                            <Pause className="w-8 h-8 text-white fill-white animate-pulse" />
+                          ) : (
+                            <Play className="w-8 h-8 text-white fill-white ml-1" />
+                          )}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Metadata */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-1.5 flex-wrap gap-y-1">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-accent-green bg-accent-green/10 px-2 py-0.5 rounded-md">
-                          {beat.genre}
-                        </span>
-                        <span className="text-[10px] font-semibold text-gray-400 bg-surface-light px-2 py-0.5 rounded-md">
-                          {beat.bpm} BPM
-                        </span>
-                        {beat.inCypher && (
-                          <span className="text-[10px] font-bold text-accent-gold bg-accent-gold/10 px-2 py-0.5 rounded-md">
-                            CYPHER
+                      {/* Metadata */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center space-x-1.5 flex-wrap gap-y-1">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-accent-green bg-accent-green/10 px-2 py-0.5 rounded-md">
+                            {beat.genre}
                           </span>
-                        )}
+                          <span className="text-[10px] font-semibold text-gray-400 bg-surface-light px-2 py-0.5 rounded-md">
+                            {beat.bpm} BPM
+                          </span>
+                          {beat.inCypher && (
+                            <span className="text-[10px] font-bold text-accent-gold bg-accent-gold/10 px-2 py-0.5 rounded-md">
+                              CYPHER
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="mt-1.5 text-base font-bold text-white truncate group-hover:text-accent-green transition-colors">
+                          {beat.title}
+                        </h3>
+                        <p className="text-xs text-gray-400">
+                          Prod. by{' '}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onSelectProducer(beat.producer);
+                            }}
+                            className="text-accent-green hover:underline font-bold transition-all inline-flex items-center gap-0.5"
+                            title="View producer public storefront"
+                          >
+                            <span>{beat.producer}</span>
+                            <UserCheck className="w-3 h-3 text-accent-green/80" />
+                          </button>
+                        </p>
                       </div>
-                      <h3 className="mt-1.5 text-base font-bold text-white truncate group-hover:text-accent-green transition-colors">
-                        {beat.title}
-                      </h3>
-                      <p className="text-xs text-gray-400">Prod. by <span className="text-gray-300 font-semibold">{beat.producer}</span></p>
                     </div>
+
+                    {/* Audio Preview Scrubber with Protection Indicator */}
+                    {isThisActive && (
+                      <div className="mt-4 pt-3 border-t border-border">
+                        <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1 font-mono">
+                          <span className="flex items-center gap-1 text-accent-gold text-[10px] font-bold uppercase">
+                            <Lock className="w-3 h-3" /> Tagged Preview
+                          </span>
+                          <span>{formatTime(currentTime)} / {formatTime(duration)}</span>
+                        </div>
+                        <input
+                          type="range"
+                          min={0}
+                          max={duration || 100}
+                          value={currentTime}
+                          onChange={(e) => seek(parseFloat(e.target.value))}
+                          className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-accent-green"
+                        />
+                      </div>
+                    )}
+
+                    {/* Tags */}
+                    {beat.tags && beat.tags.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-1.5">
+                        {beat.tags.map((t, idx) => (
+                          <span key={idx} className="text-[10px] text-gray-400 bg-[#1F2937]/50 px-2 py-0.5 rounded">
+                            #{t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Audio Preview Scrubber with Protection Indicator */}
-                  {isThisActive && (
-                    <div className="mt-4 pt-3 border-t border-border">
-                      <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1 font-mono">
-                        <span className="flex items-center gap-1 text-accent-gold text-[10px] font-bold uppercase">
-                          <Lock className="w-3 h-3" /> Tagged Preview
-                        </span>
-                        <span>{formatTime(currentTime)} / {formatTime(duration)}</span>
+                  {/* Card Footer / Purchase Drawer */}
+                  <div className="px-5 py-4 bg-[#0F141C] border-t border-border/80 flex items-center justify-between">
+                    <div>
+                      <div className="text-[11px] text-gray-400">Standard Lease</div>
+                      <div className="text-base font-extrabold text-white">${beat.leasePrice}</div>
+                    </div>
+
+                    {beat.isSoldExclusive ? (
+                      <span className="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold uppercase tracking-wider">
+                        Exclusive Sold
+                      </span>
+                    ) : (
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => onLicenseBeat(beat, 'Standard Lease')}
+                          className="px-3 py-1.5 rounded-lg bg-surface border border-accent-green/40 hover:bg-accent-green hover:text-black text-accent-green text-xs font-bold transition-all"
+                        >
+                          Lease
+                        </button>
+                        <button
+                          onClick={() => onLicenseBeat(beat, 'Exclusive Rights')}
+                          className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-accent-gold to-yellow-500 text-black text-xs font-extrabold shadow-sm hover:opacity-90 transition-all"
+                        >
+                          Buyout (${beat.exclusivePrice})
+                        </button>
                       </div>
-                      <input
-                        type="range"
-                        min={0}
-                        max={duration || 100}
-                        value={currentTime}
-                        onChange={(e) => seek(parseFloat(e.target.value))}
-                        className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-accent-green"
-                      />
-                    </div>
-                  )}
-
-                  {/* Tags */}
-                  {beat.tags && beat.tags.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {beat.tags.map((t, idx) => (
-                        <span key={idx} className="text-[10px] text-gray-400 bg-[#1F2937]/50 px-2 py-0.5 rounded">
-                          #{t}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Card Footer / Purchase Drawer */}
-                <div className="px-5 py-4 bg-[#0F141C] border-t border-border/80 flex items-center justify-between">
-                  <div>
-                    <div className="text-[11px] text-gray-400">Standard Lease</div>
-                    <div className="text-base font-extrabold text-white">${beat.leasePrice}</div>
+                    )}
                   </div>
 
-                  {beat.isSoldExclusive ? (
-                    <span className="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold uppercase tracking-wider">
-                      Exclusive Sold
-                    </span>
-                  ) : (
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => onLicenseBeat(beat, 'Standard Lease')}
-                        className="px-3 py-1.5 rounded-lg bg-surface border border-accent-green/40 hover:bg-accent-green hover:text-black text-accent-green text-xs font-bold transition-all"
-                      >
-                        Lease
-                      </button>
-                      <button
-                        onClick={() => onLicenseBeat(beat, 'Exclusive Rights')}
-                        className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-accent-gold to-yellow-500 text-black text-xs font-extrabold shadow-sm hover:opacity-90 transition-all"
-                      >
-                        Buyout (${beat.exclusivePrice})
-                      </button>
-                    </div>
-                  )}
                 </div>
+              );
+            })}
+          </div>
 
+          {/* Scalable Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center space-x-2 pt-6">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                className="flex items-center space-x-1 px-3 py-2 rounded-xl bg-surface border border-border text-xs font-bold text-gray-300 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span>Prev</span>
+              </button>
+
+              <div className="flex items-center space-x-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    onClick={() => setCurrentPage(pageNum)}
+                    className={`w-8 h-8 rounded-xl text-xs font-bold transition-all ${
+                      currentPage === pageNum
+                        ? 'bg-accent-green text-black shadow-md'
+                        : 'bg-surface border border-border text-gray-400 hover:text-white'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
               </div>
-            );
-          })}
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                className="flex items-center space-x-1 px-3 py-2 rounded-xl bg-surface border border-border text-xs font-bold text-gray-300 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <span>Next</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
       )}
 

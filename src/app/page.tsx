@@ -9,6 +9,7 @@ import { BottomPlayerDock } from '@/components/BottomPlayerDock';
 import { BeatUploadModal } from '@/components/BeatUploadModal';
 import { BachsModal } from '@/components/BachsModal';
 import { LicenseCertificateModal } from '@/components/LicenseCertificateModal';
+import { ProducerProfileModal } from '@/components/ProducerProfileModal';
 import { Beat, LicenseTier, LicenseCertificate } from '@/types';
 
 export default function Home() {
@@ -30,6 +31,7 @@ export default function Home() {
 
   const [certificate, setCertificate] = useState<LicenseCertificate | null>(null);
   const [downloadAudioUrl, setDownloadAudioUrl] = useState<string>('');
+  const [selectedProducer, setSelectedProducer] = useState<string | null>(null);
 
   // Open Bachs Modal for licensing
   const handleOpenLicense = (beat: Beat, tier: LicenseTier = 'Standard Lease') => {
@@ -108,6 +110,7 @@ export default function Home() {
             <MarketplaceView 
               onLicenseBeat={(beat, tier) => handleOpenLicense(beat, tier)}
               onOpenUpload={() => setIsUploadOpen(true)}
+              onSelectProducer={(prod) => setSelectedProducer(prod)}
             />
           ) : (
             <CypherRoomView 
@@ -127,6 +130,14 @@ export default function Home() {
       <BeatUploadModal
         isOpen={isUploadOpen}
         onClose={() => setIsUploadOpen(false)}
+      />
+
+      <ProducerProfileModal
+        producerName={selectedProducer}
+        isOpen={Boolean(selectedProducer)}
+        onClose={() => setSelectedProducer(null)}
+        onTipProducer={handleOpenTip}
+        onLicenseBeat={handleOpenLicense}
       />
 
       <BachsModal
