@@ -60,24 +60,15 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
     setCurrentPage(1);
   }, [selectedGenre, searchQuery, sortBy]);
 
-  // Sponsored beats extracted for the dedicated Spotlight Showcase
-  const sponsoredBeats = beats.filter(b => b.isSponsored);
-
-  // Dynamically compute all unique genres present in active catalog + 'All' + 'Sponsored' category
+  // Dynamically compute all unique genres present in active catalog + 'All'
   const dynamicGenres = [
     'All',
-    ...Array.from(new Set(beats.map(b => b.genre))),
-    'Sponsored'
+    ...Array.from(new Set(beats.map(b => b.genre)))
   ];
 
-  // Filter beats by genre/category and search query
+  // Filter beats by genre and search query
   const filteredBeats = beats.filter(b => {
-    let matchesGenre = true;
-    if (selectedGenre === 'Sponsored') {
-      matchesGenre = Boolean(b.isSponsored);
-    } else if (selectedGenre !== 'All') {
-      matchesGenre = b.genre === selectedGenre;
-    }
+    const matchesGenre = selectedGenre === 'All' || b.genre === selectedGenre;
 
     const query = searchQuery.toLowerCase().trim();
     const matchesQuery = !query || 
@@ -88,9 +79,12 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
     return matchesGenre && matchesQuery;
   });
 
-  // Meritocratic ranking based on user selection (Most Liked by default)
-  // Sponsored beats still appear in this normal list naturally according to their organic merit!
+  // Sponsored beats are pinned directly to the top of the primary catalog for maximum visibility without buttons
+  // Organic beats immediately follow, ranked meritocratically by community likes (or user sort)
   const sortedBeats = [...filteredBeats].sort((a, b) => {
+    if (a.isSponsored && !b.isSponsored) return -1;
+    if (!a.isSponsored && b.isSponsored) return 1;
+
     if (sortBy === 'likes') {
       return (b.likes || 0) - (a.likes || 0);
     }
@@ -202,83 +196,6 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
         </div>
       </div>
 
-      {/* Dedicated Sponsored Spotlight Shelf (Separated so organic hits aren't overshadowed) */}
-      {sponsoredBeats.length > 0 && selectedGenre === 'All' && !searchQuery && (
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-500/10 via-[#141B24] to-[#0D1218] border border-amber-500/20 p-5 sm:p-6 shadow-2xl">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              <Flame className="w-4 h-4 text-amber-400 fill-amber-400" />
-              <span className="text-xs font-black uppercase tracking-wider text-amber-400">Sponsored Spotlight</span>
-              <span className="text-xs text-gray-500">•</span>
-              <span className="text-xs text-gray-400">Featured Creator Promotion</span>
-            </div>
-            <button 
-              onClick={() => setSelectedGenre('Sponsored' as any)} 
-              className="text-xs text-amber-400 hover:text-amber-300 font-bold transition-colors inline-flex items-center gap-1 cursor-pointer"
-            >
-              <span>View All Promoted ({sponsoredBeats.length})</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {sponsoredBeats.slice(0, 2).map((sBeat) => {
-              const isThisPlaying = activeBeat?.id === sBeat.id && isPlaying;
-              return (
-                <div 
-                  key={sBeat.id}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-black/40 border border-white/[0.08] hover:border-amber-400/40 transition-all group"
-                >
-                  <div className="flex items-center space-x-3.5 min-w-0 pr-3">
-                    <div 
-                      onClick={() => playBeat(sBeat)}
-                      className="w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer flex-shrink-0 shadow-md relative group/play"
-                      style={{ background: sBeat.coverArt || 'linear-gradient(135deg, #F5A623, #151D28)' }}
-                    >
-                      {isThisPlaying ? (
-                        <Pause className="w-5 h-5 text-black fill-black" />
-                      ) : (
-                        <Play className="w-5 h-5 text-black fill-black translate-x-0.5" />
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-sm font-black text-white truncate group-hover:text-accent-green transition-colors">{sBeat.title}</h4>
-                      <p className="text-xs text-gray-400 mt-0.5 truncate">
-                        Prod. by <span className="text-white font-bold">{sBeat.producer}</span> • <span className="text-accent-green font-bold">{sBeat.genre}</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-2 flex-shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => toggleLikeBeat(sBeat.id)}
-                      className={`flex items-center space-x-1 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer active:scale-95 ${
-                        likedBeatIds.includes(sBeat.id)
-                          ? 'bg-rose-500/15 border-rose-500/40 text-rose-400'
-                          : 'bg-white/[0.04] border-white/[0.08] text-gray-400 hover:text-white'
-                      }`}
-                      title={likedBeatIds.includes(sBeat.id) ? 'Unlike' : 'Like'}
-                    >
-                      <Heart className={`w-3.5 h-3.5 ${likedBeatIds.includes(sBeat.id) ? 'fill-rose-500 text-rose-500' : ''}`} />
-                      <span className="font-mono text-[11px]">{sBeat.likes || 0}</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => onLicenseBeat(sBeat, 'Standard Lease')}
-                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-accent-green to-emerald-400 text-black font-black text-xs shadow-md hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
-                    >
-                      ${sBeat.leasePrice}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
       {/* Controls & Scalable Filters Bar */}
       <div id="catalog-controls" className="space-y-4 pt-4">
         
@@ -337,9 +254,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
           {dynamicGenres.map((genre) => {
             const count = genre === 'All' 
               ? beats.length 
-              : genre === 'Sponsored'
-                ? beats.filter(b => b.isSponsored).length
-                : beats.filter(b => b.genre === genre).length;
+              : beats.filter(b => b.genre === genre).length;
 
             return (
               <button
@@ -351,7 +266,6 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                     : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-white border border-white/[0.06]'
                 }`}
               >
-                {genre === 'Sponsored' && <Flame className={`w-3.5 h-3.5 ${selectedGenre === 'Sponsored' ? 'fill-black text-black' : 'text-amber-400 fill-amber-400'}`} />}
                 <span>{genre}</span>
                 <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono ${
                   selectedGenre === genre ? 'bg-black/20 text-black font-extrabold' : 'bg-white/[0.06] text-gray-400'
@@ -390,12 +304,14 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                   className={`group rounded-3xl bg-gradient-to-b from-[#141A23] via-[#0F141B] to-[#0A0D12] border transition-all duration-300 flex flex-col justify-between overflow-hidden relative ${
                     isThisActive 
                       ? 'border-accent-green/70 ring-2 ring-accent-green/40 shadow-2xl shadow-accent-green/15 -translate-y-1' 
-                      : 'border-white/[0.07] hover:border-white/[0.18] shadow-lg hover:shadow-2xl hover:shadow-black/70 hover:-translate-y-1'
+                      : beat.isSponsored
+                        ? 'border-amber-400/50 hover:border-amber-400/80 shadow-xl shadow-amber-500/10 hover:-translate-y-1 ring-1 ring-amber-400/20'
+                        : 'border-white/[0.07] hover:border-white/[0.18] shadow-lg hover:shadow-2xl hover:shadow-black/70 hover:-translate-y-1'
                   }`}
                 >
-                  {/* Subtle Top Glow for Sponsored Tracks */}
+                  {/* Prominent Gold Accent for Sponsored Tracks */}
                   {beat.isSponsored && (
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-80" />
+                    <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-amber-500 via-amber-300 to-amber-500 shadow-sm shadow-amber-400/50" />
                   )}
 
                   {/* Card Top */}
@@ -422,21 +338,18 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
 
                       {/* Metadata */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-2 text-xs flex-wrap">
+                        <div className="flex items-center space-x-2 text-xs flex-wrap mb-1">
                           {beat.isSponsored && (
-                            <>
-                              <span className="text-[11px] font-black uppercase tracking-wider text-amber-400 flex items-center gap-1">
-                                <Flame className="w-3 h-3 fill-amber-400 text-amber-400" />
-                                Sponsored
-                              </span>
-                              <span className="text-gray-600">•</span>
-                            </>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/35 text-amber-300 text-[10px] font-black uppercase tracking-wider">
+                              <Flame className="w-3 h-3 fill-amber-400 text-amber-400" />
+                              Sponsored
+                            </span>
                           )}
                           <span className="font-bold text-accent-green">{beat.genre}</span>
                           <span className="text-gray-600">•</span>
                           <span className="text-gray-400 font-mono">{beat.bpm} BPM</span>
                         </div>
-                        <h3 className="mt-1.5 text-base font-black text-white truncate group-hover:text-accent-green transition-colors tracking-tight">
+                        <h3 className="mt-1 text-base font-black text-white truncate group-hover:text-accent-green transition-colors tracking-tight">
                           {beat.title}
                         </h3>
                         <p className="text-xs text-gray-400 mt-0.5">
