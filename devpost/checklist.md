@@ -29,7 +29,7 @@ Build mode: fast
   Learner check: Switch to "Freestyle Cypher Room", play a track, toggle Shuffle, test the crossfade slider, and verify it flows to the next track automatically.
   Commit: `Implement Freestyle Cypher Room with infinite playback and crossfade`
 
-- [ ] **3. Producer Beat Upload Portal**
+- [x] **3. Producer Beat Upload Portal**
   Becomes usable: Producers can click "+ Drop a Beat", fill in track metadata (title, producer handle, genre, BPM, lease/exclusive pricing), attach an audio file, and toggle "Feature in Freestyle Cypher". The new beat immediately appears in both the Marketplace and Cypher queues with persistent browser storage.
   Why now: Connects the creator side of the marketplace so underground producers can publish their music without waiting for backend deployments.
   PRD ref: `prd.md > 4. Producer Upload Modal`, `prd.md > Producer Beat Upload`
