@@ -56,6 +56,10 @@ Build mode: fast
 
 ## Final Review
 
+- [x] Globalize hero copy and expand scope beyond regional framing
+- [x] Dynamically compute genre filters from active catalog with track counts
+- [x] Add instant search bar and horizontal filter scrolling for catalog scalability
+- [x] Clarify protected preview stream vs. untagged master WAV download on purchase
 - [ ] Final review complete — feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
@@ -71,3 +75,7 @@ Reflection: [offered/answered/declined/already covered — personal answer belon
 Activity mode: [live app and editor, explicit static fallback, focused alternative, prior practice, or recap]
 
 ## Revisions
+
+- Updated hero copy from regional "African Beat Exchange" to "The Global Beat Bazaar" to reflect the platform's worldwide creator reach.
+- Replaced hardcoded genre pills with dynamic genre calculation derived directly from the catalog with count badges and live search filtering.
+- Added explicit "Tagged Preview" indicators on player scrubbers to distinguish online protected streaming from untagged master WAV delivery.
