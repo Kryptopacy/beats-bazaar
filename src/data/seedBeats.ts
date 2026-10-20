@@ -13,6 +13,7 @@ export const INITIAL_BEATS: Beat[] = [
     inCypher: true,
     isSoldExclusive: false,
     isSponsored: true,
+    likes: 94,
     uploadedAt: '2026-10-18T14:30:00Z',
     tags: ['Burnaboy Vibe', 'Bouncy', 'Saxophone', 'Club'],
     coverArt: 'linear-gradient(135deg, #00E599 0%, #151B22 100%)'
@@ -28,6 +29,7 @@ export const INITIAL_BEATS: Beat[] = [
     exclusivePrice: 400,
     inCypher: true,
     isSoldExclusive: false,
+    likes: 218,
     uploadedAt: '2026-10-18T16:00:00Z',
     tags: ['Heavy Log Drum', 'Deep Piano', 'Private School'],
     coverArt: 'linear-gradient(135deg, #F59E0B 0%, #0B0F12 100%)'
@@ -43,6 +45,7 @@ export const INITIAL_BEATS: Beat[] = [
     exclusivePrice: 280,
     inCypher: true,
     isSoldExclusive: false,
+    likes: 185,
     uploadedAt: '2026-10-19T09:15:00Z',
     tags: ['Aggressive 808', 'Dark Strings', 'Cypher Ready'],
     coverArt: 'linear-gradient(135deg, #EC4899 0%, #111827 100%)'
@@ -58,6 +61,7 @@ export const INITIAL_BEATS: Beat[] = [
     exclusivePrice: 450,
     inCypher: true,
     isSoldExclusive: false,
+    likes: 342,
     uploadedAt: '2026-10-19T11:00:00Z',
     tags: ['Guitar Licks', 'Chill', 'Melodic', 'Freestyle Gold'],
     coverArt: 'linear-gradient(135deg, #8B5CF6 0%, #064E3B 100%)'

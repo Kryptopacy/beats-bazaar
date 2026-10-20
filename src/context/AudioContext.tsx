@@ -16,7 +16,8 @@ interface AudioContextType {
   isCrossfade: boolean;
   crossfadeDuration: number;
   activeSurface: 'marketplace' | 'cypher';
-  selectedGenre: Genre | 'All';
+  selectedGenre: Genre | 'All' | 'Sponsored';
+  likedBeatIds: string[];
   playBeat: (beat: Beat) => void;
   togglePlay: () => void;
   seek: (time: number) => void;
@@ -28,8 +29,9 @@ interface AudioContextType {
   setCrossfadeDuration: (seconds: number) => void;
   addNewBeat: (beat: Beat) => void;
   markExclusiveSold: (beatId: string) => void;
+  toggleLikeBeat: (beatId: string) => void;
   setActiveSurface: (surface: 'marketplace' | 'cypher') => void;
-  setSelectedGenre: (genre: Genre | 'All') => void;
+  setSelectedGenre: (genre: Genre | 'All' | 'Sponsored') => void;
 }
 
 const AudioContext = createContext<AudioContextType | null>(null);
@@ -45,13 +47,22 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isCrossfade, setIsCrossfade] = useState(true);
   const [crossfadeDuration, setCrossfadeDuration] = useState(3);
   const [activeSurface, setActiveSurface] = useState<'marketplace' | 'cypher'>('marketplace');
-  const [selectedGenre, setSelectedGenre] = useState<Genre | 'All'>('All');
+  const [selectedGenre, setSelectedGenre] = useState<Genre | 'All' | 'Sponsored'>('All');
+  const [likedBeatIds, setLikedBeatIds] = useState<string[]>([]);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const crossfadeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Initialize beats and synthesized audio URLs
   useEffect(() => {
+    // Load liked beat ids
+    try {
+      const savedLikes = localStorage.getItem('beats_bazaar_likes');
+      if (savedLikes) {
+        setLikedBeatIds(JSON.parse(savedLikes));
+      }
+    } catch (e) {}
+
     const saved = localStorage.getItem('beats_bazaar_catalog');
     let loadedBeats: Beat[] = [];
     if (saved) {
@@ -64,15 +75,14 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       loadedBeats = INITIAL_BEATS;
     }
 
-    // Ensure all seed beats have valid audio URLs
+    // Ensure all seed beats have valid audio URLs and likes
     const initializedBeats = loadedBeats.map((b) => {
-      if (!b.audioUrl) {
-        return {
-          ...b,
-          audioUrl: generateBeatAudioUrl(b.genre, b.bpm)
-        };
-      }
-      return b;
+      const seedMatch = INITIAL_BEATS.find(sb => sb.id === b.id);
+      return {
+        ...b,
+        likes: b.likes ?? (seedMatch?.likes || 0),
+        audioUrl: b.audioUrl || generateBeatAudioUrl(b.genre, b.bpm)
+      };
     });
 
     setBeats(initializedBeats);
@@ -224,6 +234,31 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const toggleLikeBeat = (beatId: string) => {
+    const isCurrentlyLiked = likedBeatIds.includes(beatId);
+    const newLikedIds = isCurrentlyLiked 
+      ? likedBeatIds.filter(id => id !== beatId) 
+      : [...likedBeatIds, beatId];
+    
+    setLikedBeatIds(newLikedIds);
+    try {
+      localStorage.setItem('beats_bazaar_likes', JSON.stringify(newLikedIds));
+    } catch (e) {}
+
+    const updatedBeats = beats.map(b => {
+      if (b.id === beatId) {
+        const currentLikes = b.likes || 0;
+        return {
+          ...b,
+          likes: isCurrentlyLiked ? Math.max(0, currentLikes - 1) : currentLikes + 1
+        };
+      }
+      return b;
+    });
+
+    saveBeats(updatedBeats);
+  };
+
   return (
     <AudioContext.Provider value={{
       beats,
@@ -237,6 +272,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       crossfadeDuration,
       activeSurface,
       selectedGenre,
+      likedBeatIds,
       playBeat,
       togglePlay,
       seek,
@@ -248,6 +284,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setCrossfadeDuration,
       addNewBeat,
       markExclusiveSold,
+      toggleLikeBeat,
       setActiveSurface,
       setSelectedGenre
     }}>

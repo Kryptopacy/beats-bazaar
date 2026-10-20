@@ -15,8 +15,23 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="bg-background text-gray-100 min-h-screen antialiased selection:bg-accent-green selection:text-black relative">
-        {/* Tactile Hardware Noise Overlay (Late 2026 Studio Aesthetic) */}
-        <div aria-hidden="true" className="tactile-noise-overlay" />
+        {/* Tactile Hardware Studio Noise Overlay (Hardware Anodized Matte Grain) */}
+        <svg 
+          className="pointer-events-none fixed inset-0 z-50 h-full w-full opacity-20 mix-blend-screen select-none"
+          aria-hidden="true"
+        >
+          <filter id="tactile-hardware-grain">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.75"
+              numOctaves="3"
+              stitchTiles="stitch"
+            />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#tactile-hardware-grain)" />
+        </svg>
+
         <AudioProvider>
           {children}
         </AudioProvider>
