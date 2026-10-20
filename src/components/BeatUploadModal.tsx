@@ -34,6 +34,7 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
   const [audioFileName, setAudioFileName] = useState('');
   const [audioUrl, setAudioUrl] = useState('');
   const [tagsInput, setTagsInput] = useState('New Heat, Club');
+  const [isSponsored, setIsSponsored] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
   if (!isOpen) return null;
@@ -62,6 +63,7 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
       exclusivePrice: Number(exclusivePrice) || 300,
       inCypher,
       isSoldExclusive: false,
+      isSponsored,
       uploadedAt: new Date().toISOString(),
       tags: tagsInput.split(',').map(t => t.trim()).filter(Boolean),
       coverArt: selectedGradient
@@ -127,7 +129,7 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Sarz / DoctorOpto"
+                  placeholder="e.g. TCG-m / Sarz"
                   value={producer}
                   onChange={(e) => setProducer(e.target.value)}
                   className="w-full bg-[#0B0F12] border border-border rounded-xl px-4 py-2.5 text-sm text-white focus:border-accent-green outline-none"
@@ -219,6 +221,26 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
               />
               <label htmlFor="cypherOptIn" className="text-xs font-bold text-white cursor-pointer select-none">
                 Feature in Freestyle Cypher Room (Free stream-only playback)
+              </label>
+            </div>
+
+            {/* Sponsored Boost Checkbox */}
+            <div className="flex items-start space-x-3 p-3.5 rounded-xl bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-transparent border border-amber-500/30">
+              <input
+                type="checkbox"
+                id="sponsorBoost"
+                checked={isSponsored}
+                onChange={(e) => setIsSponsored(e.target.checked)}
+                className="mt-0.5 w-4 h-4 rounded text-amber-500 bg-gray-900 border-gray-700 focus:ring-amber-500 cursor-pointer"
+              />
+              <label htmlFor="sponsorBoost" className="text-xs font-bold text-white cursor-pointer select-none">
+                <div className="flex items-center gap-1.5 text-amber-300">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Boost &amp; Sponsor Beat ($15 via Bachs)</span>
+                </div>
+                <span className="text-[11px] text-gray-400 font-normal block mt-0.5">
+                  Pins your track to the top of the Marketplace &amp; features with a gold flame badge.
+                </span>
               </label>
             </div>
 

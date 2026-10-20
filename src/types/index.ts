@@ -21,6 +21,16 @@ export interface Beat {
   uploadedAt: string;
   tags?: string[];
   coverArt?: string;
+  isSponsored?: boolean;
+}
+
+export interface StreamingPlacement {
+  id: string;
+  songTitle: string;
+  artistName: string;
+  platform: 'Spotify' | 'Apple Music' | 'Audiomack' | 'YouTube';
+  streams: string;
+  url: string;
 }
 
 export type LicenseTier = 'Standard Lease' | 'Exclusive Rights';

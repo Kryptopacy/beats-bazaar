@@ -79,3 +79,6 @@ Activity mode: [live app and editor, explicit static fallback, focused alternati
 - Updated hero copy from regional "African Beat Exchange" to "The Global Beat Bazaar" to reflect the platform's worldwide creator reach.
 - Replaced hardcoded genre pills with dynamic genre calculation derived directly from the catalog with count badges and live search filtering.
 - Added explicit "Tagged Preview" indicators on player scrubbers to distinguish online protected streaming from untagged master WAV delivery.
+- Added Producer Public Storefront modal (`ProducerProfileModal.tsx`) with discography, instant inline audio previewing, direct leasing, Bachs tipping, and verified released streaming placements (Spotify, Apple Music, Audiomack).
+- Set official producer persona to `TCG-m`.
+- Added Sponsored / Boosted Beat feature with gold `🔥 SPONSORED` badge and priority grid placement, toggleable via `BeatUploadModal.tsx` ($15 Bachs boost).

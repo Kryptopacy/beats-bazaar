@@ -17,7 +17,7 @@ function addNewBeat(catalog, newBeat) {
 const customBeat = {
   id: `beat-${Date.now()}`,
   title: 'Ibadan Sunset Groove',
-  producer: 'DoctorOpto',
+  producer: 'TCG-m',
   genre: 'Alté',
   bpm: 102,
   audioUrl: 'blob:http://localhost:3000/mock-audio',

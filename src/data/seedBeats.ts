@@ -12,6 +12,7 @@ export const INITIAL_BEATS: Beat[] = [
     exclusivePrice: 350,
     inCypher: true,
     isSoldExclusive: false,
+    isSponsored: true,
     uploadedAt: '2026-10-18T14:30:00Z',
     tags: ['Burnaboy Vibe', 'Bouncy', 'Saxophone', 'Club'],
     coverArt: 'linear-gradient(135deg, #00E599 0%, #151B22 100%)'
@@ -49,7 +50,7 @@ export const INITIAL_BEATS: Beat[] = [
   {
     id: 'beat-4',
     title: 'Eko Soul & Palmwine',
-    producer: 'DoctorOpto',
+    producer: 'TCG-m',
     genre: 'Alté',
     bpm: 98,
     audioUrl: '',

@@ -16,7 +16,8 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-  UserCheck
+  UserCheck,
+  Flame
 } from 'lucide-react';
 
 interface MarketplaceViewProps {
@@ -63,8 +64,15 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
     return matchesGenre && matchesQuery;
   });
 
-  const totalPages = Math.max(1, Math.ceil(filteredBeats.length / itemsPerPage));
-  const paginatedBeats = filteredBeats.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  // Pin sponsored/boosted beats to the top of the feed
+  const sortedBeats = [...filteredBeats].sort((a, b) => {
+    if (a.isSponsored && !b.isSponsored) return -1;
+    if (!a.isSponsored && b.isSponsored) return 1;
+    return 0;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(sortedBeats.length / itemsPerPage));
+  const paginatedBeats = sortedBeats.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const formatTime = (secs: number) => {
     const mins = Math.floor(secs / 60);
@@ -195,6 +203,12 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
                       {/* Metadata */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-1.5 flex-wrap gap-y-1">
+                          {beat.isSponsored && (
+                            <span className="text-[10px] font-black uppercase tracking-wider text-black bg-gradient-to-r from-amber-400 to-yellow-300 px-2 py-0.5 rounded-md flex items-center gap-1 shadow-sm shadow-yellow-500/20">
+                              <Flame className="w-3 h-3 fill-black text-black" />
+                              SPONSORED
+                            </span>
+                          )}
                           <span className="text-[10px] font-bold uppercase tracking-wider text-accent-green bg-accent-green/10 px-2 py-0.5 rounded-md">
                             {beat.genre}
                           </span>
