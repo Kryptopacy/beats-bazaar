@@ -14,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-background text-gray-100 min-h-screen antialiased selection:bg-accent-green selection:text-black">
+      <body className="bg-background text-gray-100 min-h-screen antialiased selection:bg-accent-green selection:text-black relative">
+        {/* Tactile Hardware Noise Overlay (Late 2026 Studio Aesthetic) */}
+        <div aria-hidden="true" className="tactile-noise-overlay" />
         <AudioProvider>
           {children}
         </AudioProvider>
