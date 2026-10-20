@@ -103,23 +103,23 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
         
         {/* Search & Metadata Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <div className="relative flex-1 max-w-md group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-accent-green transition-colors" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by title, producer, genre, or tag (#sax, #club)..."
-              className="w-full bg-surface border border-border rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-gray-500 focus:border-accent-green outline-none"
+              className="w-full bg-white/[0.03] backdrop-blur-md border border-white/[0.08] focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-white placeholder-gray-500 outline-none transition-all duration-200"
             />
           </div>
 
-          <div className="text-xs text-gray-400 font-semibold self-center sm:self-auto">
+          <div className="text-xs text-gray-400 font-medium self-center sm:self-auto px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
             Showing <span className="text-white font-bold">{filteredBeats.length}</span> of <span className="text-white font-bold">{beats.length}</span> beats (Page {currentPage} of {totalPages})
           </div>
         </div>
 
-        {/* Dynamic Genre Filters (Horizontally Scrollable) */}
+        {/* Dynamic Genre Filters (Horizontally Scrollable Glass Pills) */}
         <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-thin">
           {dynamicGenres.map((genre) => {
             const count = genre === 'All' 
@@ -130,15 +130,15 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
               <button
                 key={genre}
                 onClick={() => setSelectedGenre(genre as any)}
-                className={`flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all ${
+                className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 active:scale-95 ${
                   selectedGenre === genre
-                    ? 'bg-accent-green text-black shadow-lg shadow-accent-green/20'
-                    : 'bg-surface text-gray-400 hover:text-white hover:bg-surface-light border border-border'
+                    ? 'bg-gradient-to-r from-accent-green to-emerald-400 text-black shadow-lg shadow-accent-green/25 ring-1 ring-white/20'
+                    : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-white border border-white/[0.06]'
                 }`}
               >
                 <span>{genre}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                  selectedGenre === genre ? 'bg-black/20 text-black' : 'bg-surface-light text-gray-400'
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono ${
+                  selectedGenre === genre ? 'bg-black/20 text-black font-extrabold' : 'bg-white/[0.06] text-gray-400'
                 }`}>
                   {count}
                 </span>
@@ -150,13 +150,13 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
 
       {/* Beats Grid */}
       {filteredBeats.length === 0 ? (
-        <div className="text-center py-20 bg-surface rounded-2xl border border-dashed border-border p-8">
+        <div className="text-center py-20 bg-white/[0.02] backdrop-blur-xl rounded-3xl border border-dashed border-white/[0.08] p-8">
           <Disc3 className="w-12 h-12 text-gray-500 mx-auto animate-spin" />
           <h3 className="mt-4 text-lg font-bold text-white">No beats match your criteria</h3>
           <p className="mt-1 text-sm text-gray-400">Try clearing your search query or drop a fresh beat in this genre!</p>
           <button
             onClick={onOpenUpload}
-            className="mt-6 px-5 py-2.5 bg-accent-green text-black font-bold rounded-xl text-sm shadow-md hover:opacity-90"
+            className="mt-6 px-6 py-2.5 bg-gradient-to-r from-accent-green to-emerald-400 text-black font-black rounded-full text-sm shadow-lg shadow-accent-green/20 hover:scale-[1.02] active:scale-95 transition-all"
           >
             Drop a Beat Now
           </button>
@@ -171,26 +171,35 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
               return (
                 <div
                   key={beat.id}
-                  className={`group rounded-2xl border transition-all duration-300 overflow-hidden flex flex-col justify-between ${
+                  className={`group rounded-3xl bg-gradient-to-b from-[#141A23] via-[#0F141B] to-[#0A0D12] border transition-all duration-300 flex flex-col justify-between overflow-hidden relative ${
                     isThisActive 
-                      ? 'bg-surface border-accent-green/60 shadow-xl shadow-accent-green/10' 
-                      : 'bg-surface/80 hover:bg-surface border-border hover:border-gray-700'
+                      ? 'border-accent-green/70 ring-2 ring-accent-green/40 shadow-2xl shadow-accent-green/15 -translate-y-1' 
+                      : 'border-white/[0.07] hover:border-white/[0.18] shadow-lg hover:shadow-2xl hover:shadow-black/70 hover:-translate-y-1'
                   }`}
                 >
+                  {/* Subtle Top Glow for Sponsored Tracks */}
+                  {beat.isSponsored && (
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-80" />
+                  )}
+
                   {/* Card Top */}
                   <div className="p-5">
                     <div className="flex items-start justify-between space-x-4">
                       {/* Visualizer Thumbnail */}
                       <div 
-                        className="w-16 h-16 rounded-xl flex items-center justify-center relative cursor-pointer shadow-md overflow-hidden flex-shrink-0"
+                        className="w-20 h-20 rounded-2xl flex items-center justify-center relative cursor-pointer shadow-md overflow-hidden flex-shrink-0 ring-1 ring-white/10 group-hover:ring-white/25 transition-all"
                         style={{ background: beat.coverArt || 'linear-gradient(135deg, #10B981, #0B0F12)' }}
                         onClick={() => isThisActive ? togglePlay() : playBeat(beat)}
                       >
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
+                        <div className="absolute inset-0 bg-black/35 backdrop-blur-[1px] flex items-center justify-center group-hover:bg-black/15 transition-all">
                           {isThisPlaying ? (
-                            <Pause className="w-8 h-8 text-white fill-white animate-pulse" />
+                            <div className="w-10 h-10 rounded-full bg-accent-green text-black flex items-center justify-center shadow-lg shadow-accent-green/30 animate-pulse">
+                              <Pause className="w-5 h-5 fill-black" />
+                            </div>
                           ) : (
-                            <Play className="w-8 h-8 text-white fill-white ml-1" />
+                            <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-md group-hover:bg-accent-green group-hover:text-black">
+                              <Play className="w-5 h-5 fill-current ml-0.5" />
+                            </div>
                           )}
                         </div>
                       </div>
@@ -199,27 +208,27 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-1.5 flex-wrap gap-y-1">
                           {beat.isSponsored && (
-                            <span className="text-[10px] font-black uppercase tracking-wider text-black bg-gradient-to-r from-amber-400 to-yellow-300 px-2 py-0.5 rounded-md flex items-center gap-1 shadow-sm shadow-yellow-500/20">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-black bg-gradient-to-r from-amber-400 to-yellow-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm shadow-yellow-500/20">
                               <Flame className="w-3 h-3 fill-black text-black" />
                               SPONSORED
                             </span>
                           )}
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-accent-green bg-accent-green/10 px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-accent-green bg-accent-green/10 border border-accent-green/20 px-2.5 py-0.5 rounded-full">
                             {beat.genre}
                           </span>
-                          <span className="text-[10px] font-semibold text-gray-400 bg-surface-light px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] font-semibold text-gray-300 bg-white/[0.04] border border-white/[0.06] px-2.5 py-0.5 rounded-full font-mono">
                             {beat.bpm} BPM
                           </span>
                           {beat.inCypher && (
-                            <span className="text-[10px] font-bold text-accent-gold bg-accent-gold/10 px-2 py-0.5 rounded-md">
+                            <span className="text-[10px] font-bold text-accent-yellow bg-accent-gold/15 border border-accent-gold/30 px-2.5 py-0.5 rounded-full">
                               CYPHER
                             </span>
                           )}
                         </div>
-                        <h3 className="mt-1.5 text-base font-bold text-white truncate group-hover:text-accent-green transition-colors">
+                        <h3 className="mt-2 text-base font-black text-white truncate group-hover:text-accent-green transition-colors tracking-tight">
                           {beat.title}
                         </h3>
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs text-gray-400 mt-0.5">
                           Prod. by{' '}
                           <button
                             type="button"
@@ -227,11 +236,11 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
                               e.stopPropagation();
                               onSelectProducer(beat.producer);
                             }}
-                            className="text-accent-green hover:underline font-bold transition-all inline-flex items-center gap-0.5"
+                            className="text-white hover:text-accent-green font-bold transition-all inline-flex items-center gap-1 hover:underline"
                             title="View producer public storefront"
                           >
                             <span>{beat.producer}</span>
-                            <UserCheck className="w-3 h-3 text-accent-green/80" />
+                            <UserCheck className="w-3.5 h-3.5 text-accent-green" />
                           </button>
                         </p>
                       </div>
@@ -239,9 +248,9 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
 
                     {/* Audio Preview Scrubber with Protection Indicator */}
                     {isThisActive && (
-                      <div className="mt-4 pt-3 border-t border-border">
-                        <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1 font-mono">
-                          <span className="flex items-center gap-1 text-accent-gold text-[10px] font-bold uppercase">
+                      <div className="mt-4 pt-3 border-t border-white/[0.06]">
+                        <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1.5 font-mono">
+                          <span className="flex items-center gap-1 text-accent-yellow text-[10px] font-bold uppercase tracking-wider">
                             <Lock className="w-3 h-3" /> Tagged Preview
                           </span>
                           <span>{formatTime(currentTime)} / {formatTime(duration)}</span>
@@ -252,7 +261,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
                           max={duration || 100}
                           value={currentTime}
                           onChange={(e) => seek(parseFloat(e.target.value))}
-                          className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-accent-green"
+                          className="w-full h-1.5 bg-white/[0.08] rounded-lg appearance-none cursor-pointer accent-accent-green hover:accent-emerald-300 transition-all"
                         />
                       </div>
                     )}
@@ -261,7 +270,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
                     {beat.tags && beat.tags.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-1.5">
                         {beat.tags.map((t, idx) => (
-                          <span key={idx} className="text-[10px] text-gray-400 bg-[#1F2937]/50 px-2 py-0.5 rounded">
+                          <span key={idx} className="text-[10px] text-gray-400 hover:text-gray-200 bg-white/[0.03] border border-white/[0.05] px-2.5 py-0.5 rounded-full transition-colors">
                             #{t}
                           </span>
                         ))}
@@ -270,27 +279,27 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
                   </div>
 
                   {/* Card Footer / Purchase Drawer */}
-                  <div className="px-5 py-4 bg-[#0F141C] border-t border-border/80 flex items-center justify-between">
+                  <div className="px-5 py-4 bg-white/[0.02] backdrop-blur-md border-t border-white/[0.06] flex items-center justify-between">
                     <div>
-                      <div className="text-[11px] text-gray-400">Standard Lease</div>
-                      <div className="text-base font-extrabold text-white">${beat.leasePrice}</div>
+                      <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Standard Lease</div>
+                      <div className="text-lg font-black text-white tracking-tight">${beat.leasePrice}</div>
                     </div>
 
                     {beat.isSoldExclusive ? (
-                      <span className="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold uppercase tracking-wider">
+                      <span className="px-3.5 py-1.5 rounded-xl bg-red-500/10 border border-red-500/25 text-red-400 text-xs font-bold uppercase tracking-wider">
                         Exclusive Sold
                       </span>
                     ) : (
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() => onLicenseBeat(beat, 'Standard Lease')}
-                          className="px-3 py-1.5 rounded-lg bg-surface border border-accent-green/40 hover:bg-accent-green hover:text-black text-accent-green text-xs font-bold transition-all"
+                          className="px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] hover:border-white/[0.18] text-white text-xs font-bold transition-all duration-200 active:scale-95 shadow-sm"
                         >
                           Lease
                         </button>
                         <button
                           onClick={() => onLicenseBeat(beat, 'Exclusive Rights')}
-                          className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-accent-gold to-yellow-500 text-black text-xs font-extrabold shadow-sm hover:opacity-90 transition-all"
+                          className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black text-xs font-black shadow-md shadow-amber-500/20 hover:brightness-105 active:scale-95 transition-all duration-200 ring-1 ring-white/20"
                         >
                           Buyout (${beat.exclusivePrice})
                         </button>
@@ -305,25 +314,25 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
 
           {/* Scalable Pagination Controls */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-center space-x-2 pt-6">
+            <div className="flex items-center justify-center space-x-2 pt-8">
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                className="flex items-center space-x-1 px-3 py-2 rounded-xl bg-surface border border-border text-xs font-bold text-gray-300 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs font-bold text-gray-300 hover:text-white hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>Prev</span>
               </button>
 
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-1.5">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                   <button
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
-                    className={`w-8 h-8 rounded-xl text-xs font-bold transition-all ${
+                    className={`w-9 h-9 rounded-xl text-xs font-bold transition-all duration-200 ${
                       currentPage === pageNum
-                        ? 'bg-accent-green text-black shadow-md'
-                        : 'bg-surface border border-border text-gray-400 hover:text-white'
+                        ? 'bg-gradient-to-r from-accent-green to-emerald-400 text-black font-black shadow-md shadow-accent-green/20'
+                        : 'bg-white/[0.03] border border-white/[0.08] text-gray-400 hover:text-white hover:bg-white/[0.08]'
                     }`}
                   >
                     {pageNum}
@@ -334,7 +343,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                className="flex items-center space-x-1 px-3 py-2 rounded-xl bg-surface border border-border text-xs font-bold text-gray-300 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs font-bold text-gray-300 hover:text-white hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
               >
                 <span>Next</span>
                 <ChevronRight className="w-4 h-4" />

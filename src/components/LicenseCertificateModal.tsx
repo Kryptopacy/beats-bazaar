@@ -35,33 +35,36 @@ export function LicenseCertificateModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn overflow-y-auto">
-      <div className="relative w-full max-w-2xl rounded-3xl bg-surface border-2 border-accent-gold/40 p-6 sm:p-10 shadow-2xl my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl animate-fadeIn overflow-y-auto">
+      <div className="relative w-full max-w-2xl rounded-[2.5rem] bg-gradient-to-b from-[#141A23] via-[#0F141B] to-[#0A0D12] border border-amber-400/40 p-6 sm:p-10 shadow-2xl my-8">
         
         {/* Certificate Watermark / Background Accent */}
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-accent-gold/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-accent-gold/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Top Controls */}
-        <div className="flex items-center justify-between pb-6 border-b border-border">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent-gold to-yellow-500 flex items-center justify-center shadow-lg shadow-accent-gold/20">
+        <div className="flex items-center justify-between pb-6 border-b border-white/[0.08]">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent-gold to-yellow-500 flex items-center justify-center shadow-lg shadow-accent-gold/20 ring-1 ring-white/20">
               <Award className="w-6 h-6 text-black" />
             </div>
             <div>
-              <div className="inline-flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-accent-yellow bg-accent-gold/10 px-2.5 py-0.5 rounded-full">
+              <div className="inline-flex items-center space-x-1.5 text-[10px] font-black uppercase tracking-wider text-accent-yellow bg-accent-gold/15 border border-accent-gold/30 px-3 py-0.5 rounded-full">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>Verified Legal Grant</span>
               </div>
-              <h2 className="text-2xl font-black text-white mt-1">Digital License Certificate</h2>
+              <h2 className="text-2xl sm:text-3xl font-black text-white mt-1 tracking-tight">Digital License Certificate</h2>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-gray-400 hover:text-white rounded-xl hover:bg-surface-light">
+          <button 
+            onClick={onClose} 
+            className="p-2 text-gray-400 hover:text-white rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-all"
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Certificate Document Card */}
-        <div className="mt-6 p-6 rounded-2xl bg-[#090D10] border border-border space-y-6 font-sans">
+        <div className="mt-6 p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/[0.08] space-y-6 font-sans">
           
           {/* Certificate Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/80 pb-4">
@@ -130,7 +133,7 @@ export function LicenseCertificateModal({
           <button
             type="button"
             onClick={handlePrint}
-            className="w-full sm:w-auto flex items-center justify-center space-x-2 px-5 py-3 rounded-xl border border-border text-sm font-bold text-gray-300 hover:text-white hover:bg-surface-light"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3.5 rounded-full border border-white/[0.08] text-sm font-bold text-gray-300 hover:text-white hover:bg-white/[0.06] transition-all active:scale-95"
           >
             <Printer className="w-4 h-4" />
             <span>Print / Save Certificate</span>
@@ -139,7 +142,7 @@ export function LicenseCertificateModal({
           <button
             type="button"
             onClick={handleDownloadAudio}
-            className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl bg-gradient-to-r from-accent-green to-emerald-400 text-black text-sm font-black shadow-lg shadow-accent-green/20 hover:opacity-95 active:scale-95 transition-all"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black text-sm font-black shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all ring-1 ring-white/20"
           >
             <Download className="w-4 h-4" />
             <span>Download Untagged Master (.wav)</span>

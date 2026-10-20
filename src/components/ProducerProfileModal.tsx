@@ -94,45 +94,47 @@ export function ProducerProfileModal({
   const sampleBeat = producerBeats[0] || null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn overflow-y-auto">
-      <div className="relative w-full max-w-2xl rounded-3xl bg-surface border border-border p-6 sm:p-8 shadow-2xl my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl animate-fadeIn overflow-y-auto">
+      <div className="relative w-full max-w-2xl rounded-[2.5rem] bg-gradient-to-b from-[#141A23] via-[#0F141B] to-[#0A0D12] border border-white/[0.1] p-6 sm:p-10 shadow-2xl my-8">
         
         {/* Close Button */}
         <button 
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 text-gray-400 hover:text-white rounded-xl hover:bg-surface-light"
+          className="absolute top-6 right-6 p-2 text-gray-400 hover:text-white rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-all"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Profile Header */}
-        <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-5 pb-6 border-b border-border">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-accent-green to-accent-gold flex items-center justify-center shadow-lg shadow-accent-green/20 flex-shrink-0">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 pb-6 border-b border-white/[0.08]">
+          <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-accent-green to-accent-gold flex items-center justify-center shadow-xl shadow-accent-green/20 flex-shrink-0 ring-1 ring-white/20">
             <Music className="w-10 h-10 text-black font-black" />
           </div>
 
           <div className="flex-1 text-center sm:text-left">
             <div className="flex items-center justify-center sm:justify-start space-x-2">
-              <h2 className="text-2xl font-black text-white">{producerName}</h2>
+              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">{producerName}</h2>
               {meta.verified && (
                 <CheckCircle className="w-5 h-5 text-accent-green fill-accent-green/20" />
               )}
             </div>
 
-            <div className="flex items-center justify-center sm:justify-start space-x-1.5 text-xs text-gray-400 mt-1">
-              <MapPin className="w-3.5 h-3.5 text-accent-gold" />
-              <span>{meta.location}</span>
+            <div className="flex items-center justify-center sm:justify-start space-x-2 text-xs text-gray-400 mt-1.5 flex-wrap gap-y-1">
+              <span className="flex items-center gap-1 text-gray-300">
+                <MapPin className="w-3.5 h-3.5 text-accent-gold" />
+                <span>{meta.location}</span>
+              </span>
               <span>•</span>
-              <span className="text-accent-green font-semibold">{producerBeats.length} Beats for Sale</span>
+              <span className="text-accent-green font-bold">{producerBeats.length} Beats for Sale</span>
               {placements.length > 0 && (
                 <>
                   <span>•</span>
-                  <span className="text-accent-gold font-semibold">{placements.length} Stream Releases</span>
+                  <span className="text-accent-yellow font-bold">{placements.length} Stream Releases</span>
                 </>
               )}
             </div>
 
-            <p className="mt-2 text-xs sm:text-sm text-gray-300 leading-relaxed max-w-lg">
+            <p className="mt-3 text-xs sm:text-sm text-gray-300 leading-relaxed max-w-lg">
               {meta.bio}
             </p>
 
@@ -140,7 +142,7 @@ export function ProducerProfileModal({
             {sampleBeat && (
               <button
                 onClick={() => onTipProducer(sampleBeat)}
-                className="mt-4 inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-accent-gold/15 border border-accent-gold/40 text-accent-yellow hover:bg-accent-gold hover:text-black font-bold text-xs shadow-sm transition-all"
+                className="mt-4 inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 hover:bg-amber-400 hover:text-black font-extrabold text-xs shadow-md transition-all active:scale-95"
               >
                 <Coins className="w-4 h-4" />
                 <span>Tip {producerName}</span>
@@ -150,13 +152,13 @@ export function ProducerProfileModal({
         </div>
 
         {/* Surface Tabs inside Profile (Beats vs Placements) */}
-        <div className="mt-6 flex items-center space-x-2 border-b border-border pb-3">
+        <div className="mt-6 flex items-center p-1 bg-white/[0.04] backdrop-blur-xl rounded-full border border-white/[0.08] shadow-inner max-w-md">
           <button
             onClick={() => setActiveTab('beats')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex-1 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
               activeTab === 'beats'
-                ? 'bg-accent-green text-black shadow-md'
-                : 'text-gray-400 hover:text-white bg-[#0B0F12]'
+                ? 'bg-gradient-to-r from-accent-green to-emerald-400 text-black shadow-md'
+                : 'text-gray-400 hover:text-white'
             }`}
           >
             Beats For Sale ({producerBeats.length})
@@ -164,25 +166,25 @@ export function ProducerProfileModal({
 
           <button
             onClick={() => setActiveTab('placements')}
-            className={`flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex-1 flex items-center justify-center space-x-1.5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
               activeTab === 'placements'
-                ? 'bg-accent-gold text-black shadow-md'
-                : 'text-gray-400 hover:text-white bg-[#0B0F12]'
+                ? 'bg-gradient-to-r from-accent-gold to-yellow-400 text-black shadow-md'
+                : 'text-gray-400 hover:text-white'
             }`}
           >
             <Headphones className="w-3.5 h-3.5" />
-            <span>Released Songs &amp; Placements ({placements.length})</span>
+            <span>Placements ({placements.length})</span>
           </button>
         </div>
 
         {/* Tab Content */}
-        <div className="mt-4">
+        <div className="mt-6">
           {activeTab === 'beats' ? (
             <div className="space-y-4">
               {producerBeats.length === 0 ? (
-                <p className="text-xs text-gray-500 py-8 text-center">No active beats listed by this producer yet.</p>
+                <p className="text-xs text-gray-500 py-12 text-center">No active beats listed by this producer yet.</p>
               ) : (
-                <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+                <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
                   {producerBeats.map((beat) => {
                     const isThisActive = activeBeat?.id === beat.id;
                     const isThisPlaying = isThisActive && isPlaying;
@@ -190,14 +192,16 @@ export function ProducerProfileModal({
                     return (
                       <div
                         key={beat.id}
-                        className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
-                          isThisActive ? 'bg-[#0B0F12] border-accent-green/60' : 'bg-[#090D10] border-border hover:border-gray-700'
+                        className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${
+                          isThisActive 
+                            ? 'bg-white/[0.06] border-accent-green/60 shadow-lg shadow-accent-green/10' 
+                            : 'bg-white/[0.02] border-white/[0.06] hover:border-white/[0.15] hover:bg-white/[0.04]'
                         }`}
                       >
-                        <div className="flex items-center space-x-3 min-w-0 pr-3">
+                        <div className="flex items-center space-x-3.5 min-w-0 pr-3">
                           <button
                             onClick={() => isThisActive ? togglePlay() : playBeat(beat)}
-                            className="w-10 h-10 rounded-lg bg-surface flex items-center justify-center flex-shrink-0 hover:bg-accent-green hover:text-black transition-colors"
+                            className="w-11 h-11 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0 hover:bg-accent-green hover:text-black transition-all shadow-sm"
                           >
                             {isThisPlaying ? (
                               <Pause className="w-5 h-5 text-accent-green" />
@@ -207,10 +211,10 @@ export function ProducerProfileModal({
                           </button>
                           <div className="min-w-0">
                             <h4 className="text-sm font-bold text-white truncate">{beat.title}</h4>
-                            <div className="flex items-center space-x-2 text-[10px] text-gray-400">
-                              <span className="text-accent-green font-semibold">{beat.genre}</span>
+                            <div className="flex items-center space-x-2 text-[10px] text-gray-400 mt-0.5">
+                              <span className="text-accent-green font-bold uppercase">{beat.genre}</span>
                               <span>•</span>
-                              <span>{beat.bpm} BPM</span>
+                              <span className="font-mono">{beat.bpm} BPM</span>
                               {beat.isSponsored && (
                                 <span className="text-accent-yellow font-extrabold flex items-center gap-0.5">
                                   <Flame className="w-3 h-3 text-accent-gold" /> SPONSORED
@@ -220,20 +224,20 @@ export function ProducerProfileModal({
                           </div>
                         </div>
 
-                        <div className="flex items-center space-x-2 flex-shrink-0">
+                        <div className="flex items-center space-x-3 flex-shrink-0">
                           <div className="text-right pr-2 hidden sm:block">
-                            <div className="text-[10px] text-gray-400">Lease</div>
-                            <div className="text-xs font-extrabold text-white">${beat.leasePrice}</div>
+                            <div className="text-[10px] text-gray-400 uppercase font-semibold">Lease</div>
+                            <div className="text-sm font-black text-white">${beat.leasePrice}</div>
                           </div>
 
                           {beat.isSoldExclusive ? (
-                            <span className="px-2.5 py-1 rounded text-[10px] font-bold bg-red-500/10 text-red-400 border border-red-500/30">
+                            <span className="px-3 py-1.5 rounded-xl text-[10px] font-bold bg-red-500/10 text-red-400 border border-red-500/30">
                               SOLD
                             </span>
                           ) : (
                             <button
                               onClick={() => onLicenseBeat(beat, 'Standard Lease')}
-                              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-accent-green to-emerald-400 text-black text-xs font-bold hover:opacity-90 transition-all"
+                              className="px-4 py-2 rounded-xl bg-gradient-to-r from-accent-green to-emerald-400 text-black text-xs font-black shadow-md hover:scale-[1.02] active:scale-95 transition-all"
                             >
                               License
                             </button>
@@ -247,36 +251,36 @@ export function ProducerProfileModal({
             </div>
           ) : (
             /* Streaming Placements Tab */
-            <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+            <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
               {placements.length === 0 ? (
-                <p className="text-xs text-gray-500 py-8 text-center">No external stream placements linked yet.</p>
+                <p className="text-xs text-gray-500 py-12 text-center">No external stream placements linked yet.</p>
               ) : (
                 placements.map((song, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-3.5 rounded-xl bg-[#090D10] border border-border hover:border-gray-700 transition-all"
+                    className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.15] hover:bg-white/[0.04] transition-all"
                   >
-                    <div className="flex items-center space-x-3 min-w-0 pr-3">
-                      <div className="w-9 h-9 rounded-lg bg-surface flex items-center justify-center flex-shrink-0">
-                        <Headphones className="w-4 h-4 text-accent-gold" />
+                    <div className="flex items-center space-x-3.5 min-w-0 pr-3">
+                      <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+                        <Headphones className="w-5 h-5 text-accent-gold" />
                       </div>
                       <div className="min-w-0">
                         <h4 className="text-sm font-bold text-white truncate">{song.songTitle}</h4>
-                        <p className="text-xs text-gray-400 truncate">
-                          {song.artist} • <span className="text-accent-green font-semibold">{song.streams}</span>
+                        <p className="text-xs text-gray-400 truncate mt-0.5">
+                          {song.artist} • <span className="text-accent-green font-bold">{song.streams}</span>
                         </p>
                       </div>
                     </div>
 
                     <div className="flex items-center space-x-3 flex-shrink-0">
-                      <span className="text-[11px] font-bold text-gray-400 bg-surface px-2.5 py-1 rounded-lg border border-border">
+                      <span className="text-[11px] font-bold text-gray-300 bg-white/[0.04] px-3 py-1 rounded-full border border-white/[0.06]">
                         {song.platform}
                       </span>
                       <a
                         href={song.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2 rounded-lg bg-surface hover:bg-accent-gold hover:text-black text-gray-400 transition-colors"
+                        className="p-2.5 rounded-xl bg-white/[0.04] hover:bg-accent-gold hover:text-black text-gray-400 transition-all shadow-sm"
                         title="Listen on streaming platform"
                       >
                         <ExternalLink className="w-4 h-4" />

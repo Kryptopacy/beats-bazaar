@@ -82,21 +82,24 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-xl rounded-3xl bg-surface border border-border p-6 sm:p-8 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl animate-fadeIn overflow-y-auto">
+      <div className="relative w-full max-w-xl rounded-[2.5rem] bg-gradient-to-b from-[#141A23] via-[#0F141B] to-[#0A0D12] border border-white/[0.1] p-6 sm:p-10 shadow-2xl my-8">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-5 border-b border-border">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-accent-green/20 border border-accent-green/40 flex items-center justify-center">
-              <Upload className="w-5 h-5 text-accent-green" />
+        <div className="flex items-center justify-between pb-6 border-b border-white/[0.08]">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent-green to-emerald-400 flex items-center justify-center shadow-lg shadow-accent-green/20 ring-1 ring-white/20">
+              <Upload className="w-6 h-6 text-black font-black" />
             </div>
             <div>
-              <h2 className="text-xl font-black text-white">Drop a Beat</h2>
-              <p className="text-xs text-gray-400">Publish your sound to the Marketplace & Cypher room.</p>
+              <h2 className="text-2xl font-black text-white tracking-tight">Drop a Beat</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Publish your sound to the Marketplace & Cypher room.</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-gray-400 hover:text-white rounded-xl hover:bg-surface-light">
+          <button 
+            onClick={onClose} 
+            className="p-2 text-gray-400 hover:text-white rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-all"
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -104,7 +107,7 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
         {isSuccess ? (
           <div className="py-16 text-center space-y-3">
             <CheckCircle2 className="w-16 h-16 text-accent-green mx-auto animate-bounce" />
-            <h3 className="text-2xl font-bold text-white">Beat Dropped Successfully!</h3>
+            <h3 className="text-2xl font-black text-white">Beat Dropped Successfully!</h3>
             <p className="text-sm text-gray-400">Live in the Bazaar and queued in the Cypher room.</p>
           </div>
         ) : (
@@ -113,26 +116,26 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
             {/* Title & Producer */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-gray-300 mb-1">Beat Title *</label>
+                <label className="block text-xs font-bold text-gray-300 mb-1.5">Beat Title *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Accra Moonlight"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-[#0B0F12] border border-border rounded-xl px-4 py-2.5 text-sm text-white focus:border-accent-green outline-none"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-sm text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-300 mb-1">Producer Handle *</label>
+                <label className="block text-xs font-bold text-gray-300 mb-1.5">Producer Handle *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. TCG-m / Sarz"
                   value={producer}
                   onChange={(e) => setProducer(e.target.value)}
-                  className="w-full bg-[#0B0F12] border border-border rounded-xl px-4 py-2.5 text-sm text-white focus:border-accent-green outline-none"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-sm text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all"
                 />
               </div>
             </div>
@@ -140,11 +143,11 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
             {/* Genre & BPM */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-gray-300 mb-1">Genre</label>
+                <label className="block text-xs font-bold text-gray-300 mb-1.5">Genre</label>
                 <select
                   value={genre}
                   onChange={(e) => setGenre(e.target.value as Genre)}
-                  className="w-full bg-[#0B0F12] border border-border rounded-xl px-4 py-2.5 text-sm text-white focus:border-accent-green outline-none"
+                  className="w-full bg-[#141A22] border border-white/[0.08] rounded-2xl px-4 py-3 text-sm text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all cursor-pointer"
                 >
                   {GENRES.map((g) => (
                     <option key={g} value={g}>{g}</option>
@@ -153,14 +156,14 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-300 mb-1">Tempo (BPM)</label>
+                <label className="block text-xs font-bold text-gray-300 mb-1.5">Tempo (BPM)</label>
                 <input
                   type="number"
                   min={60}
                   max={200}
                   value={bpm}
                   onChange={(e) => setBpm(parseInt(e.target.value))}
-                  className="w-full bg-[#0B0F12] border border-border rounded-xl px-4 py-2.5 text-sm text-white focus:border-accent-green outline-none"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-sm text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all"
                 />
               </div>
             </div>
@@ -168,40 +171,40 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
             {/* Pricing */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-gray-300 mb-1">Standard Lease Price ($)</label>
+                <label className="block text-xs font-bold text-gray-300 mb-1.5">Standard Lease Price ($)</label>
                 <input
                   type="number"
                   min={5}
                   value={leasePrice}
                   onChange={(e) => setLeasePrice(parseFloat(e.target.value))}
-                  className="w-full bg-[#0B0F12] border border-border rounded-xl px-4 py-2.5 text-sm text-white focus:border-accent-green outline-none"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-sm text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-300 mb-1">Exclusive Buyout Price ($)</label>
+                <label className="block text-xs font-bold text-gray-300 mb-1.5">Exclusive Buyout Price ($)</label>
                 <input
                   type="number"
                   min={50}
                   value={exclusivePrice}
                   onChange={(e) => setExclusivePrice(parseFloat(e.target.value))}
-                  className="w-full bg-[#0B0F12] border border-border rounded-xl px-4 py-2.5 text-sm text-white focus:border-accent-green outline-none"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-sm text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all"
                 />
               </div>
             </div>
 
             {/* Audio File Upload */}
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1">Master Audio File (.mp3, .wav)</label>
-              <div className="relative border-2 border-dashed border-border hover:border-accent-green/60 rounded-2xl p-4 text-center cursor-pointer transition-colors bg-[#0B0F12]/50">
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Master Audio File (.mp3, .wav)</label>
+              <div className="relative border-2 border-dashed border-white/[0.1] hover:border-accent-green/60 rounded-2xl p-5 text-center cursor-pointer transition-all bg-white/[0.02] hover:bg-white/[0.04]">
                 <input
                   type="file"
                   accept="audio/*"
                   onChange={handleAudioFile}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
-                <Music className="w-6 h-6 text-accent-green mx-auto mb-1" />
-                <span className="text-xs text-gray-300 font-semibold block">
+                <Music className="w-7 h-7 text-accent-green mx-auto mb-1.5" />
+                <span className="text-xs text-gray-200 font-bold block">
                   {audioFileName ? `Attached: ${audioFileName}` : 'Choose audio file or drop here'}
                 </span>
                 <span className="text-[10px] text-gray-500 block mt-0.5">
@@ -211,7 +214,7 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
             </div>
 
             {/* Cypher Opt-In Checkbox */}
-            <div className="flex items-center space-x-3 p-3 rounded-xl bg-[#0B0F12] border border-border">
+            <div className="flex items-center space-x-3 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
               <input
                 type="checkbox"
                 id="cypherOptIn"
@@ -225,7 +228,7 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
             </div>
 
             {/* Sponsored Boost Checkbox */}
-            <div className="flex items-start space-x-3 p-3.5 rounded-xl bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-transparent border border-amber-500/30">
+            <div className="flex items-start space-x-3.5 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-transparent border border-amber-500/30">
               <input
                 type="checkbox"
                 id="sponsorBoost"
@@ -245,17 +248,17 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
             </div>
 
             {/* Actions */}
-            <div className="pt-4 flex items-center justify-end space-x-3 border-t border-border">
+            <div className="pt-4 flex items-center justify-end space-x-3 border-t border-white/[0.08]">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-5 py-2.5 rounded-xl border border-border text-sm font-semibold text-gray-400 hover:text-white"
+                className="px-6 py-3 rounded-full border border-white/[0.08] text-sm font-bold text-gray-400 hover:text-white hover:bg-white/[0.05] transition-all"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-accent-green to-emerald-400 text-black text-sm font-extrabold shadow-lg shadow-accent-green/20 hover:opacity-95"
+                className="px-8 py-3 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black text-sm font-black shadow-lg shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all ring-1 ring-white/20"
               >
                 Publish to Bazaar
               </button>
