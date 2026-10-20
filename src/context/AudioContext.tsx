@@ -35,8 +35,8 @@ interface AudioContextType {
 const AudioContext = createContext<AudioContextType | null>(null);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
-  const [beats, setBeats] = useState<Beat[]>([]);
-  const [activeBeat, setActiveBeat] = useState<Beat | null>(null);
+  const [beats, setBeats] = useState<Beat[]>(INITIAL_BEATS);
+  const [activeBeat, setActiveBeat] = useState<Beat | null>(INITIAL_BEATS[0] || null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);

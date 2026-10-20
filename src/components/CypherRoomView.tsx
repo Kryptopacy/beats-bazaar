@@ -57,6 +57,8 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat }: CypherRoomViewP
     return `${mins}:${remaining < 10 ? '0' : ''}${remaining}`;
   };
 
+  const dynamicGenres = ['All', ...Array.from(new Set(beats.map(b => b.genre)))];
+
   const cypherBeats = beats.filter(b => b.inCypher);
 
   return (
@@ -88,7 +90,7 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat }: CypherRoomViewP
             onChange={(e) => setSelectedGenre(e.target.value as any)}
             className="bg-[#0B0F12] border border-border text-white text-xs font-bold rounded-xl px-3 py-2 outline-none focus:border-accent-green"
           >
-            {GENRES.map((g) => (
+            {dynamicGenres.map((g) => (
               <option key={g} value={g}>{g}</option>
             ))}
           </select>
