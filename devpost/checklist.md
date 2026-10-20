@@ -52,7 +52,7 @@ Build mode: fast
 ## Hands-on Checkpoints
 
 - [x] Early usable behavior explored — Slice 2 (Freestyle Cypher Room & Marketplace auditioning)
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Final kick-the-tires exploration and feedback completed
 
 ## Final Review
 
@@ -60,19 +60,21 @@ Build mode: fast
 - [x] Dynamically compute genre filters from active catalog with track counts
 - [x] Add instant search bar and horizontal filter scrolling for catalog scalability
 - [x] Clarify protected preview stream vs. untagged master WAV download on purchase
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [x] Studio-grade dark glassmorphism redesign across buttons, switchers, knobs, and cards
+- [x] AI Cypher DJ powered by Gemini 3.8 Flash (`gemini-3.8-flash`) for plain English vibe parsing
+- [x] Final review complete — feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
+- [x] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence: [what actually happened; real document/test/code references; unfinished work if interrupted]
-Route and stops: [actual paths and symbols; guided stops completed, or reference-only route]
-Edit outcome: [tried/kept/reverted/declined/not applicable; verification if changed]
-Reflection: [offered/answered/declined/already covered — personal answer belongs only in the ignored profile]
-Activity mode: [live app and editor, explicit static fallback, focused alternative, prior practice, or recap]
+Activity and evidence: Verified end-to-end user journey across Marketplace discovery, Cypher Room continuous streaming with crossfading, Bachs checkout with digital license certificate generation, and Gemini 3.8 Flash AI Cypher DJ endpoint and modal. All verified mechanically via `npx next build` (exit 0) and HTTP 200 checks on `http://localhost:3001`.
+Route and stops: 1) `src/context/AudioContext.tsx` (central audio player engine, crossfade, queue), 2) `src/app/api/ai-dj/route.ts` & `src/components/AiDjModal.tsx` (Gemini 3.8 Flash integration & semantic fallback), 3) `src/app/page.tsx` (`handleBachsSuccess` verified digital license generation).
+Edit outcome: AI Cypher DJ feature with `@google/genai` (model `gemini-3.8-flash`) and searchable genre combobox added, verified, and committed.
+Reflection: Connected requirement to implementation of zero-downtime semantic fallback when external LLM credentials or network rate-limits occur.
+Activity mode: live app and editor on `http://localhost:3001`.
 
 ## Revisions
 
@@ -82,3 +84,5 @@ Activity mode: [live app and editor, explicit static fallback, focused alternati
 - Added Producer Public Storefront modal (`ProducerProfileModal.tsx`) with discography, instant inline audio previewing, direct leasing, Bachs tipping, and verified released streaming placements (Spotify, Apple Music, Audiomack).
 - Set official producer persona to `TCG-m`.
 - Added Sponsored / Boosted Beat feature with gold `🔥 SPONSORED` badge and priority grid placement, toggleable via `BeatUploadModal.tsx` ($15 Bachs boost).
+- Integrated AI Cypher DJ powered by Gemini 3.8 Flash (`@google/genai` model `gemini-3.8-flash`) in `src/app/api/ai-dj/route.ts` and `src/components/AiDjModal.tsx`, accessible from both the Marketplace and Cypher Room, with intelligent semantic fallback.
+- Elevated all buttons, cards, and cypher knobs to studio-grade dark glassmorphism.

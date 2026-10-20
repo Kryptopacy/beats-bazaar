@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beats Bazaar — Interactive App Map & Code Tour</title>
+  <style>
+    :root {
+      --bg: #0A0D12;
+      --card-bg: #121820;
+      --border: #222C38;
+      --text-main: #E2E8F0;
+      --text-muted: #94A3B8;
+      --accent-green: #00E599;
+      --accent-gold: #F5A623;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font);
+      line-height: 1.6;
+      padding: 2.5rem 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2rem;
+      margin-bottom: 2.5rem;
+    }
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      background: rgba(0, 229, 153, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(0, 229, 153, 0.3);
+    }
+    .lead {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-top: 0.75rem;
+      max-width: 48rem;
+    }
+    section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    p { margin-bottom: 1rem; color: var(--text-main); }
+    ul { list-style: none; }
+    li {
+      margin-bottom: 0.85rem;
+      padding-left: 1.25rem;
+      position: relative;
+    }
+    li::before {
+      content: "•";
+      color: var(--accent-green);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.45rem;
+      border-radius: 0.35rem;
+      color: #A5F3FC;
+    }
+    .diagram-container {
+      background: #090C10;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    svg text { font-family: var(--font); }
+    .route-card {
+      background: #0C1016;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .route-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      margin-bottom: 0.35rem;
+    }
+    .practice-box {
+      border-left: 4px solid var(--accent-green);
+      padding: 1rem 1.25rem;
+      background: rgba(0, 229, 153, 0.05);
+      border-radius: 0 0.75rem 0.75rem 0;
+      margin-top: 1rem;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>
+      Beats Bazaar
+      <span class="badge">App Map</span>
+    </h1>
+    <p class="lead">
+      Architectural blueprint and guided reference for the Global Beat Marketplace, 24/7 Freestyle Cypher Room, and Gemini 3.8 Flash AI Cypher DJ.
+    </p>
+  </header>
+
+  <!-- Overview -->
+  <section>
+    <h2>Platform Architecture &amp; Core Pillars</h2>
+    <p>
+      Beats Bazaar is built around two complementary creator experiences supported by instant monetization and artificial intelligence:
+    </p>
+    <ul>
+      <li><strong>Marketplace Surface (<code>src/components/MarketplaceView.tsx</code>):</strong> Catalog discovery for recording artists to audition protected previews, search across dynamic genres, explore verified producer storefronts, and license commercial rights.</li>
+      <li><strong>Freestyle Cypher Deck (<code>src/components/CypherRoomView.tsx</code>):</strong> Continuous, auto-advancing audio stream designed for live MC cyphers, jam sessions, and campus battles, featuring custom crossfade duration, waveform visualizer, and instant producer tipping.</li>
+      <li><strong>AI Cypher DJ (<code>src/components/AiDjModal.tsx</code> &amp; <code>src/app/api/ai-dj/route.ts</code>):</strong> Natural-language vibe interpreter powered by <strong>Gemini 3.8 Flash</strong> that translates plain English moods into matching catalog tracks with real-time DJ commentary.</li>
+      <li><strong>Monetization &amp; Licensing Engine (<code>src/components/BachsModal.tsx</code> &amp; <code>LicenseCertificateModal.tsx</code>):</strong> Dual fiat and crypto checkout delivering verified digital License Certificates and untagged master WAV downloads.</li>
+    </ul>
+  </section>
+
+  <!-- Interactive SVG Journey Diagram -->
+  <section>
+    <h2>Core User Journey Flow</h2>
+    <div class="diagram-container">
+      <svg viewBox="0 0 800 240" width="100%" height="240" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Step 1: Input -->
+        <rect x="20" y="70" width="160" height="90" rx="12" fill="#141B24" stroke="#00E599" stroke-width="2"/>
+        <text x="100" y="105" text-anchor="middle" fill="#FFFFFF" font-weight="bold" font-size="13">Artist / MC</text>
+        <text x="100" y="125" text-anchor="middle" fill="#94A3B8" font-size="11">Vibe Prompt or Search</text>
+        <text x="100" y="142" text-anchor="middle" fill="#00E599" font-size="10">"Heavy Amapiano 808s"</text>
+
+        <!-- Arrow 1 -->
+        <path d="M180 115 H 220" stroke="#00E599" stroke-width="2" marker-end="url(#arrow)"/>
+
+        <!-- Step 2: AI DJ & Engine -->
+        <rect x="225" y="70" width="170" height="90" rx="12" fill="#141B24" stroke="#F5A623" stroke-width="2"/>
+        <text x="310" y="105" text-anchor="middle" fill="#FFFFFF" font-weight="bold" font-size="13">Gemini 3.8 Flash</text>
+        <text x="310" y="125" text-anchor="middle" fill="#94A3B8" font-size="11">AI DJ Route / API</text>
+        <text x="310" y="142" text-anchor="middle" fill="#F5A623" font-size="10">Match &amp; Vibe Reasoning</text>
+
+        <!-- Arrow 2 -->
+        <path d="M395 115 H 435" stroke="#F5A623" stroke-width="2"/>
+
+        <!-- Step 3: Cypher & Marketplace -->
+        <rect x="440" y="70" width="160" height="90" rx="12" fill="#141B24" stroke="#00E599" stroke-width="2"/>
+        <text x="520" y="105" text-anchor="middle" fill="#FFFFFF" font-weight="bold" font-size="13">Cypher Deck</text>
+        <text x="520" y="125" text-anchor="middle" fill="#94A3B8" font-size="11">Continuous Streaming</text>
+        <text x="520" y="142" text-anchor="middle" fill="#00E599" font-size="10">Auto-Crossfade Active</text>
+
+        <!-- Arrow 3 -->
+        <path d="M600 115 H 635" stroke="#00E599" stroke-width="2"/>
+
+        <!-- Step 4: License & Settlement -->
+        <rect x="640" y="70" width="140" height="90" rx="12" fill="#141B24" stroke="#A5F3FC" stroke-width="2"/>
+        <text x="710" y="105" text-anchor="middle" fill="#FFFFFF" font-weight="bold" font-size="13">Checkout &amp; Grant</text>
+        <text x="710" y="125" text-anchor="middle" fill="#94A3B8" font-size="11">Master WAV Download</text>
+        <text x="710" y="142" text-anchor="middle" fill="#A5F3FC" font-size="10">Digital Certificate PDF</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Reference Code Route -->
+  <section>
+    <h2>Reference Code Route</h2>
+    <div class="route-card">
+      <h3>Stop 1: Audio Orchestration &amp; Playback Engine</h3>
+      <p><code>src/context/AudioContext.tsx</code> (anchor: <code>AudioProvider</code>)</p>
+      <p>Holds the central player state, dynamic audio element crossfade interpolation, track advancement timers, and catalog persistence in <code>localStorage</code>.</p>
+    </div>
+
+    <div class="route-card">
+      <h3>Stop 2: AI Cypher DJ &amp; Gemini 3.8 Flash Integration</h3>
+      <p><code>src/app/api/ai-dj/route.ts</code> (anchor: <code>POST</code>)</p>
+      <p>Invokes Google GenAI SDK with model <code>gemini-3.8-flash</code> to interpret user prompts against the beat metadata catalog, equipped with an automatic zero-downtime semantic fallback.</p>
+    </div>
+
+    <div class="route-card">
+      <h3>Stop 3: Verified Digital License Generation</h3>
+      <p><code>src/app/page.tsx</code> (anchor: <code>handleBachsSuccess</code>)</p>
+      <p>Assembles immutable digital legal certificates upon checkout verification, calculates exclusive buyout rights, and unlocks untagged master downloads.</p>
+    </div>
+  </section>
+
+  <!-- "To change this, start here" pointers -->
+  <section>
+    <h2>To Change This, Start Here</h2>
+    <ul>
+      <li><strong>Add or update seeded music catalog:</strong> Edit <code>src/data/seedBeats.ts</code> to add new producers, audio files, tempos, or tags.</li>
+      <li><strong>Modify crossfade curves or transitions:</strong> Edit <code>src/context/AudioContext.tsx</code> inside the <code>fadeTimer</code> handlers.</li>
+      <li><strong>Adjust Gemini AI prompts or JSON output structure:</strong> Edit <code>src/app/api/ai-dj/route.ts</code> inside <code>systemInstruction</code>.</li>
+      <li><strong>Customize commercial legal license terms:</strong> Edit <code>terms</code> definitions in <code>src/app/page.tsx</code>.</li>
+    </ul>
+  </section>
+
+  <!-- A Practice to Reuse -->
+  <section>
+    <h2>A Practice to Reuse: Resilient Model Fallbacks</h2>
+    <div class="practice-box">
+      <p><strong>Pattern:</strong> Graceful Degradation in Agentic / LLM Integrations.</p>
+      <p>
+        In <code>src/app/api/ai-dj/route.ts</code>, live calls to <code>gemini-3.8-flash</code> are wrapped with a deterministic local semantic keyword &amp; genre scoring fallback. When an API key is missing or network rate-limits occur during testing or hackathon judging, the platform seamlessly returns an intelligent recommendation without crashing the UI or returning a 500 error.
+      </p>
+      <p>
+        <strong>Reusability:</strong> Always design consumer AI features with a deterministic, local heuristic layer. This guarantees a smooth user experience across sandbox, offline, or demo environments.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Beats Bazaar • Build With AI: Basics • Tested on commit <code>f7b8c66</code> • Server port: <code>3001</code></p>
+  </footer>
+
+</body>
+</html>
