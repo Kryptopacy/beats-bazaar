@@ -85,8 +85,8 @@ export function ProducerProfileModal({
 
   const producerBeats = beats.filter(b => b.producer.toLowerCase() === producerName.toLowerCase());
   const meta = PRODUCER_BIOS[producerName] || {
-    bio: 'Independent music producer creating exceptional underground rhythms on Beats Bazaar.',
-    location: 'Global / Underground',
+    bio: 'Independent music producer creating exceptional rhythms on Beats Bazaar.',
+    location: 'Global',
     verified: true
   };
 

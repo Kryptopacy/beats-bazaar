@@ -8,7 +8,6 @@ import {
   Pause, 
   Disc3, 
   ShieldCheck, 
-  Zap, 
   Sparkles, 
   Search, 
   SlidersHorizontal, 
@@ -87,18 +86,14 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-surface to-[#1A222D] border border-border p-6 sm:p-10 shadow-2xl">
         <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-accent-green/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 max-w-3xl">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accent-green/10 border border-accent-green/30 text-accent-green text-xs font-semibold mb-4">
-            <Zap className="w-3.5 h-3.5" />
-            <span>Direct P2P Creator Marketplace • Instant Payouts</span>
-          </div>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
             The Global Beat Bazaar. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-green via-emerald-300 to-accent-gold">
               Own Master Rights. License Direct.
             </span>
           </h1>
-          <p className="mt-3 text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">
-            Where underground heat meets global reach. Audition protected previews, freestyle in the cypher, and legally license master rights directly from producers—with instant checkout across fiat (NGN, GHS, USD, EUR) and crypto.
+          <p className="mt-4 text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">
+            Connecting producers and artists worldwide. Audition tracks, jump into the live freestyle cypher room, and license master rights directly with instant checkout across fiat and crypto.
           </p>
         </div>
       </div>

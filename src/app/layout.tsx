@@ -3,8 +3,8 @@ import './globals.css';
 import { AudioProvider } from '@/context/AudioContext';
 
 export const metadata: Metadata = {
-  title: 'Beats Bazaar — Underground Beats. Direct Bag.',
-  description: 'The premier African and global marketplace & freestyle cypher hub for underground music producers and indie artists.',
+  title: 'Beats Bazaar — Global Beat Marketplace & Freestyle Cypher',
+  description: 'Connecting music producers and artists worldwide. Audition beats, jump into the live freestyle cypher room, and license master rights directly.',
 };
 
 export default function RootLayout({
