@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { WaveformVisualizer } from '@/components/WaveformVisualizer';
 import { Beat, Genre } from '@/types';
@@ -18,15 +18,18 @@ import {
   Volume2, 
   VolumeX, 
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Search,
+  ChevronDown,
+  Check,
+  SlidersHorizontal,
+  X
 } from 'lucide-react';
 
 interface CypherRoomViewProps {
   onTipProducer: (beat: Beat) => void;
   onLicenseBeat: (beat: Beat) => void;
 }
-
-const GENRES: (Genre | 'All')[] = ['All', 'Afrobeats', 'Amapiano', 'Afro-Drill', 'Hip Hop', 'Trap', 'R&B', 'Alté'];
 
 export function CypherRoomView({ onTipProducer, onLicenseBeat }: CypherRoomViewProps) {
   const {
@@ -51,50 +54,167 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat }: CypherRoomViewP
     beats
   } = useAudio();
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [genreSearch, setGenreSearch] = useState('');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const formatTime = (secs: number) => {
     const mins = Math.floor(secs / 60);
     const remaining = Math.floor(secs % 60);
     return `${mins}:${remaining < 10 ? '0' : ''}${remaining}`;
   };
 
-  const dynamicGenres = ['All', ...Array.from(new Set(beats.map(b => b.genre)))];
-
   const cypherBeats = beats.filter(b => b.inCypher);
+
+  // Dynamically compute all unique genres present in the cypher stream + track counts
+  const dynamicGenresWithCounts = [
+    { name: 'All', count: cypherBeats.length },
+    ...Array.from(new Set(cypherBeats.map(b => b.genre))).map(g => ({
+      name: g,
+      count: cypherBeats.filter(b => b.genre === g).length
+    }))
+  ];
+
+  const filteredDropdownGenres = dynamicGenresWithCounts.filter(g =>
+    g.name.toLowerCase().includes(genreSearch.toLowerCase().trim())
+  );
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-28">
       
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-2xl bg-surface border border-border shadow-xl">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-accent-gold/20 border border-accent-gold/40 flex items-center justify-center">
-            <Radio className="w-5 h-5 text-accent-yellow animate-pulse" />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-3xl bg-gradient-to-b from-[#141A23] via-[#0F141B] to-[#0A0D12] border border-white/[0.08] shadow-2xl relative">
+        <div className="flex items-center space-x-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent-gold/20 to-yellow-500/10 border border-accent-gold/30 flex items-center justify-center shadow-lg shadow-accent-gold/10">
+            <Radio className="w-6 h-6 text-accent-yellow animate-pulse" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
               <h2 className="text-xl font-black text-white tracking-tight">Freestyle Cypher Room</h2>
-              <span className="text-[10px] font-extrabold uppercase bg-red-500/10 text-red-400 border border-red-500/30 px-2 py-0.5 rounded-full flex items-center gap-1">
+              <span className="text-[10px] font-extrabold uppercase bg-red-500/10 text-red-400 border border-red-500/30 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shadow-sm">
                 <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
                 LIVE STREAM
               </span>
             </div>
-            <p className="text-xs text-gray-400">Infinite streaming beats for vocalists, MCs, and campus cyphers.</p>
+            <p className="text-xs text-gray-400 mt-0.5">Infinite streaming beats for vocalists, MCs, and campus cyphers.</p>
           </div>
         </div>
 
-        {/* Genre Selector */}
-        <div className="flex items-center space-x-2 w-full sm:w-auto">
-          <label className="text-xs text-gray-400 font-bold whitespace-nowrap">Filter Genre:</label>
-          <select
-            value={selectedGenre}
-            onChange={(e) => setSelectedGenre(e.target.value as any)}
-            className="bg-white/[0.04] backdrop-blur-md border border-white/[0.08] text-white text-xs font-bold rounded-full px-4 py-2.5 outline-none focus:border-accent-green focus:ring-2 focus:ring-accent-green/20 transition-all cursor-pointer"
+        {/* Scalable Searchable Genre Selector */}
+        <div className="relative w-full sm:w-auto" ref={dropdownRef}>
+          <button
+            type="button"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-full sm:w-auto flex items-center justify-between sm:justify-start space-x-2.5 px-4 py-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.18] text-white text-xs font-bold transition-all active:scale-95 shadow-sm"
           >
-            {dynamicGenres.map((g) => (
-              <option key={g} value={g} className="bg-[#141A22] text-white">{g}</option>
-            ))}
-          </select>
+            <div className="flex items-center space-x-2">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-accent-green" />
+              <span>Genre: <strong className="text-accent-green">{selectedGenre}</strong></span>
+            </div>
+            <div className="flex items-center space-x-1.5">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.08] text-gray-300 font-mono">
+                {selectedGenre === 'All' ? cypherBeats.length : cypherBeats.filter(b => b.genre === selectedGenre).length}
+              </span>
+              <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </div>
+          </button>
+
+          {/* Searchable Dropdown Popover */}
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-72 rounded-3xl bg-[#141A23]/95 backdrop-blur-2xl border border-white/[0.1] shadow-2xl p-3 z-50 animate-fadeIn">
+              {/* Search Input */}
+              <div className="relative mb-2.5">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                <input
+                  type="text"
+                  value={genreSearch}
+                  onChange={(e) => setGenreSearch(e.target.value)}
+                  placeholder={`Search ${dynamicGenresWithCounts.length - 1} genres...`}
+                  autoFocus
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-gray-500 outline-none focus:border-accent-green focus:ring-2 focus:ring-accent-green/20"
+                />
+                {genreSearch && (
+                  <button onClick={() => setGenreSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white p-1">
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+
+              {/* Genres List */}
+              <div className="max-h-60 overflow-y-auto space-y-1 scrollbar-thin pr-1">
+                {filteredDropdownGenres.length === 0 ? (
+                  <p className="text-[11px] text-gray-500 py-6 text-center">No genres match &quot;{genreSearch}&quot;</p>
+                ) : (
+                  filteredDropdownGenres.map((g) => {
+                    const isSelected = selectedGenre === g.name;
+                    return (
+                      <button
+                        key={g.name}
+                        type="button"
+                        onClick={() => {
+                          setSelectedGenre(g.name as any);
+                          setIsDropdownOpen(false);
+                          setGenreSearch('');
+                        }}
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all ${
+                          isSelected
+                            ? 'bg-gradient-to-r from-accent-green to-emerald-400 text-black shadow-sm font-black'
+                            : 'text-gray-300 hover:text-white hover:bg-white/[0.05]'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <span>{g.name}</span>
+                          {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                        </div>
+                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono ${
+                          isSelected ? 'bg-black/20 text-black font-black' : 'bg-white/[0.05] text-gray-400'
+                        }`}>
+                          {g.count}
+                        </span>
+                      </button>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          )}
         </div>
+      </div>
+
+      {/* Quick-Pick Horizontal Genre Chips (Scalable single-row scroll) */}
+      <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-thin">
+        {dynamicGenresWithCounts.map((g) => {
+          const isSelected = selectedGenre === g.name;
+          return (
+            <button
+              key={g.name}
+              onClick={() => setSelectedGenre(g.name as any)}
+              className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 active:scale-95 ${
+                isSelected
+                  ? 'bg-gradient-to-r from-accent-gold to-yellow-400 text-black shadow-md shadow-accent-gold/20 font-black'
+                  : 'bg-white/[0.03] hover:bg-white/[0.07] text-gray-400 hover:text-white border border-white/[0.06]'
+              }`}
+            >
+              <span>{g.name}</span>
+              <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                isSelected ? 'bg-black/20 text-black font-black' : 'bg-white/[0.06] text-gray-400'
+              }`}>
+                {g.count}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Main Cypher Deck */}
