@@ -19,7 +19,7 @@ Build mode: fast
   Learner check: Open `http://localhost:3000`, see the dark Beats Bazaar theme, and hit play on a seed beat to hear it audition cleanly in the player.
   Commit: `Initialize project and build marketplace with audio player`
 
-- [ ] **2. Freestyle Cypher Room with Infinite Play & Crossfade**
+- [x] **2. Freestyle Cypher Room with Infinite Play & Crossfade**
   Becomes usable: Switching to the Cypher Room tab presents the dedicated full-screen cypher deck with animated waveform visualizer, infinite stream auto-advance, genre filtering, shuffle mode, and optional smooth crossfade with customizable duration.
   Why now: Implements the unique kernel of Beats Bazaar early, proving seamless continuous beat streaming and transition controls for artists freestyling.
   PRD ref: `prd.md > 3. Freestyle Cypher Room Surface`, `prd.md > Audio Playback & Cypher Auto-Advance`
@@ -51,7 +51,7 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — Slice 2 (Freestyle Cypher Room & Marketplace auditioning)
+- [x] Early usable behavior explored — Slice 2 (Freestyle Cypher Room & Marketplace auditioning)
 - [ ] Final kick-the-tires exploration and feedback completed
 
 ## Final Review
