@@ -10,6 +10,7 @@ import { BeatUploadModal } from '@/components/BeatUploadModal';
 import { BachsModal } from '@/components/BachsModal';
 import { LicenseCertificateModal } from '@/components/LicenseCertificateModal';
 import { ProducerProfileModal } from '@/components/ProducerProfileModal';
+import { AiDjModal } from '@/components/AiDjModal';
 import { Beat, LicenseTier, LicenseCertificate } from '@/types';
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
   
   // Modals state
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [isAiDjOpen, setIsAiDjOpen] = useState(false);
   const [bachsState, setBachsState] = useState<{
     isOpen: boolean;
     mode: 'license' | 'tip';
@@ -111,11 +113,13 @@ export default function Home() {
               onLicenseBeat={(beat, tier) => handleOpenLicense(beat, tier)}
               onOpenUpload={() => setIsUploadOpen(true)}
               onSelectProducer={(prod) => setSelectedProducer(prod)}
+              onOpenAiDj={() => setIsAiDjOpen(true)}
             />
           ) : (
             <CypherRoomView 
               onTipProducer={(beat) => handleOpenTip(beat)}
               onLicenseBeat={(beat) => handleOpenLicense(beat, 'Standard Lease')}
+              onOpenAiDj={() => setIsAiDjOpen(true)}
             />
           )}
         </div>
@@ -127,6 +131,11 @@ export default function Home() {
       />
 
       {/* Modals */}
+      <AiDjModal
+        isOpen={isAiDjOpen}
+        onClose={() => setIsAiDjOpen(false)}
+      />
+
       <BeatUploadModal
         isOpen={isUploadOpen}
         onClose={() => setIsUploadOpen(false)}

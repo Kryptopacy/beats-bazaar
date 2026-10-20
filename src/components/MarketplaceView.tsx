@@ -26,9 +26,10 @@ interface MarketplaceViewProps {
   onLicenseBeat: (beat: Beat, tier: 'Standard Lease' | 'Exclusive Rights') => void;
   onOpenUpload: () => void;
   onSelectProducer: (producerName: string) => void;
+  onOpenAiDj?: () => void;
 }
 
-export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer }: MarketplaceViewProps) {
+export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer, onOpenAiDj }: MarketplaceViewProps) {
   const { 
     beats, 
     activeBeat, 
@@ -184,15 +185,29 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer 
         
         {/* Search & Metadata Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          <div className="relative flex-1 max-w-md group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-accent-green transition-colors" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by title, producer, genre, or tag (#sax, #club)..."
-              className="w-full bg-white/[0.03] backdrop-blur-md border border-white/[0.08] focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-white placeholder-gray-500 outline-none transition-all duration-200"
-            />
+          <div className="flex items-center gap-2.5 flex-1 max-w-xl">
+            <div className="relative flex-1 group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-accent-green transition-colors" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by title, producer, genre, or tag (#sax, #club)..."
+                className="w-full bg-white/[0.03] backdrop-blur-md border border-white/[0.08] focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-white placeholder-gray-500 outline-none transition-all duration-200"
+              />
+            </div>
+            {onOpenAiDj && (
+              <button
+                type="button"
+                onClick={onOpenAiDj}
+                className="flex items-center space-x-2 px-4 py-3 rounded-2xl bg-gradient-to-r from-accent-green/15 via-emerald-500/10 to-accent-green/5 border border-accent-green/30 hover:border-accent-green/60 text-accent-green hover:text-white text-xs sm:text-sm font-bold shadow-lg shadow-accent-green/10 hover:shadow-accent-green/20 transition-all duration-200 active:scale-95 whitespace-nowrap cursor-pointer"
+                title="Match vibe with AI Cypher DJ (Gemini 3.8 Flash)"
+              >
+                <Sparkles className="w-4 h-4 text-accent-green animate-pulse" />
+                <span className="hidden sm:inline">AI Vibe Match</span>
+                <span className="sm:hidden">AI Match</span>
+              </button>
+            )}
           </div>
 
           <div className="text-xs text-gray-400 font-medium self-center sm:self-auto px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">

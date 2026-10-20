@@ -29,9 +29,10 @@ import {
 interface CypherRoomViewProps {
   onTipProducer: (beat: Beat) => void;
   onLicenseBeat: (beat: Beat) => void;
+  onOpenAiDj?: () => void;
 }
 
-export function CypherRoomView({ onTipProducer, onLicenseBeat }: CypherRoomViewProps) {
+export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: CypherRoomViewProps) {
   const {
     activeBeat,
     isPlaying,
@@ -111,13 +112,27 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat }: CypherRoomViewP
           </div>
         </div>
 
-        {/* Scalable Searchable Genre Selector */}
-        <div className="relative w-full sm:w-auto" ref={dropdownRef}>
-          <button
-            type="button"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-full sm:w-auto flex items-center justify-between sm:justify-start space-x-2.5 px-4 py-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.18] text-white text-xs font-bold transition-all active:scale-95 shadow-sm"
-          >
+        {/* Actions & Scalable Searchable Genre Selector */}
+        <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+          {onOpenAiDj && (
+            <button
+              type="button"
+              onClick={onOpenAiDj}
+              className="flex items-center space-x-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-accent-green/20 via-emerald-500/15 to-accent-green/10 border border-accent-green/40 hover:border-accent-green/70 text-accent-green hover:text-white text-xs font-bold transition-all active:scale-95 shadow-sm shadow-accent-green/10 cursor-pointer"
+              title="Ask AI Cypher DJ to match a vibe"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-accent-green animate-pulse" />
+              <span>AI Cypher DJ</span>
+              <span className="text-[9px] font-mono font-extrabold uppercase bg-accent-green/20 text-accent-green px-1.5 py-0.5 rounded-full border border-accent-green/30">Gemini 3.8</span>
+            </button>
+          )}
+
+          <div className="relative flex-1 sm:flex-initial" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="w-full sm:w-auto flex items-center justify-between sm:justify-start space-x-2.5 px-4 py-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.18] text-white text-xs font-bold transition-all active:scale-95 shadow-sm cursor-pointer"
+            >
             <div className="flex items-center space-x-2">
               <SlidersHorizontal className="w-3.5 h-3.5 text-accent-green" />
               <span>Genre: <strong className="text-accent-green">{selectedGenre}</strong></span>
@@ -190,6 +205,7 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat }: CypherRoomViewP
             </div>
           )}
         </div>
+      </div>
       </div>
 
       {/* Quick-Pick Horizontal Genre Chips (Scalable single-row scroll) */}
