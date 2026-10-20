@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 import { MarketplaceView } from '@/components/MarketplaceView';
 import { CypherRoomView } from '@/components/CypherRoomView';
 import { BottomPlayerDock } from '@/components/BottomPlayerDock';
@@ -123,6 +124,11 @@ export default function Home() {
             />
           )}
         </div>
+
+        <Footer 
+          onOpenUpload={() => setIsUploadOpen(true)} 
+          onOpenAiDj={() => setIsAiDjOpen(true)} 
+        />
       </div>
 
       {/* Persistent Bottom Audio Player Dock */}

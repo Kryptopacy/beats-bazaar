@@ -1,0 +1,37 @@
+<svg viewBox="0 0 600 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logo-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E599" />
+      <stop offset="60%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="logo-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+    <linearGradient id="logo-plate" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#17212D" />
+      <stop offset="100%" stop-color="#0A0E13" />
+    </linearGradient>
+  </defs>
+
+  <!-- Emblem -->
+  <g transform="translate(15, 15)">
+    <rect x="0" y="0" width="120" height="120" rx="32" fill="url(#logo-plate)" stroke="url(#logo-emerald)" stroke-width="3" stroke-opacity="0.5" />
+    <circle cx="60" cy="60" r="46" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="1.5" stroke-dasharray="4 4" />
+    <circle cx="60" cy="60" r="34" stroke="#FFFFFF" stroke-opacity="0.06" stroke-width="1.5" stroke-dasharray="3 3" />
+    
+    <!-- Monogram -->
+    <rect x="34" y="32" width="9" height="56" rx="4.5" fill="url(#logo-emerald)" />
+    <path d="M43 36 C 62 36, 80 41, 80 52 C 80 61, 62 64, 43 64" stroke="url(#logo-emerald)" stroke-width="9" stroke-linecap="round" fill="none" />
+    <path d="M43 60 C 66 60, 88 64, 88 77 C 88 88, 66 92, 43 92" stroke="url(#logo-emerald)" stroke-width="9" stroke-linecap="round" fill="none" />
+    <polygon points="58,54 70,60 58,66" fill="url(#logo-gold)" />
+    <circle cx="98" cy="40" r="4" fill="#00E599" />
+    <circle cx="102" cy="52" r="3" fill="#FBBF24" />
+  </g>
+
+  <!-- Typography -->
+  <text x="160" y="78" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="46" letter-spacing="-1">BEATS</text>
+  <text x="320" y="78" fill="url(#logo-emerald)" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="46" letter-spacing="-1">BAZAAR</text>
+  <text x="162" y="108" fill="#9CA3AF" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="14" letter-spacing="4">BEAT MARKETPLACE &amp; 24/7 CYPHER ROOM</text>
+</svg>

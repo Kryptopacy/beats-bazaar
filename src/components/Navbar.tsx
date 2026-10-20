@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useAudio } from '@/context/AudioContext';
+import { Logo } from '@/components/Logo';
 import { Music2, Mic2, PlusCircle, Radio, Sparkles } from 'lucide-react';
 
 interface NavbarProps {
@@ -15,12 +16,13 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
     <header className="sticky top-0 z-40 w-full border-b border-white/[0.06] bg-[#0B0F12]/80 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Brand */}
-        <div className="flex items-center space-x-3 cursor-pointer group" onClick={() => setActiveSurface('marketplace')}>
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-accent-green to-emerald-400 flex items-center justify-center shadow-lg shadow-accent-green/20 group-hover:scale-105 transition-transform duration-200 ring-1 ring-white/20">
-            <Music2 className="w-5 h-5 text-black font-black" />
-          </div>
-          <span className="text-xl font-black tracking-tight text-white group-hover:text-accent-green transition-colors">Beats Bazaar</span>
+        {/* Brand Logo */}
+        <div 
+          className="cursor-pointer group py-1" 
+          onClick={() => setActiveSurface('marketplace')}
+          title="Beats Bazaar Home"
+        >
+          <Logo size="sm" showWordmark={true} />
         </div>
 
         {/* Surface Switcher Tabs (Sleek Glass Segmented Pill) */}

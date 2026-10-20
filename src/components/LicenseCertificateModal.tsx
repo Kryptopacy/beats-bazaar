@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { LicenseCertificate } from '@/types';
+import { Logo } from '@/components/Logo';
 import { X, Download, Printer, ShieldCheck, Award, Sparkles, CheckCircle2 } from 'lucide-react';
 
 interface LicenseCertificateModalProps {
@@ -63,6 +64,15 @@ export function LicenseCertificateModal({
         {/* Certificate Document Card */}
         <div className="mt-6 p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/[0.08] space-y-6 font-sans">
           
+          {/* Brand Seal Header */}
+          <div className="flex items-center justify-between border-b border-border/80 pb-4">
+            <Logo size="sm" showWordmark={true} />
+            <div className="text-right">
+              <span className="text-[10px] uppercase font-bold text-gray-500 tracking-wider">OFFICIAL SEAL</span>
+              <p className="text-xs text-amber-400 font-bold">DIGITALLY NOTARIZED</p>
+            </div>
+          </div>
+
           {/* Certificate Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/80 pb-4">
             <div>
