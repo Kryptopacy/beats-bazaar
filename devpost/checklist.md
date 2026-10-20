@@ -39,7 +39,7 @@ Build mode: fast
   Learner check: Click "+ Drop a Beat", upload an audio file with custom pricing, and see it appear live in your catalog and playable in the cypher room.
   Commit: `Add producer beat upload modal with live catalog updating`
 
-- [ ] **4. Inline Bachs Checkout & Digital License Certificate Grant**
+- [x] **4. Inline Bachs Checkout & Digital License Certificate Grant**
   Becomes usable: The complete end-to-end monetization loop. Clicking "Tip Beatmaker" or "License This Beat" (or licensing from the Marketplace) launches the inline Bachs payment modal (fiat/crypto). Confirming payment unlocks untagged master audio download and generates a verifiable, printable digital License Certificate with unique ID, timestamp, and legal rights. If Exclusive is bought, the beat is marked "SOLD".
   Why now: Closes the monetization and licensing loop—the core business promise for artists and African producers.
   PRD ref: `prd.md > 5. Bachs Inline Payment Modal`, `prd.md > 6. License Certificate & Download Modal`, `prd.md > Licensing & Bachs Inline Modal`, `prd.md > Digital License Certificate`
