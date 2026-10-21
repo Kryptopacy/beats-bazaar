@@ -20,24 +20,24 @@ export function Logo({
     sm: { icon: 38, font: 'text-base', sub: 'text-[10px]', gap: 'space-x-2.5' },
     md: { icon: 48, font: 'text-xl', sub: 'text-[11px]', gap: 'space-x-3' },
     lg: { icon: 64, font: 'text-2xl', sub: 'text-xs', gap: 'space-x-3.5' },
-    xl: { icon: 88, font: 'text-4xl', sub: 'text-sm', gap: 'space-x-4' }
+    xl: { icon: 84, font: 'text-4xl', sub: 'text-sm', gap: 'space-x-4' }
   };
 
   const current = sizeMap[size];
 
   return (
     <div className={`inline-flex items-center ${current.gap} select-none group ${className}`}>
-      {/* Official Master Certification Plaque Emblem */}
+      {/* Authentic 3D Master Certification Plaque (True Transparent Background) */}
       <div 
-        className={`relative flex-shrink-0 transition-all duration-300 group-hover:scale-105 ${
-          glow ? 'drop-shadow-[0_0_20px_rgba(245,158,11,0.25)]' : ''
+        className={`relative flex-shrink-0 transition-transform duration-300 group-hover:scale-105 ${
+          glow ? 'drop-shadow-[0_0_20px_rgba(0,229,153,0.35)]' : ''
         }`}
         style={{ width: current.icon, height: current.icon }}
       >
         <img
-          src="/logo-mark.png"
-          alt="Beats Bazaar"
-          className="w-full h-full object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
+          src="/icon-512.png"
+          alt="Beats Bazaar Master Plaque"
+          className="w-full h-full object-contain pointer-events-none select-none"
         />
       </div>
 
@@ -53,8 +53,8 @@ export function Logo({
             </span>
           </div>
           <div className="flex items-center space-x-1.5 mt-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse shadow-sm shadow-amber-400/50" />
-            <span className={`${current.sub} font-bold uppercase tracking-[0.22em] text-gray-400`}>
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-green animate-pulse shadow-sm shadow-accent-green/50" />
+            <span className={`${current.sub} font-black uppercase tracking-[0.22em] text-gray-400`}>
               CERTIFIED MASTER RIGHTS
             </span>
           </div>
