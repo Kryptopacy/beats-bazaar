@@ -35,7 +35,7 @@ export function Logo({
         style={{ width: current.icon, height: current.icon }}
       >
         <img
-          src="/logo-plaque.png"
+          src="/logo-plaque.png?v=3"
           alt="Beats Bazaar Master Plaque"
           width={current.icon}
           height={current.icon}
