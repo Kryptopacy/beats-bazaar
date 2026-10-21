@@ -1,3 +1,4 @@
 <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <image href="/icon-512.png" x="0" y="0" width="512" height="512" />
+  <!-- Official 3D Master Certification Plaque -->
+  <image href="/logo-plaque.png" width="512" height="512" preserveAspectRatio="xMidYMid meet" />
 </svg>
