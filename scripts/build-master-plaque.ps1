@@ -40,56 +40,75 @@ $bevelPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(100, 
 $g.DrawPath($bevelPen, $sqPath)
 $bevelPen.Dispose()
 
-# 3. Flawlessly Heal the Entire 360-Degree Outer Gold Band (Radius 269 to 314)
-# Cover the full natural width of the band from inner groove to outer bevel, eliminating all old text.
-$bandInner = 269.0
-$bandOuter = 314.0
-$bandMid = ($bandInner + $bandOuter) / 2.0 # 291.5
+# 3. Flawlessly Heal the Entire 360-Degree Outer Gold Band (Radius 257.5 to 315.0)
+# Covers every pixel of original text using full Cartesian iteration (zero angular gaps, zero ghosting)
+$bandInner = 257.5
+$bandOuter = 315.0
+$bandMid = ($bandInner + $bandOuter) / 2.0 # 286.25
 
-Write-Output "Reconstructing seamless 360-degree brushed gold band from radius $bandInner to $bandOuter..."
-$step = 0.25
-for ($deg = 0.0; $deg -lt 360.0; $deg += $step) {
+Write-Output "Pre-calculating radial azimuth colors from pristine vinyl tracks (r=236..251)..."
+$angleColors = New-Object 'int[,]' 3600, 3
+for ($i = 0; $i -lt 3600; $i++) {
+    $deg = $i / 10.0
     $rad = $deg * [math]::PI / 180.0
     $cos = [math]::Cos($rad)
     $sin = [math]::Sin($rad)
 
-    # Sample average clean gold from the inner vinyl tracks (radius 238..253)
     $rTot = 0; $gTot = 0; $bTot = 0
-    $samples = @(238, 243, 248, 253)
-    foreach ($sr in $samples) {
+    $sampleRadii = @(236, 241, 246, 251)
+    foreach ($sr in $sampleRadii) {
         $c = $master.GetPixel([int]($cx + $sr * $cos), [int]($cy + $sr * $sin))
         $rTot += $c.R; $gTot += $c.G; $bTot += $c.B
     }
-    $avgR = [int]($rTot / $samples.Length)
-    $avgG = [int]($gTot / $samples.Length)
-    $avgB = [int]($bTot / $samples.Length)
+    $angleColors[$i, 0] = [int]($rTot / $sampleRadii.Length)
+    $angleColors[$i, 1] = [int]($gTot / $sampleRadii.Length)
+    $angleColors[$i, 2] = [int]($bTot / $sampleRadii.Length)
+}
 
-    # Radial brushed shading: inner edge has subtle shadow, outer has specular highlight
-    for ($r = [int]$bandInner; $r -le [int]$bandOuter; $r++) {
-        $t = ($r - $bandInner) / ($bandOuter - $bandInner) # 0.0 to 1.0
-        $factor = 0.94 + 0.12 * $t
-        $groove = 1.0 + 0.025 * [math]::Sin($r * 2.5)
+Write-Output "Cartesian pixel replacement across radius $bandInner to $bandOuter..."
+$minY = [int][math]::Floor($cy - $bandOuter - 2)
+$maxY = [int][math]::Ceiling($cy + $bandOuter + 2)
+$minX = [int][math]::Floor($cx - $bandOuter - 2)
+$maxX = [int][math]::Ceiling($cx + $bandOuter + 2)
 
-        $pixR = [math]::Min(255, [math]::Max(0, [int]($avgR * $factor * $groove)))
-        $pixG = [math]::Min(255, [math]::Max(0, [int]($avgG * $factor * $groove)))
-        $pixB = [math]::Min(255, [math]::Max(0, [int]($avgB * $factor * $groove)))
+for ($y = $minY; $y -le $maxY; $y++) {
+    $dy = $y - $cy
+    for ($x = $minX; $x -le $maxX; $x++) {
+        $dx = $x - $cx
+        $r = [math]::Sqrt($dx * $dx + $dy * $dy)
+        if ($r -ge $bandInner -and $r -le $bandOuter) {
+            $angleRad = [math]::Atan2($dy, $dx)
+            $angleDeg = $angleRad * 180.0 / [math]::PI
+            if ($angleDeg -lt 0) { $angleDeg += 360.0 }
 
-        $px = [int]($cx + $r * $cos)
-        $py = [int]($cy + $r * $sin)
-        $canvas.SetPixel($px, $py, [System.Drawing.Color]::FromArgb(255, $pixR, $pixG, $pixB))
+            $idx = ([int][math]::Round($angleDeg * 10.0)) % 3600
+            $baseR = $angleColors[$idx, 0]
+            $baseG = $angleColors[$idx, 1]
+            $baseB = $angleColors[$idx, 2]
+
+            $t = ($r - $bandInner) / ($bandOuter - $bandInner)
+            $factor = 0.93 + 0.14 * $t
+            $groove = 1.0 + 0.02 * [math]::Sin($r * 2.8)
+
+            $pixR = [math]::Min(255, [math]::Max(0, [int]($baseR * $factor * $groove)))
+            $pixG = [math]::Min(255, [math]::Max(0, [int]($baseG * $factor * $groove)))
+            $pixB = [math]::Min(255, [math]::Max(0, [int]($baseB * $factor * $groove)))
+
+            $canvas.SetPixel($x, $y, [System.Drawing.Color]::FromArgb(255, $pixR, $pixG, $pixB))
+        }
     }
 }
 
 # Precision Boundary Grooves & Chamfers for the Gold Band
-$innerGroovePen1 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(180, 50, 35, 15), 1.8)
-$innerGroovePen2 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(120, 255, 235, 190), 1.0)
+$innerGroovePen1 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(220, 45, 30, 10), 2.0)
+$innerGroovePen2 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(140, 255, 240, 200), 1.0)
 $g.DrawEllipse($innerGroovePen1, [float]($cx - $bandInner), [float]($cy - $bandInner), [float]($bandInner * 2), [float]($bandInner * 2))
-$g.DrawEllipse($innerGroovePen2, [float]($cx - ($bandInner + 1)), [float]($cy - ($bandInner + 1)), [float](($bandInner + 1) * 2), [float](($bandInner + 1) * 2))
+$g.DrawEllipse($innerGroovePen2, [float]($cx - ($bandInner + 1.2)), [float]($cy - ($bandInner + 1.2)), [float](($bandInner + 1.2) * 2), [float](($bandInner + 1.2) * 2))
 $innerGroovePen1.Dispose()
 $innerGroovePen2.Dispose()
 
-$outerGroovePen1 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(200, 255, 245, 215), 1.2)
-$outerGroovePen2 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(140, 45, 30, 12), 1.0)
+$outerGroovePen1 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(220, 255, 245, 215), 1.5)
+$outerGroovePen2 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(160, 40, 25, 10), 1.0)
 $g.DrawEllipse($outerGroovePen1, [float]($cx - ($bandOuter - 0.5)), [float]($cy - ($bandOuter - 0.5)), [float](($bandOuter - 0.5) * 2), [float](($bandOuter - 0.5) * 2))
 $g.DrawEllipse($outerGroovePen2, [float]($cx - ($bandOuter + 0.5)), [float]($cy - ($bandOuter + 0.5)), [float](($bandOuter + 0.5) * 2), [float](($bandOuter + 0.5) * 2))
 $outerGroovePen1.Dispose()
