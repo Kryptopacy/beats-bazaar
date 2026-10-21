@@ -16,21 +16,21 @@ export function Logo({
   glow = true
 }: LogoProps) {
   const sizeMap = {
-    xs: { icon: 26, font: 'text-sm', sub: 'text-[9px]', gap: 'space-x-2' },
-    sm: { icon: 34, font: 'text-base', sub: 'text-[10px]', gap: 'space-x-2.5' },
-    md: { icon: 44, font: 'text-xl', sub: 'text-[11px]', gap: 'space-x-3' },
-    lg: { icon: 56, font: 'text-2xl', sub: 'text-xs', gap: 'space-x-3.5' },
-    xl: { icon: 76, font: 'text-4xl', sub: 'text-sm', gap: 'space-x-4' }
+    xs: { icon: 28, font: 'text-sm', sub: 'text-[9px]', gap: 'space-x-2' },
+    sm: { icon: 36, font: 'text-base', sub: 'text-[10px]', gap: 'space-x-2.5' },
+    md: { icon: 46, font: 'text-xl', sub: 'text-[11px]', gap: 'space-x-3' },
+    lg: { icon: 60, font: 'text-2xl', sub: 'text-xs', gap: 'space-x-3.5' },
+    xl: { icon: 80, font: 'text-4xl', sub: 'text-sm', gap: 'space-x-4' }
   };
 
   const current = sizeMap[size];
 
   return (
     <div className={`inline-flex items-center ${current.gap} select-none group ${className}`}>
-      {/* High-Precision Audiophile Hardware Emblem */}
+      {/* Official Master Certification Plaque Emblem */}
       <div 
         className={`relative flex-shrink-0 transition-all duration-300 group-hover:scale-105 ${
-          glow ? 'drop-shadow-[0_0_20px_rgba(0,229,153,0.35)]' : ''
+          glow ? 'drop-shadow-[0_0_22px_rgba(245,158,11,0.3)]' : ''
         }`}
         style={{ width: current.icon, height: current.icon }}
       >
@@ -41,119 +41,151 @@ export function Logo({
           className="w-full h-full"
         >
           <defs>
-            {/* Aerospace Titanium Base Plate Gradient */}
-            <linearGradient id="bb-chassis-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#1E2836" />
-              <stop offset="50%" stopColor="#111721" />
-              <stop offset="100%" stopColor="#080C10" />
+            {/* Heavy Anodized Obsidian Plaque Base */}
+            <linearGradient id="plaque-base" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#1C2430" />
+              <stop offset="40%" stopColor="#10151E" />
+              <stop offset="100%" stopColor="#070A0E" />
             </linearGradient>
 
-            {/* Neon Cyber Emerald Core */}
-            <linearGradient id="bb-emerald-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#34D399" />
-              <stop offset="40%" stopColor="#00E599" />
-              <stop offset="100%" stopColor="#059669" />
+            {/* 24K Brushed Gold Plaque Rim */}
+            <linearGradient id="plaque-gold-rim" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FDE68A" />
+              <stop offset="30%" stopColor="#F59E0B" />
+              <stop offset="70%" stopColor="#B45309" />
+              <stop offset="100%" stopColor="#78350F" />
             </linearGradient>
 
-            {/* Warm Studio Analog Gold */}
-            <linearGradient id="bb-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FDE047" />
-              <stop offset="50%" stopColor="#F59E0B" />
-              <stop offset="100%" stopColor="#D97706" />
+            {/* Circular Master Vinyl Disc (Gold Stamper Core) */}
+            <radialGradient id="master-disc-grad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FEF3C7" />
+              <stop offset="45%" stopColor="#F59E0B" />
+              <stop offset="85%" stopColor="#92400E" />
+              <stop offset="100%" stopColor="#451A03" />
+            </radialGradient>
+
+            {/* Cyber Emerald Soundwave Core */}
+            <linearGradient id="plaque-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#6EE7B7" />
+              <stop offset="50%" stopColor="#00E599" />
+              <stop offset="100%" stopColor="#047857" />
             </linearGradient>
 
-            {/* Outer Chamfer Edge Stroke */}
-            <linearGradient id="bb-bevel-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.3" />
-              <stop offset="50%" stopColor="#00E599" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#000000" stopOpacity="0.8" />
+            {/* Hex Bolt Hardware Texture */}
+            <linearGradient id="bolt-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FDE68A" />
+              <stop offset="100%" stopColor="#78350F" />
             </linearGradient>
 
-            {/* Ambient Radial Core Light */}
-            <radialGradient id="bb-ambient-glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#00E599" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#00E599" stopOpacity="0" />
+            {/* Radial Plaque Ambient Lighting */}
+            <radialGradient id="plaque-ambient" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.25" />
+              <stop offset="70%" stopColor="#00E599" stopOpacity="0.1" />
+              <stop offset="100%" stopColor="#000000" stopOpacity="0" />
             </radialGradient>
           </defs>
 
-          {/* Outer Squircle Chassis */}
+          {/* 1. Heavy Heavy Milled Plaque Chassis */}
           <rect
-            x="4"
-            y="4"
-            width="92"
-            height="92"
-            rx="24"
-            fill="url(#bb-chassis-grad)"
-            stroke="url(#bb-bevel-stroke)"
-            strokeWidth="1.5"
+            x="3"
+            y="3"
+            width="94"
+            height="94"
+            rx="14"
+            fill="url(#plaque-base)"
+            stroke="url(#plaque-gold-rim)"
+            strokeWidth="1.75"
           />
 
-          {/* Precision Hardware Inset Groove */}
+          {/* Inset Laser-Engraved Security Frame */}
           <rect
-            x="8"
-            y="8"
-            width="84"
-            height="84"
-            rx="20"
+            x="7.5"
+            y="7.5"
+            width="85"
+            height="85"
+            rx="10"
             fill="none"
-            stroke="#000000"
-            strokeWidth="2"
-            strokeOpacity="0.6"
+            stroke="#FFFFFF"
+            strokeOpacity="0.12"
+            strokeWidth="1"
           />
+          <rect
+            x="9.5"
+            y="9.5"
+            width="81"
+            height="81"
+            rx="8.5"
+            fill="none"
+            stroke="url(#plaque-gold-rim)"
+            strokeOpacity="0.4"
+            strokeWidth="0.75"
+            strokeDasharray="4 2"
+          />
+
+          {/* 2. Four Precision Industrial Gold Corner Hex-Bolts */}
+          {/* Top-Left */}
+          <circle cx="12.5" cy="12.5" r="3" fill="url(#bolt-grad)" />
+          <circle cx="12.5" cy="12.5" r="1.5" fill="#10151E" />
+          {/* Top-Right */}
+          <circle cx="87.5" cy="12.5" r="3" fill="url(#bolt-grad)" />
+          <circle cx="87.5" cy="12.5" r="1.5" fill="#10151E" />
+          {/* Bottom-Left */}
+          <circle cx="12.5" cy="87.5" r="3" fill="url(#bolt-grad)" />
+          <circle cx="12.5" cy="87.5" r="1.5" fill="#10151E" />
+          {/* Bottom-Right */}
+          <circle cx="87.5" cy="87.5" r="3" fill="url(#bolt-grad)" />
+          <circle cx="87.5" cy="87.5" r="1.5" fill="#10151E" />
 
           {/* Ambient Lighting Field */}
-          <circle cx="50" cy="50" r="38" fill="url(#bb-ambient-glow)" />
+          <circle cx="50" cy="50" r="36" fill="url(#plaque-ambient)" />
 
-          {/* Vinyl Soundwave Concentric Precision Rings */}
-          <circle cx="50" cy="50" r="36" stroke="#FFFFFF" strokeOpacity="0.08" strokeWidth="0.8" strokeDasharray="3 3" />
-          <circle cx="50" cy="50" r="26" stroke="#FFFFFF" strokeOpacity="0.06" strokeWidth="0.8" strokeDasharray="2 2" />
+          {/* 3. Centerpiece: 24K Gold Master Record Stamper Disc */}
+          <circle cx="50" cy="50" r="33" fill="url(#master-disc-grad)" stroke="url(#plaque-gold-rim)" strokeWidth="1.2" />
 
-          {/* Sculptural "BB" Soundwave Monolith */}
-          {/* Main Vertical Frequency Spine */}
+          {/* Vinyl Audio Concentric Precision Sound Grooves */}
+          <circle cx="50" cy="50" r="29" stroke="#000000" strokeOpacity="0.3" strokeWidth="0.6" strokeDasharray="5 2" />
+          <circle cx="50" cy="50" r="25" stroke="#FFFFFF" strokeOpacity="0.15" strokeWidth="0.5" strokeDasharray="4 3" />
+          <circle cx="50" cy="50" r="21" stroke="#000000" strokeOpacity="0.25" strokeWidth="0.5" strokeDasharray="3 2" />
+
+          {/* Outer Certification Security Run-Out Ring */}
+          <circle cx="50" cy="50" r="31" stroke="#FEF3C7" strokeOpacity="0.35" strokeWidth="0.6" strokeDasharray="2 2" />
+
+          {/* 4. Sculptural "BB" Soundwave Monogram on Master Disc */}
+          {/* Vertical Equalizer Frequency Spine */}
           <path
-            d="M 24 24 C 24 20.686 26.686 18 30 18 C 33.314 18 36 20.686 36 24 V 76 C 36 79.314 33.314 82 30 82 C 26.686 82 24 79.314 24 76 Z"
-            fill="url(#bb-emerald-grad)"
+            d="M 27 27 C 27 24.238 29.238 22 32 22 C 34.762 22 37 24.238 37 27 V 73 C 37 75.762 34.762 78 32 78 C 29.238 78 27 75.762 27 73 Z"
+            fill="url(#plaque-emerald)"
+            filter="drop-shadow(0 2px 4px rgba(0,0,0,0.6))"
           />
 
-          {/* Upper Resonator Wave Chamber (Top 'B') */}
+          {/* Upper Wave Resonator (Top 'B') */}
           <path
-            d="M 36 22 H 56 C 68.15 22 76 29.85 76 40 C 76 48.2 70.8 54.8 62 56 C 53.5 54 44 52 36 50 Z"
-            fill="url(#bb-emerald-grad)"
-            fillOpacity="0.9"
+            d="M 37 25 H 54 C 64 25 71 31 71 39 C 71 46 66 50.5 58 51.5 C 50 50 42 48.5 37 47 Z"
+            fill="url(#plaque-emerald)"
+            filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"
           />
 
-          {/* Lower Resonator Wave Chamber (Bottom 'B') */}
+          {/* Lower Wave Resonator (Bottom 'B') */}
           <path
-            d="M 36 48 C 46 48 58 50 66 52 C 76.5 54.5 82 62.5 82 71 C 82 80 73 82 58 82 H 36 Z"
-            fill="url(#bb-emerald-grad)"
+            d="M 37 46 C 44 46 54 47.5 61 49 C 70 51 75 58 75 65 C 75 73 67 75 55 75 H 37 Z"
+            fill="url(#plaque-emerald)"
+            filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"
           />
 
-          {/* Precision Laser-Etched Sound Ports (Negative Space Cavities) */}
-          <path
-            d="M 44 30 H 54 C 61 30 65 34 65 39 C 65 44 61 46 54 46 H 44 Z"
-            fill="#0A0E13"
-          />
-          <path
-            d="M 44 56 H 56 C 64 56 69 61 69 67 C 69 73 64 76 56 76 H 44 Z"
-            fill="#0A0E13"
-          />
+          {/* Precision Laser-Etched Sound Ports */}
+          <path d="M 43 32 H 52 C 57 32 61 35 61 39 C 61 43 57 45 52 45 H 43 Z" fill="#1A130B" />
+          <path d="M 43 53 H 54 C 60 53 64 57 64 62 C 64 67 60 69 54 69 H 43 Z" fill="#1A130B" />
 
-          {/* Analog Gold Transducer Prism (Golden Playhead Core) */}
-          <polygon
-            points="48,34 56,39 48,44"
-            fill="url(#bb-gold-grad)"
-          />
-          <polygon
-            points="48,62 58,67 48,72"
-            fill="url(#bb-gold-grad)"
-          />
+          {/* Master Stamper Diamond Prisms */}
+          <polygon points="46,35 53,39 46,43" fill="#FDE68A" />
+          <polygon points="46,58 55,62 46,66" fill="#FDE68A" />
 
-          {/* Dynamic LED VU-Meter Level Indicators on Spine */}
-          <circle cx="30" cy="28" r="1.5" fill="#FFFFFF" />
-          <circle cx="30" cy="38" r="1.5" fill="#34D399" />
-          <circle cx="30" cy="48" r="1.5" fill="#00E599" />
-          <circle cx="30" cy="58" r="1.5" fill="#FBBF24" />
-          <circle cx="30" cy="68" r="1.5" fill="#F59E0B" />
+          {/* Studio Proof-of-Work VU Meter Indicators */}
+          <circle cx="32" cy="30" r="1.3" fill="#FFFFFF" />
+          <circle cx="32" cy="40" r="1.3" fill="#6EE7B7" />
+          <circle cx="32" cy="50" r="1.3" fill="#00E599" />
+          <circle cx="32" cy="60" r="1.3" fill="#FDE68A" />
+          <circle cx="32" cy="70" r="1.3" fill="#F59E0B" />
         </svg>
       </div>
 
@@ -169,9 +201,9 @@ export function Logo({
             </span>
           </div>
           <div className="flex items-center space-x-1.5 mt-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-green animate-pulse" />
-            <span className={`${current.sub} font-bold uppercase tracking-[0.2em] text-gray-400`}>
-              MARKET &amp; CYPHER
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse shadow-sm shadow-amber-400/50" />
+            <span className={`${current.sub} font-black uppercase tracking-[0.22em] text-gray-400`}>
+              CERTIFIED MASTER RIGHTS
             </span>
           </div>
         </div>
