@@ -5,6 +5,13 @@
 .env
 .env.*
 !.env.example
+# Local test artifacts and logs
+*.log
+*.txt
+*.json
+.cdp-*
+e2e-*.png
+
 # Node / Next.js
 node_modules/
 .next/
