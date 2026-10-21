@@ -40,25 +40,60 @@ $bevelPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(100, 
 $g.DrawPath($bevelPen, $sqPath)
 $bevelPen.Dispose()
 
-# 3. Heal the Old Rim Text Track (Radius 286 to 324)
-# We sample clean radial gold from the lower disc (angle 90 deg) and reconstruct the clean gold ring
-$rimInner = 286
-$rimOuter = 324
-$rimWidth = $rimOuter - $rimInner
+# 3. Flawlessly Heal the Entire 360-Degree Outer Gold Band (Radius 269 to 314)
+# Cover the full natural width of the band from inner groove to outer bevel, eliminating all old text.
+$bandInner = 269.0
+$bandOuter = 314.0
+$bandMid = ($bandInner + $bandOuter) / 2.0 # 291.5
 
-# Create a clean gold circular track overlay with the radial brushed gradient
-$goldTrackPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(235, 215, 192, 138), $rimWidth)
-$trackRadius = ($rimInner + $rimOuter) / 2.0
-$g.DrawEllipse($goldTrackPen, [float]($cx - $trackRadius), [float]($cy - $trackRadius), [float]($trackRadius * 2), [float]($trackRadius * 2))
-$goldTrackPen.Dispose()
+Write-Output "Reconstructing seamless 360-degree brushed gold band from radius $bandInner to $bandOuter..."
+$step = 0.25
+for ($deg = 0.0; $deg -lt 360.0; $deg += $step) {
+    $rad = $deg * [math]::PI / 180.0
+    $cos = [math]::Cos($rad)
+    $sin = [math]::Sin($rad)
 
-# Draw micro-groove separator lines
-$groovePen1 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(80, 110, 85, 45), 1.5)
-$groovePen2 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(60, 255, 255, 255), 1.0)
-$g.DrawEllipse($groovePen1, [float]($cx - $rimInner), [float]($cy - $rimInner), [float]($rimInner * 2), [float]($rimInner * 2))
-$g.DrawEllipse($groovePen2, [float]($cx - $rimOuter), [float]($cy - $rimOuter), [float]($rimOuter * 2), [float]($rimOuter * 2))
-$groovePen1.Dispose()
-$groovePen2.Dispose()
+    # Sample average clean gold from the inner vinyl tracks (radius 238..253)
+    $rTot = 0; $gTot = 0; $bTot = 0
+    $samples = @(238, 243, 248, 253)
+    foreach ($sr in $samples) {
+        $c = $master.GetPixel([int]($cx + $sr * $cos), [int]($cy + $sr * $sin))
+        $rTot += $c.R; $gTot += $c.G; $bTot += $c.B
+    }
+    $avgR = [int]($rTot / $samples.Length)
+    $avgG = [int]($gTot / $samples.Length)
+    $avgB = [int]($bTot / $samples.Length)
+
+    # Radial brushed shading: inner edge has subtle shadow, outer has specular highlight
+    for ($r = [int]$bandInner; $r -le [int]$bandOuter; $r++) {
+        $t = ($r - $bandInner) / ($bandOuter - $bandInner) # 0.0 to 1.0
+        $factor = 0.94 + 0.12 * $t
+        $groove = 1.0 + 0.025 * [math]::Sin($r * 2.5)
+
+        $pixR = [math]::Min(255, [math]::Max(0, [int]($avgR * $factor * $groove)))
+        $pixG = [math]::Min(255, [math]::Max(0, [int]($avgG * $factor * $groove)))
+        $pixB = [math]::Min(255, [math]::Max(0, [int]($avgB * $factor * $groove)))
+
+        $px = [int]($cx + $r * $cos)
+        $py = [int]($cy + $r * $sin)
+        $canvas.SetPixel($px, $py, [System.Drawing.Color]::FromArgb(255, $pixR, $pixG, $pixB))
+    }
+}
+
+# Precision Boundary Grooves & Chamfers for the Gold Band
+$innerGroovePen1 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(180, 50, 35, 15), 1.8)
+$innerGroovePen2 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(120, 255, 235, 190), 1.0)
+$g.DrawEllipse($innerGroovePen1, [float]($cx - $bandInner), [float]($cy - $bandInner), [float]($bandInner * 2), [float]($bandInner * 2))
+$g.DrawEllipse($innerGroovePen2, [float]($cx - ($bandInner + 1)), [float]($cy - ($bandInner + 1)), [float](($bandInner + 1) * 2), [float](($bandInner + 1) * 2))
+$innerGroovePen1.Dispose()
+$innerGroovePen2.Dispose()
+
+$outerGroovePen1 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(200, 255, 245, 215), 1.2)
+$outerGroovePen2 = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(140, 45, 30, 12), 1.0)
+$g.DrawEllipse($outerGroovePen1, [float]($cx - ($bandOuter - 0.5)), [float]($cy - ($bandOuter - 0.5)), [float](($bandOuter - 0.5) * 2), [float](($bandOuter - 0.5) * 2))
+$g.DrawEllipse($outerGroovePen2, [float]($cx - ($bandOuter + 0.5)), [float]($cy - ($bandOuter + 0.5)), [float](($bandOuter + 0.5) * 2), [float](($bandOuter + 0.5) * 2))
+$outerGroovePen1.Dispose()
+$outerGroovePen2.Dispose()
 
 # 4. Render Deep-Engraved Crown Text around the gold rim
 function Draw-CurvedText {
@@ -116,24 +151,24 @@ $secEngraveBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::
 
 # Fonts
 $fontFamily = New-Object System.Drawing.FontFamily("Arial")
-$crownFont = New-Object System.Drawing.Font($fontFamily, 19, [System.Drawing.FontStyle]::Bold)
-$secFont   = New-Object System.Drawing.Font($fontFamily, 14, [System.Drawing.FontStyle]::Bold)
+$crownFont = New-Object System.Drawing.Font($fontFamily, 17, [System.Drawing.FontStyle]::Bold)
+$secFont   = New-Object System.Drawing.Font($fontFamily, 13, [System.Drawing.FontStyle]::Bold)
 
-# 4A. TOP-CENTER CROWN: "BEATS BAZAAR" at 12 o'clock (centerAngle = 0 deg, spread = 38 deg)
-Draw-CurvedText -graphics $g -text "BEATS BAZAAR" -radius 305 -centerAngleDeg 0.0 -spreadDeg 36.0 -font $crownFont -fillBrush $darkEngraveBrush -shadowBrush $shadowEngraveBrush
+# 4A. TOP-CENTER CROWN: "BEATS BAZAAR" at 12 o'clock (centerAngle = 0 deg, spread = 36 deg)
+Draw-CurvedText -graphics $g -text "BEATS BAZAAR" -radius $bandMid -centerAngleDeg 0.0 -spreadDeg 36.0 -font $crownFont -fillBrush $darkEngraveBrush -shadowBrush $shadowEngraveBrush
 
-# 4B. LEFT CURVE: "VERIFIED MASTER" curving upward toward BEATS BAZAAR (centerAngle = -42 deg, spread = 36 deg)
-Draw-CurvedText -graphics $g -text "VERIFIED MASTER" -radius 305 -centerAngleDeg -42.0 -spreadDeg 38.0 -font $secFont -fillBrush $secEngraveBrush -shadowBrush $shadowEngraveBrush
+# 4B. LEFT CURVE: "VERIFIED MASTER" curving upward toward BEATS BAZAAR (centerAngle = -42 deg, spread = 38 deg)
+Draw-CurvedText -graphics $g -text "VERIFIED MASTER" -radius $bandMid -centerAngleDeg -42.0 -spreadDeg 38.0 -font $secFont -fillBrush $secEngraveBrush -shadowBrush $shadowEngraveBrush
 
-# 4C. RIGHT CURVE: "LEGAL RIGHTS" curving upward toward BEATS BAZAAR (centerAngle = 42 deg, spread = 32 deg)
-Draw-CurvedText -graphics $g -text "LEGAL RIGHTS" -radius 305 -centerAngleDeg 42.0 -spreadDeg 34.0 -font $secFont -fillBrush $secEngraveBrush -shadowBrush $shadowEngraveBrush
+# 4C. RIGHT CURVE: "LEGAL RIGHTS" curving upward toward BEATS BAZAAR (centerAngle = 42 deg, spread = 34 deg)
+Draw-CurvedText -graphics $g -text "LEGAL RIGHTS" -radius $bandMid -centerAngleDeg 42.0 -spreadDeg 34.0 -font $secFont -fillBrush $secEngraveBrush -shadowBrush $shadowEngraveBrush
 
 # Separator Bullets
 $bulletBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 180, 140, 60))
-$g.FillEllipse($bulletBrush, [float]($cx + 305 * [math]::Cos(-64 * [math]::PI / 180) - 3), [float]($cy + 305 * [math]::Sin(-64 * [math]::PI / 180) - 3), 6, 6)
-$g.FillEllipse($bulletBrush, [float]($cx + 305 * [math]::Cos(-21 * [math]::PI / 180) - 3), [float]($cy + 305 * [math]::Sin(-21 * [math]::PI / 180) - 3), 6, 6)
-$g.FillEllipse($bulletBrush, [float]($cx + 305 * [math]::Cos(21 * [math]::PI / 180) - 3), [float]($cy + 305 * [math]::Sin(21 * [math]::PI / 180) - 3), 6, 6)
-$g.FillEllipse($bulletBrush, [float]($cx + 305 * [math]::Cos(61 * [math]::PI / 180) - 3), [float]($cy + 305 * [math]::Sin(61 * [math]::PI / 180) - 3), 6, 6)
+$g.FillEllipse($bulletBrush, [float]($cx + $bandMid * [math]::Cos(-64 * [math]::PI / 180) - 3), [float]($cy + $bandMid * [math]::Sin(-64 * [math]::PI / 180) - 3), 6, 6)
+$g.FillEllipse($bulletBrush, [float]($cx + $bandMid * [math]::Cos(-21 * [math]::PI / 180) - 3), [float]($cy + $bandMid * [math]::Sin(-21 * [math]::PI / 180) - 3), 6, 6)
+$g.FillEllipse($bulletBrush, [float]($cx + $bandMid * [math]::Cos(21 * [math]::PI / 180) - 3), [float]($cy + $bandMid * [math]::Sin(21 * [math]::PI / 180) - 3), 6, 6)
+$g.FillEllipse($bulletBrush, [float]($cx + $bandMid * [math]::Cos(64 * [math]::PI / 180) - 3), [float]($cy + $bandMid * [math]::Sin(64 * [math]::PI / 180) - 3), 6, 6)
 
 # 5. Bold, High-Contrast Center "BB" Sound Chamber (Radius 136)
 # Draw the dark obsidian sound well plate for rich contrast against the gold vinyl
