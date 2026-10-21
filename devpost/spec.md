@@ -172,3 +172,7 @@ beats_bazaar/
 * **Learner Decision:** Duplicate `.env.example` directly into `.env` so environment variables are pre-staged for immediate use.
 * **Learner Decision:** Use Markdown review format throughout planning.
 * **Uncertainty Resolved:** Confirmed that the Bachs checkout operates as an inline modal directly on the page, keeping the user in the app without redirects.
+
+## Sharing and Repository Instructions
+* **Public GitHub Repository:** [https://github.com/Kryptopacy/beats-bazaar](https://github.com/Kryptopacy/beats-bazaar)
+* **Demo Video Target:** 2-minute walkthrough showcasing Marketplace browsing, 24/7 Cypher Room crossfading, native AI DJ Bazza curation, and Bachs checkout with instant untagged master WAV licensing.
