@@ -160,93 +160,172 @@ $haloPen1.Dispose()
 $haloPen2.Dispose()
 $haloPen3.Dispose()
 
-# 6. Render the EXACT Mirrored Double "BB" Geometry from the First Image, made BOLD & PROMINENT
-# Scale factor from 192 to 1024 is ~5.33x
-# Center is (512, 512). The emblem spans width ~170px, height ~160px.
-$bbPenGlow = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(160, 0, 229, 153), 14.0)
-$bbPenGlow.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
-$bbPenGlow.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-
-$bbPenMain = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 0, 229, 153), 8.5)
-$bbPenMain.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
-$bbPenMain.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-
-$bbPenCore = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 110, 231, 183), 4.0)
-$bbPenCore.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
-$bbPenCore.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-
-# Central Vertical Audio Frequency Divider Stem
-$stemX = 512.0
-$stemTop = 440.0
-$stemBottom = 584.0
-
-# Function to draw a path with glow, main, and core pens
-function Draw-BBPath {
-    param([System.Drawing.Drawing2D.GraphicsPath]$p)
-    $g.DrawPath($bbPenGlow, $p)
-    $g.DrawPath($bbPenMain, $p)
-    $g.DrawPath($bbPenCore, $p)
+# Helper function to create geometric 'B' lobe paths with smooth rounded corners
+function Create-BLobePath {
+    param(
+        [float]$stemX,
+        [float]$topY,
+        [float]$botY,
+        [float]$reachX,
+        [float]$cornerR
+    )
+    $path = New-Object System.Drawing.Drawing2D.GraphicsPath
+    $path.AddLine([float]$stemX, [float]$topY, [float]($reachX - $cornerR), [float]$topY)
+    $path.AddArc([float]($reachX - 2 * $cornerR), [float]$topY, [float](2 * $cornerR), [float](2 * $cornerR), -90, 90)
+    $path.AddLine([float]$reachX, [float]($topY + $cornerR), [float]$reachX, [float]($botY - $cornerR))
+    $path.AddArc([float]($reachX - 2 * $cornerR), [float]($botY - 2 * $cornerR), [float](2 * $cornerR), [float](2 * $cornerR), 0, 90)
+    $path.AddLine([float]($reachX - $cornerR), [float]$botY, [float]$stemX, [float]$botY)
+    return $path
 }
 
-# Stem
-$stemPath = New-Object System.Drawing.Drawing2D.GraphicsPath
-$stemPath.AddLine([float]$stemX, [float]$stemTop, [float]$stemX, [float]$stemBottom)
-Draw-BBPath -p $stemPath
-$stemPath.Dispose()
+# 6. Render the INTERLOCKING DUAL-B SOUND EXCHANGE (Emerald "Beats" + 24k Gold "Bazaar")
+# Forward-facing 'B' and 'B' interlocking like an audio loop and trading exchange
+$topY = 437.0
+$midY = 512.0
+$botY = 587.0
+$stemW = 16.0
+$loopStroke = 10.0
+$cornerR = 26.0
 
-# Right 'B' Upper Resonator Loop
-$rTop = New-Object System.Drawing.Drawing2D.GraphicsPath
-$rTop.AddBezier(512.0, 442.0, 565.0, 442.0, 588.0, 465.0, 588.0, 488.0)
-$rTop.AddBezier(588.0, 505.0, 565.0, 512.0, 512.0, 512.0, 512.0, 512.0)
-Draw-BBPath -p $rTop
-$rTop.Dispose()
+# B1 (Beats, Cyber Emerald):
+$b1StemCenter = 430.5
+$b1StemLeft = $b1StemCenter - ($stemW / 2)
+$b1StemRight = $b1StemCenter + ($stemW / 2)
+$b1Reach = 522.5
 
-# Right 'B' Lower Resonator Loop
-$rBot = New-Object System.Drawing.Drawing2D.GraphicsPath
-$rBot.AddBezier(512.0, 512.0, 570.0, 512.0, 594.0, 524.0, 594.0, 548.0)
-$rBot.AddBezier(594.0, 570.0, 565.0, 584.0, 512.0, 584.0, 512.0, 584.0)
-Draw-BBPath -p $rBot
-$rBot.Dispose()
+# B2 (Bazaar, 24k Gold):
+$b2StemCenter = 502.5
+$b2StemLeft = $b2StemCenter - ($stemW / 2)
+$b2StemRight = $b2StemCenter + ($stemW / 2)
+$b2Reach = 594.5
 
-# Left Mirrored 'B' Upper Resonator Loop
-$lTop = New-Object System.Drawing.Drawing2D.GraphicsPath
-$lTop.AddBezier(512.0, 442.0, 459.0, 442.0, 436.0, 465.0, 436.0, 488.0)
-$lTop.AddBezier(436.0, 505.0, 459.0, 512.0, 512.0, 512.0, 512.0, 512.0)
-Draw-BBPath -p $lTop
-$lTop.Dispose()
+# Emerald Pens & Brushes
+$emGlow = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(150, 0, 229, 153), 16.0)
+$emGlow.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+$emGlow.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
+$emMain = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 0, 229, 153), $loopStroke)
+$emMain.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+$emMain.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
+$emCore = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 167, 243, 208), 3.0)
+$emCore.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+$emCore.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
+$emStemBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 0, 229, 153))
 
-# Left Mirrored 'B' Lower Resonator Loop
-$lBot = New-Object System.Drawing.Drawing2D.GraphicsPath
-$lBot.AddBezier(512.0, 512.0, 454.0, 512.0, 430.0, 524.0, 430.0, 548.0)
-$lBot.AddBezier(430.0, 570.0, 459.0, 584.0, 512.0, 584.0, 512.0, 584.0)
-Draw-BBPath -p $lBot
-$lBot.Dispose()
+# Gold Pens & Brushes
+$goldGlow = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(150, 245, 158, 11), 16.0)
+$goldGlow.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+$goldGlow.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
+$goldMain = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 245, 158, 11), $loopStroke)
+$goldMain.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+$goldMain.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
+$goldCore = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 254, 243, 199), 3.0)
+$goldCore.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+$goldCore.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
+$goldStemBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 245, 158, 11))
 
-# Acoustic Rib Lines inside each lobe (as seen in the original image ASCII scan)
-$ribPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(220, 253, 230, 138), 3.0)
-# Right ribs
-$g.DrawLine($ribPen, 542.0, 464.0, 558.0, 464.0)
-$g.DrawLine($ribPen, 542.0, 488.0, 564.0, 488.0)
-$g.DrawLine($ribPen, 542.0, 536.0, 566.0, 536.0)
-$g.DrawLine($ribPen, 542.0, 560.0, 560.0, 560.0)
+# Deep Drop Shadow Pen for the Interlocking Overlap
+$shadowPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 8, 11, 14), 16.0)
+$shadowPen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+$shadowPen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
 
-# Left ribs
-$g.DrawLine($ribPen, 482.0, 464.0, 466.0, 464.0)
-$g.DrawLine($ribPen, 482.0, 488.0, 460.0, 488.0)
-$g.DrawLine($ribPen, 482.0, 536.0, 458.0, 536.0)
-$g.DrawLine($ribPen, 482.0, 560.0, 464.0, 560.0)
-$ribPen.Dispose()
+# Construct Lobe Paths
+$b1Top = Create-BLobePath -stemX $b1StemRight -topY $topY -botY $midY -reachX $b1Reach -cornerR $cornerR
+$b1Bot = Create-BLobePath -stemX $b1StemRight -topY $midY -botY $botY -reachX $b1Reach -cornerR $cornerR
+$b2Top = Create-BLobePath -stemX $b2StemRight -topY $topY -botY $midY -reachX $b2Reach -cornerR $cornerR
+$b2Bot = Create-BLobePath -stemX $b2StemRight -topY $midY -botY $botY -reachX $b2Reach -cornerR $cornerR
 
-# Center Playhead Diamond
-$diamondBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 255, 255, 255))
-$diamondPts = @(
-    (New-Object System.Drawing.PointF(512.0, 502.0)),
-    (New-Object System.Drawing.PointF(520.0, 512.0)),
-    (New-Object System.Drawing.PointF(512.0, 522.0)),
-    (New-Object System.Drawing.PointF(504.0, 512.0))
+# WEAVING SEQUENCE:
+# 1. Underneath layer: B2 (Gold) Bottom Loop
+$g.DrawPath($goldGlow, $b2Bot)
+$g.DrawPath($goldMain, $b2Bot)
+$g.DrawPath($goldCore, $b2Bot)
+
+# 2. Underneath layer: B1 (Emerald) Top Loop
+$g.DrawPath($emGlow, $b1Top)
+$g.DrawPath($emMain, $b1Top)
+$g.DrawPath($emCore, $b1Top)
+
+# 3. B1 (Emerald) Stem with Equalizer Cutouts
+$b1StemRect = New-Object System.Drawing.RectangleF([float]$b1StemLeft, [float]$topY, [float]$stemW, [float]($botY - $topY))
+$g.FillRectangle($emStemBrush, $b1StemRect)
+$eqBg = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 12, 16, 18))
+for ($k = 0; $k -lt 5; $k++) {
+    $ny = $topY + 16.0 + ($k * 26.0)
+    $g.FillRectangle($eqBg, [float]($b1StemLeft - 1), [float]$ny, [float]($stemW * 0.45), 4.0)
+    $led = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 255, 255, 255))
+    $g.FillRectangle($led, [float]($b1StemLeft + 2), [float]($ny + 1), 3.0, 2.0)
+    $led.Dispose()
+}
+
+# 4. WEAVE OVER: B2 (Gold) Top Loop weaves OVER B1 (with shadow)
+$g.DrawPath($shadowPen, $b2Top)
+$g.DrawPath($goldGlow, $b2Top)
+$g.DrawPath($goldMain, $b2Top)
+$g.DrawPath($goldCore, $b2Top)
+
+# 5. B2 (Gold) Stem with Equalizer Cutouts (shadow behind where B1 loops pass)
+$b2StemRect = New-Object System.Drawing.RectangleF([float]$b2StemLeft, [float]$topY, [float]$stemW, [float]($botY - $topY))
+$g.FillRectangle($shadowPen.Brush, [float]($b2StemLeft - 2), [float]$topY, [float]($stemW + 4), [float]($botY - $topY))
+$g.FillRectangle($goldStemBrush, $b2StemRect)
+for ($k = 0; $k -lt 5; $k++) {
+    $ny = $topY + 16.0 + ($k * 26.0)
+    $g.FillRectangle($eqBg, [float]($b2StemRight - ($stemW * 0.45)), [float]$ny, [float]($stemW * 0.45 + 1), 4.0)
+    $led = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 255, 255, 255))
+    $g.FillRectangle($led, [float]($b2StemRight - 5), [float]($ny + 1), 3.0, 2.0)
+    $led.Dispose()
+}
+
+# 6. WEAVE OVER: B1 (Emerald) Bottom Loop weaves OVER B2 (with shadow)
+$g.DrawPath($shadowPen, $b1Bot)
+$g.DrawPath($emGlow, $b1Bot)
+$g.DrawPath($emMain, $b1Bot)
+$g.DrawPath($emCore, $b1Bot)
+
+# 7. Acoustic Wave Frequency Bars inside loops
+$emRib = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(200, 0, 229, 153), 2.5)
+$g.DrawLine($emRib, 456.0, 466.0, 490.0, 466.0)
+$g.DrawLine($emRib, 456.0, 484.0, 500.0, 484.0)
+$g.DrawLine($emRib, 456.0, 540.0, 500.0, 540.0)
+$g.DrawLine($emRib, 456.0, 558.0, 490.0, 558.0)
+$emRib.Dispose()
+
+$goldRib = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(200, 245, 158, 11), 2.5)
+$g.DrawLine($goldRib, 528.0, 466.0, 562.0, 466.0)
+$g.DrawLine($goldRib, 528.0, 484.0, 572.0, 484.0)
+$g.DrawLine($goldRib, 528.0, 540.0, 572.0, 540.0)
+$g.DrawLine($goldRib, 528.0, 558.0, 562.0, 558.0)
+$goldRib.Dispose()
+
+# 8. Center Exchange Playhead Diamond at intersection (512, 512)
+$dShadow = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(220, 6, 8, 10))
+$dPtsShadow = @(
+    (New-Object System.Drawing.PointF(512.0, 499.0)),
+    (New-Object System.Drawing.PointF(525.0, 512.0)),
+    (New-Object System.Drawing.PointF(512.0, 525.0)),
+    (New-Object System.Drawing.PointF(499.0, 512.0))
 )
-$g.FillPolygon($diamondBrush, $diamondPts)
-$diamondBrush.Dispose()
+$g.FillPolygon($dShadow, $dPtsShadow)
+$dShadow.Dispose()
+
+$dBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 255, 255, 255))
+$dPts = @(
+    (New-Object System.Drawing.PointF(512.0, 503.0)),
+    (New-Object System.Drawing.PointF(521.0, 512.0)),
+    (New-Object System.Drawing.PointF(512.0, 521.0)),
+    (New-Object System.Drawing.PointF(503.0, 512.0))
+)
+$g.FillPolygon($dBrush, $dPts)
+$dBrush.Dispose()
+
+$dot = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 0, 229, 153))
+$g.FillEllipse($dot, 510.0, 510.0, 4.0, 4.0)
+$dot.Dispose()
+
+# Clean up emblem paths and brushes
+$b1Top.Dispose(); $b1Bot.Dispose(); $b2Top.Dispose(); $b2Bot.Dispose()
+$shadowPen.Dispose(); $eqBg.Dispose(); $emStemBrush.Dispose(); $goldStemBrush.Dispose()
+$emGlow.Dispose(); $emMain.Dispose(); $emCore.Dispose()
+$goldGlow.Dispose(); $goldMain.Dispose(); $goldCore.Dispose()
 
 # 7. Save 1024 Master Transparent Plaque
 $canvas.Save("$publicDir\logo-plaque.png", [System.Drawing.Imaging.ImageFormat]::Png)
