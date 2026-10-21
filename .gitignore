@@ -11,6 +11,7 @@
 *.json
 .cdp-*
 e2e-*.png
+recordings/
 
 # Node / Next.js
 node_modules/
