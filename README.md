@@ -125,6 +125,15 @@ npm start
 
 ---
 
+## Post-Hackathon Roadmap
+
+* **Weekly Bazza Cover Contests & "Headliner" Rep:** Producers deposit beats into a community challenge pool with a mandatory lyrical constraint (a required word or phrase). Every week, Bazza selects one beat and drops the public challenge. Artists record and submit their 60-second freestyle takes, and community voting crowns that week's **Headliner** (earning permanent profile rep, top marketplace spotlight visibility, free master leases, and sponsored studio prizes).
+* **Multi-Track Studio Stem Packages:** Expand the digital rights engine to deliver zipped multi-track WAV stems (separated 808s, kicks, snares, and melodies) for full DAW mix sessions.
+* **Persistent Producer Accounts & Cloud Database:** Transition from seed catalog to PostgreSQL / Supabase with creator analytics, play metrics, and discography management.
+* **Live Fiat & Crypto Merchant Settlement via Bachs:** Seamless creator withdrawals without traditional regional payment barriers.
+
+---
+
 ## Architecture & Process Documentation
 
 This project was built following the Devpost Learn Skill Pack specifications:

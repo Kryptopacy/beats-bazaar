@@ -71,7 +71,7 @@ Beats Bazaar unites independent beat commerce with interactive cypher performanc
 
 ## What's next for Beats Bazaar
 
+- **Weekly Bazza Cover Contests & "Headliner" Rep**: Producers deposit beats into a challenge pool with a mandatory lyrical constraint (a required word or phrase like "No Gree" or "Midnight Drift"). Every week, Bazza selects one beat and drops the public challenge. Vocalists and rappers submit their 60-second takes, and the community votes to crown that week's **Headliner**, earning the top marketplace spotlight banner, free master lease rights, and sponsored cash or studio prizes.
 - **Persistent Producer Accounts & Cloud Backend**: Migrate from in-memory seed state to a persistent database (PostgreSQL / Supabase) with creator authentication, allowing producers to manage their storefronts, track plays, and view sales analytics across sessions.
 - **Multi-Track Studio Stem Packages**: Expand the license delivery engine to support zipped multi-track audio stems (separated kicks, snares, 808s, and melodies) so artists purchasing Exclusive Buyouts can take full tracks into professional studio mixing sessions.
 - **Live Payment Settlement via Bachs**: Transition from client-side checkout simulation to live merchant settlement in fiat and crypto, giving underground African and international beatmakers a frictionless way to withdraw directly to local bank accounts or crypto wallets without traditional Stripe/PayPal regional restrictions.
-- **Scheduled Community Cypher Hours**: Introduce scheduled live listening sessions/freestyle contests where the Cypher Room showcases top boosted producer tracks at specific times, paired with a live text chat for producers and MCs to connect in real time.
