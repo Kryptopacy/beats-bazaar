@@ -8,7 +8,7 @@
   [![Live Demo](https://img.shields.io/badge/Live%20Demo-beatsbazaar.vercel.app-00E599?style=for-the-badge&logo=vercel&logoColor=white)](https://beatsbazaar.vercel.app)
   [![Next.js 16](https://img.shields.io/badge/Next.js-16.4-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
   [![React 19](https://img.shields.io/badge/React-19.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-  [![Google Gemini](https://img.shields.io/badge/AI%20DJ-Google%20Gemini%203.8%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+  [![Bazza](https://img.shields.io/badge/Bazza-Google%20Gemini%203.8%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
   [![Web Audio API](https://img.shields.io/badge/Audio%20Engine-Web%20Audio%20API-F59E0B?style=for-the-badge&logo=webassembly&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
   [![PWA Ready](https://img.shields.io/badge/PWA-Installable%20Offline-00E599?style=for-the-badge&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 

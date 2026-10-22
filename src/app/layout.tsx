@@ -37,14 +37,14 @@ export const metadata: Metadata = {
     default: 'Beats Bazaar | The Global Beat Marketplace & 24/7 Freestyle Cypher Room',
     template: '%s | Beats Bazaar'
   },
-  description: 'The global beat marketplace and 24/7 freestyle cypher room. Direct legal licensing with untagged master WAVs, live crossfading cyphers, and native AI DJ Bazza.',
+  description: 'The global beat marketplace and 24/7 freestyle cypher room. Direct legal licensing with untagged master WAVs, live crossfading cyphers, and resident sound selector Bazza.',
   keywords: [
     'Beats Marketplace',
     'Freestyle Cypher Room',
     'Music Producers',
     'Beat Licensing',
     'Untagged Master WAV',
-    'AI DJ Bazza',
+    'Bazza Sound Selector',
     'Afrobeats',
     'Trap Beats',
     'Hip-Hop',
@@ -94,7 +94,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: 'Beats Bazaar',
     title: 'Beats Bazaar | The Global Beat Marketplace & 24/7 Freestyle Cypher Room',
-    description: 'Direct legal licensing with untagged master WAV delivery, live crossfading cyphers, and native AI DJ Bazza.',
+    description: 'Direct legal licensing with untagged master WAV delivery, live crossfading cyphers, and resident sound selector Bazza.',
     images: [
       {
         url: '/og-image.png?v=5',
@@ -107,7 +107,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Beats Bazaar | The Global Beat Marketplace & 24/7 Freestyle Cypher Room',
-    description: 'Direct legal licensing with untagged master WAV delivery, live crossfading cyphers, and native AI DJ Bazza.',
+    description: 'Direct legal licensing with untagged master WAV delivery, live crossfading cyphers, and resident sound selector Bazza.',
     images: ['/og-image.png?v=5'],
     creator: '@beatsbazaar',
   },
