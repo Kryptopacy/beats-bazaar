@@ -9,7 +9,18 @@ const inter = Inter({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://beatsbazaar.com';
+const rawSiteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL || 'https://beatsbazaar.com';
+const siteUrl = rawSiteUrl.startsWith('http://') || rawSiteUrl.startsWith('https://')
+  ? rawSiteUrl.replace(/\/+$/, '')
+  : `https://${rawSiteUrl.replace(/\/+$/, '')}`;
+
+const getMetadataBase = (): URL => {
+  try {
+    return new URL(siteUrl);
+  } catch {
+    return new URL('https://beatsbazaar.com');
+  }
+};
 
 export const viewport: Viewport = {
   themeColor: '#0A0D12',
@@ -20,7 +31,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: getMetadataBase(),
   title: {
     default: 'Beats Bazaar | The Global Beat Marketplace & 24/7 Freestyle Cypher Room',
     template: '%s | Beats Bazaar'
