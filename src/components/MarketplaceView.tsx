@@ -426,12 +426,12 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                 </div>
 
                 {/* Right Side: Like & Licensing Actions */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between md:justify-end gap-2.5 sm:gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-white/[0.06] flex-shrink-0">
-                  <div className="flex items-center justify-between sm:justify-start space-x-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between md:justify-end gap-3 sm:gap-4 pt-3 md:pt-0 border-t md:border-t-0 border-white/[0.06] flex-shrink-0">
+                  <div className="flex items-center justify-between sm:justify-start gap-2.5">
                     <button
                       type="button"
                       onClick={() => toggleLikeBeat(currentSponsoredBeat.id)}
-                      className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl border text-xs font-bold transition-all cursor-pointer active:scale-95 ${
+                      className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl border text-xs font-bold transition-all cursor-pointer active:scale-95 flex-shrink-0 ${
                         likedBeatIds.includes(currentSponsoredBeat.id)
                           ? 'bg-rose-500/15 border-rose-500/40 text-rose-400 shadow-sm shadow-rose-500/10'
                           : 'bg-white/[0.04] border-white/[0.08] text-gray-400 hover:text-white'
@@ -447,11 +447,11 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
+                  <div className="grid grid-cols-2 sm:flex sm:items-center gap-2.5">
                     <button
                       type="button"
                       onClick={() => onLicenseBeat(currentSponsoredBeat, 'Standard Lease')}
-                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-white text-xs font-bold transition-all active:scale-95 cursor-pointer text-center"
+                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-white text-xs font-bold transition-all active:scale-95 cursor-pointer text-center whitespace-nowrap"
                     >
                       Lease (${currentSponsoredBeat.leasePrice})
                     </button>
@@ -459,7 +459,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                     <button
                       type="button"
                       onClick={() => onLicenseBeat(currentSponsoredBeat, 'Exclusive Rights')}
-                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black text-xs font-black shadow-lg shadow-amber-500/20 hover:brightness-105 active:scale-95 transition-all cursor-pointer text-center"
+                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black text-xs font-black shadow-lg shadow-amber-500/20 hover:brightness-105 active:scale-95 transition-all cursor-pointer text-center whitespace-nowrap"
                     >
                       Buyout (${currentSponsoredBeat.exclusivePrice})
                     </button>
@@ -654,7 +654,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
 
                   {/* Card Top */}
                   <div className="p-5">
-                    <div className="flex items-start justify-between space-x-4">
+                    <div className="flex items-start justify-between gap-3">
                       {/* Visualizer Thumbnail */}
                       <div 
                         className="w-20 h-20 rounded-2xl flex items-center justify-center relative cursor-pointer shadow-md overflow-hidden flex-shrink-0 ring-1 ring-white/10 group-hover:ring-white/25 transition-all"
@@ -714,6 +714,24 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                           </button>
                         </p>
                       </div>
+
+                      {/* Like Button (Top Right of Card) */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleLikeBeat(beat.id);
+                        }}
+                        className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition-all active:scale-95 cursor-pointer flex-shrink-0 ${
+                          likedBeatIds.includes(beat.id)
+                            ? 'bg-rose-500/15 border-rose-500/40 text-rose-400 shadow-sm shadow-rose-500/10'
+                            : 'bg-white/[0.04] border-white/[0.08] text-gray-400 hover:text-white hover:bg-white/[0.08]'
+                        }`}
+                        title={likedBeatIds.includes(beat.id) ? 'Unlike this beat' : 'Like this beat'}
+                      >
+                        <Heart className={`w-3.5 h-3.5 ${likedBeatIds.includes(beat.id) ? 'fill-rose-500 text-rose-500' : ''}`} />
+                        <span className="font-mono text-xs">{beat.likes || 0}</span>
+                      </button>
                     </div>
 
                     {/* Audio Preview Scrubber with Protection Indicator */}
@@ -749,46 +767,27 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                   </div>
 
                   {/* Card Footer / Purchase Drawer */}
-                  <div className="px-4 sm:px-5 py-3.5 sm:py-4 bg-white/[0.02] backdrop-blur-md border-t border-white/[0.06] space-y-3 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
-                    <div className="flex items-center justify-between sm:justify-start sm:space-x-3">
-                      <div>
-                        <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Standard Lease</div>
-                        <div className="text-base sm:text-lg font-black text-white tracking-tight">${beat.leasePrice}</div>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleLikeBeat(beat.id);
-                        }}
-                        className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition-all active:scale-95 cursor-pointer ${
-                          likedBeatIds.includes(beat.id)
-                            ? 'bg-rose-500/15 border-rose-500/40 text-rose-400 shadow-sm shadow-rose-500/10'
-                            : 'bg-white/[0.04] border-white/[0.08] text-gray-400 hover:text-white hover:bg-white/[0.08]'
-                        }`}
-                        title={likedBeatIds.includes(beat.id) ? 'Unlike this beat' : 'Like this beat'}
-                      >
-                        <Heart className={`w-3.5 h-3.5 ${likedBeatIds.includes(beat.id) ? 'fill-rose-500 text-rose-500' : ''}`} />
-                        <span className="font-mono text-xs">{beat.likes || 0}</span>
-                      </button>
+                  <div className="px-4 sm:px-5 py-3.5 sm:py-4 bg-white/[0.02] backdrop-blur-md border-t border-white/[0.06] flex items-center justify-between gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Standard Lease</div>
+                      <div className="text-base sm:text-lg font-black text-white tracking-tight">${beat.leasePrice}</div>
                     </div>
 
                     {beat.isSoldExclusive ? (
-                      <span className="block text-center sm:inline-block px-3.5 py-2 sm:py-1.5 rounded-xl bg-red-500/10 border border-red-500/25 text-red-400 text-xs font-bold uppercase tracking-wider">
+                      <span className="inline-block px-3.5 py-1.5 rounded-xl bg-red-500/10 border border-red-500/25 text-red-400 text-xs font-bold uppercase tracking-wider">
                         Exclusive Sold
                       </span>
                     ) : (
-                      <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
+                      <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
                         <button
                           onClick={() => onLicenseBeat(beat, 'Standard Lease')}
-                          className="w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] hover:border-white/[0.18] text-white text-xs font-bold transition-all duration-200 active:scale-95 shadow-sm text-center cursor-pointer"
+                          className="px-3.5 sm:px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] hover:border-white/[0.18] text-white text-xs font-bold transition-all duration-200 active:scale-95 shadow-sm text-center cursor-pointer whitespace-nowrap"
                         >
                           Lease
                         </button>
                         <button
                           onClick={() => onLicenseBeat(beat, 'Exclusive Rights')}
-                          className="w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black text-xs font-black shadow-md shadow-amber-500/20 hover:brightness-105 active:scale-95 transition-all duration-200 ring-1 ring-white/20 text-center cursor-pointer"
+                          className="px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black text-xs font-black shadow-md shadow-amber-500/20 hover:brightness-105 active:scale-95 transition-all duration-200 ring-1 ring-white/20 text-center cursor-pointer whitespace-nowrap"
                         >
                           Buyout (${beat.exclusivePrice})
                         </button>
