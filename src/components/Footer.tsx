@@ -6,7 +6,7 @@ import { useAudio } from '@/context/AudioContext';
 import { Store, Mic2, Sparkles, ShieldCheck } from 'lucide-react';
 
 interface FooterProps {
-  onOpenUpload: () => void;
+  onOpenUpload: (sponsored?: boolean) => void;
   onOpenAiDj: () => void;
 }
 
@@ -77,7 +77,7 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
               <li>
                 <button
                   type="button"
-                  onClick={onOpenUpload}
+                  onClick={() => onOpenUpload(false)}
                   className="hover:text-accent-green transition-colors cursor-pointer text-left"
                 >
                   Drop a New Beat
@@ -86,23 +86,19 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
               <li>
                 <button
                   type="button"
-                  onClick={() => {
-                    setSelectedGenre('Sponsored');
-                    setActiveSurface('marketplace');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
+                  onClick={() => onOpenUpload(true)}
                   className="hover:text-accent-gold transition-colors cursor-pointer text-left flex items-center gap-1.5"
                 >
-                  <span>Featured Sponsored Drops</span>
+                  <span>Sponsor &amp; Feature a Beat</span>
                 </button>
               </li>
               <li>
                 <button
                   type="button"
-                  onClick={onOpenUpload}
+                  onClick={() => onOpenUpload(false)}
                   className="hover:text-accent-green transition-colors cursor-pointer text-left"
                 >
-                  Master Audio Licensing (PDF &amp; WAV)
+                  Digital Legal Rights (PDF &amp; WAV)
                 </button>
               </li>
             </ul>
@@ -113,17 +109,6 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
           <p>© 2026 Beats Bazaar. All rights reserved.</p>
-          <p className="flex items-center gap-1.5 text-xs text-gray-500">
-            Need a custom platform?{' '}
-            <a
-              href="https://pacylabs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent-green hover:underline font-semibold transition-colors"
-            >
-              Build With Us (Pacy Labs)
-            </a>
-          </p>
         </div>
 
       </div>

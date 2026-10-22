@@ -19,7 +19,13 @@ export default function Home() {
   
   // Modals state
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [uploadSponsoredInitial, setUploadSponsoredInitial] = useState(false);
   const [isAiDjOpen, setIsAiDjOpen] = useState(false);
+
+  const handleOpenUpload = (sponsored: boolean = false) => {
+    setUploadSponsoredInitial(sponsored);
+    setIsUploadOpen(true);
+  };
   const [bachsState, setBachsState] = useState<{
     isOpen: boolean;
     mode: 'license' | 'tip';
@@ -113,13 +119,13 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col justify-between">
       <div>
-        <Navbar onOpenUpload={() => setIsUploadOpen(true)} />
+        <Navbar onOpenUpload={() => handleOpenUpload(false)} />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
           {activeSurface === 'marketplace' ? (
             <MarketplaceView 
               onLicenseBeat={(beat, tier) => handleOpenLicense(beat, tier)}
-              onOpenUpload={() => setIsUploadOpen(true)}
+              onOpenUpload={() => handleOpenUpload(false)}
               onSelectProducer={(prod) => setSelectedProducer(prod)}
               onOpenAiDj={() => setIsAiDjOpen(true)}
             />
@@ -133,7 +139,7 @@ export default function Home() {
         </div>
 
         <Footer 
-          onOpenUpload={() => setIsUploadOpen(true)} 
+          onOpenUpload={handleOpenUpload} 
           onOpenAiDj={() => setIsAiDjOpen(true)} 
         />
       </div>
@@ -155,6 +161,7 @@ export default function Home() {
       <BeatUploadModal
         isOpen={isUploadOpen}
         onClose={() => setIsUploadOpen(false)}
+        initialSponsored={uploadSponsoredInitial}
       />
 
       <ProducerProfileModal

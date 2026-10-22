@@ -8,6 +8,7 @@ import { X, Upload, Music, Sparkles, CheckCircle2, Camera, ChevronDown, Check } 
 interface BeatUploadModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialSponsored?: boolean;
 }
 
 const GENRES: Genre[] = ['Afrobeats', 'Amapiano', 'Afro-Drill', 'Hip Hop', 'Trap', 'R&B', 'Alté'];
@@ -20,7 +21,7 @@ const GRADIENTS = [
   'linear-gradient(135deg, #3B82F6 0%, #1F2937 100%)'
 ];
 
-export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
+export function BeatUploadModal({ isOpen, onClose, initialSponsored = false }: BeatUploadModalProps) {
   const { addNewBeat, producerAvatars, setProducerAvatar } = useAudio();
 
   const [title, setTitle] = useState('');
@@ -35,10 +36,16 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
   const [audioFileName, setAudioFileName] = useState('');
   const [audioUrl, setAudioUrl] = useState('');
   const [tagsInput, setTagsInput] = useState('New Heat, Club');
-  const [isSponsored, setIsSponsored] = useState(false);
+  const [isSponsored, setIsSponsored] = useState(initialSponsored);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isGenreOpen, setIsGenreOpen] = useState(false);
   const genreDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsSponsored(initialSponsored);
+    }
+  }, [isOpen, initialSponsored]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
