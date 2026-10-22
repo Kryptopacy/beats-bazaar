@@ -86,7 +86,7 @@ Artists can purchase **Standard Lease** or **Exclusive Buyout** rights, instantl
 ## Getting Started
 
 ### Prerequisites
-* Node.js 18.18 or later
+* Node.js 20.9+ (Node.js 22 LTS or Node.js 24 recommended)
 * npm, yarn, or pnpm
 
 ### Installation
