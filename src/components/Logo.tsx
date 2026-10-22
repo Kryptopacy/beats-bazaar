@@ -34,13 +34,20 @@ export function Logo({
         }`}
         style={{ width: current.icon, height: current.icon }}
       >
-        <img
-          src="/logo-plaque.png?v=5"
-          alt="Beats Bazaar Master Plaque"
-          width={current.icon}
-          height={current.icon}
-          className="w-full h-full object-contain pointer-events-none select-none"
-        />
+        <picture className="w-full h-full block">
+          <source srcSet="/logo-plaque-64.webp 1x, /logo-plaque-128.webp 2x" type="image/webp" />
+          <img
+            src="/logo-plaque-64.png"
+            srcSet="/logo-plaque-64.png 1x, /logo-plaque-128.png 2x"
+            alt="Beats Bazaar Master Plaque"
+            width={current.icon}
+            height={current.icon}
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
+            className="w-full h-full object-contain pointer-events-none select-none"
+          />
+        </picture>
       </div>
 
       {/* Modern High-End Typography: Always render full BEATS BAZAAR */}

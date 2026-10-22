@@ -114,6 +114,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <link rel="preload" as="image" href="/logo-plaque-64.webp" type="image/webp" fetchPriority="high" />
+      </head>
       <body className={`${inter.variable} font-sans bg-background text-gray-100 min-h-screen antialiased selection:bg-accent-green selection:text-black relative`}>
         {/* Tactile Hardware Studio Noise Overlay (Hardware Anodized Matte Grain) */}
         <svg 

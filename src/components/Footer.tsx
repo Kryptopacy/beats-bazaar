@@ -11,7 +11,7 @@ interface FooterProps {
 }
 
 export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
-  const { setActiveSurface } = useAudio();
+  const { setActiveSurface, setSelectedGenre } = useAudio();
 
   return (
     <footer className="border-t border-white/[0.08] bg-[#0A0D12]/90 backdrop-blur-xl mt-20 pt-12 pb-28 sm:pb-24">
@@ -78,16 +78,32 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
                 <button
                   type="button"
                   onClick={onOpenUpload}
-                  className="hover:text-accent-green transition-colors cursor-pointer"
+                  className="hover:text-accent-green transition-colors cursor-pointer text-left"
                 >
                   Drop a New Beat
                 </button>
               </li>
               <li>
-                <span className="text-gray-500">Sponsored Drops ($15)</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedGenre('Sponsored');
+                    setActiveSurface('marketplace');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-accent-gold transition-colors cursor-pointer text-left flex items-center gap-1.5"
+                >
+                  <span>Featured Sponsored Drops</span>
+                </button>
               </li>
               <li>
-                <span className="text-gray-500">Digital Legal Rights (PDF &amp; WAV)</span>
+                <button
+                  type="button"
+                  onClick={onOpenUpload}
+                  className="hover:text-accent-green transition-colors cursor-pointer text-left"
+                >
+                  Master Audio Licensing (PDF &amp; WAV)
+                </button>
               </li>
             </ul>
           </div>
@@ -97,8 +113,16 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
           <p>© 2026 Beats Bazaar. All rights reserved.</p>
-          <p className="text-gray-400">
-            Build With AI: Basics • Crafted with Next.js 15, Tailwind &amp; Google Gemini
+          <p className="flex items-center gap-1.5 text-xs text-gray-500">
+            Need a custom platform?{' '}
+            <a
+              href="https://pacylabs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent-green hover:underline font-semibold transition-colors"
+            >
+              Build With Us (Pacy Labs)
+            </a>
           </p>
         </div>
 

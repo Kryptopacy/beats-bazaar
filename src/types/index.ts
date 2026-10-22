@@ -50,3 +50,5 @@ export interface LicenseCertificate {
   transactionRef: string;
   paymentMethod: 'fiat' | 'crypto';
 }
+
+export const SPONSORED_DROP_FEE_USD = 15;
