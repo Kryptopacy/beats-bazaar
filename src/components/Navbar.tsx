@@ -14,11 +14,11 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/[0.06] bg-[#0B0F12]/80 backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-1.5 sm:gap-4">
         
         {/* Brand Logo */}
         <div 
-          className="cursor-pointer group py-1" 
+          className="cursor-pointer group py-1 flex-shrink-0" 
           onClick={() => setActiveSurface('marketplace')}
           title="Beats Bazaar Home"
         >
@@ -26,30 +26,32 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
         </div>
 
         {/* Surface Switcher Tabs (Sleek Glass Segmented Pill) */}
-        <nav className="flex items-center p-1 bg-[#12171A]/90 backdrop-blur-xl rounded-full border border-white/[0.08] shadow-inner">
+        <nav className="flex items-center p-0.5 sm:p-1 bg-[#12171A]/90 backdrop-blur-xl rounded-full border border-white/[0.08] shadow-inner flex-shrink-0">
           <button
             onClick={() => setActiveSurface('marketplace')}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
+            className={`flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
               activeSurface === 'marketplace'
                 ? 'bg-white/[0.12] text-white shadow-sm ring-1 ring-white/10'
                 : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
-            <Music2 className={`w-4 h-4 ${activeSurface === 'marketplace' ? 'text-accent-green' : 'text-zinc-400'}`} />
-            <span>Marketplace</span>
+            <Music2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${activeSurface === 'marketplace' ? 'text-accent-green' : 'text-zinc-400'}`} />
+            <span className="hidden sm:inline">Marketplace</span>
+            <span className="sm:hidden">Market</span>
           </button>
 
           <button
             onClick={() => setActiveSurface('cypher')}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
+            className={`flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
               activeSurface === 'cypher'
                 ? 'bg-white/[0.12] text-white shadow-sm ring-1 ring-white/10'
                 : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
-            <Radio className={`w-4 h-4 ${activeSurface === 'cypher' ? 'text-accent-gold' : 'text-zinc-400'} animate-pulse`} />
-            <span>Cypher Room</span>
-            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${
+            <Radio className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${activeSurface === 'cypher' ? 'text-accent-gold' : 'text-zinc-400'} animate-pulse`} />
+            <span className="hidden sm:inline">Cypher Room</span>
+            <span className="sm:hidden">Cypher</span>
+            <span className={`hidden md:inline-block text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${
               activeSurface === 'cypher' ? 'bg-accent-gold/20 text-accent-gold' : 'bg-white/[0.06] text-zinc-400'
             }`}>
               Live
@@ -58,12 +60,12 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
         </nav>
 
         {/* Right CTA */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2 flex-shrink-0">
           <button
             onClick={onOpenUpload}
-            className="flex items-center space-x-2 bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black px-5 py-2.5 rounded-full text-xs sm:text-sm font-black shadow-lg shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 ring-1 ring-white/20"
+            className="flex items-center space-x-1.5 sm:space-x-2 bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-black shadow-lg shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 ring-1 ring-white/20 whitespace-nowrap"
           >
-            <PlusCircle className="w-4 h-4" />
+            <PlusCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span className="hidden sm:inline">Drop a Beat</span>
             <span className="sm:hidden">Drop</span>
           </button>

@@ -45,11 +45,11 @@ export function Logo({
 
       {/* Modern High-End Typography */}
       {showWordmark && (
-        <div className="flex items-center space-x-1.5 leading-none">
+        <div className="flex items-center space-x-1 sm:space-x-1.5 leading-none">
           <span className={`${current.font} font-black tracking-tight text-white`}>
             BEATS
           </span>
-          <span className={`${current.font} font-black tracking-tight text-white`}>
+          <span className={`${current.font} font-black tracking-tight text-white hidden sm:inline`}>
             BAZAAR
           </span>
         </div>
