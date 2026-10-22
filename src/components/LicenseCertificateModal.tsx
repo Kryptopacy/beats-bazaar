@@ -3,7 +3,7 @@
 import React from 'react';
 import { LicenseCertificate } from '@/types';
 import { Logo } from '@/components/Logo';
-import { X, Download, Printer, ShieldCheck, Award, Sparkles, CheckCircle2 } from 'lucide-react';
+import { X, Download, Printer, ShieldCheck, Award, Sparkles, CheckCircle2, FileCheck } from 'lucide-react';
 
 interface LicenseCertificateModalProps {
   certificate: LicenseCertificate | null;
@@ -17,6 +17,16 @@ export function LicenseCertificateModal({
   onClose 
 }: LicenseCertificateModalProps) {
   if (!certificate) return null;
+
+  const handleDownloadCertificate = () => {
+    const downloadUrl = `/api/licenses?id=${encodeURIComponent(certificate.certificateId)}&format=download`;
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = `BeatsBazaar_License_${certificate.certificateId}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   const handleDownloadAudio = () => {
     if (!audioDownloadUrl) {
@@ -69,7 +79,10 @@ export function LicenseCertificateModal({
             <Logo size="sm" showWordmark={true} />
             <div className="text-right">
               <span className="text-[10px] uppercase font-bold text-gray-500 tracking-wider">OFFICIAL SEAL</span>
-              <p className="text-xs text-amber-400 font-bold">DIGITALLY NOTARIZED</p>
+              <p className="text-xs text-accent-green font-bold flex items-center justify-end">
+                <ShieldCheck className="w-3.5 h-3.5 text-accent-green inline mr-1" />
+                <span>SAVED & NOTARIZED ON SERVER</span>
+              </p>
             </div>
           </div>
 
@@ -136,20 +149,33 @@ export function LicenseCertificateModal({
         </div>
 
         {/* Action Buttons */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <button
-            type="button"
-            onClick={handlePrint}
-            className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3.5 rounded-full border border-white/[0.08] text-sm font-bold text-gray-300 hover:text-white hover:bg-white/[0.06] transition-all active:scale-95"
-          >
-            <Printer className="w-4 h-4" />
-            <span>Print / Save Certificate</span>
-          </button>
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center space-x-2 w-full sm:w-auto">
+            <button
+              type="button"
+              onClick={handlePrint}
+              className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-4 py-3 rounded-full border border-white/[0.08] text-xs font-bold text-gray-300 hover:text-white hover:bg-white/[0.06] transition-all active:scale-95 cursor-pointer"
+              title="Print certificate"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              <span>Print</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDownloadCertificate}
+              className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-5 py-3 rounded-full border border-amber-400/40 bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm shadow-amber-400/10"
+              title="Download official legal license agreement"
+            >
+              <FileCheck className="w-3.5 h-3.5" />
+              <span>Download Certificate</span>
+            </button>
+          </div>
 
           <button
             type="button"
             onClick={handleDownloadAudio}
-            className="w-full sm:w-auto flex items-center justify-center space-x-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black text-sm font-black shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all ring-1 ring-white/20"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black text-xs sm:text-sm font-black shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all ring-1 ring-white/20 cursor-pointer"
           >
             <Download className="w-4 h-4" />
             <span>Download Untagged Master (.wav)</span>

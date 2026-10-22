@@ -99,6 +99,13 @@ export default function Home() {
       markExclusiveSold(currentBeat.id);
     }
 
+    // Persist verified certificate server-side immediately
+    fetch('/api/licenses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newCert)
+    }).catch(err => console.error('Failed to persist license on server:', err));
+
     setCertificate(newCert);
     setDownloadAudioUrl(currentBeat.audioUrl);
   };
