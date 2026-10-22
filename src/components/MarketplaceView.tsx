@@ -22,7 +22,8 @@ import {
   Radio, 
   Mic2,
   Heart,
-  ArrowUpDown
+  ArrowUpDown,
+  Shuffle
 } from 'lucide-react';
 
 interface MarketplaceViewProps {
@@ -64,17 +65,27 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
   const sponsoredBeats = beats.filter(b => b.isSponsored);
   const [activeSponsoredIndex, setActiveSponsoredIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  // Auto-rotate sponsored showcase every 6 seconds for equal visibility share
-  // Automatically pauses when user hovers or is actively previewing audio
+  // Auto-shuffle / rotate sponsored showcase every 4 seconds with real-time progress bar
+  // Pauses on active audio preview or mouse hover, without trapping mobile touch events
   useEffect(() => {
     if (sponsoredBeats.length <= 1 || isPaused) return;
     const isCurrentPlaying = activeBeat && sponsoredBeats.some(b => b.id === activeBeat.id) && isPlaying;
     if (isCurrentPlaying) return;
 
+    const intervalTime = 4000;
+    const step = 50;
     const timer = setInterval(() => {
-      setActiveSponsoredIndex((prev) => (prev + 1) % sponsoredBeats.length);
-    }, 6000);
+      setProgress(prev => {
+        if (prev >= 100) {
+          setActiveSponsoredIndex(curr => (curr + 1) % sponsoredBeats.length);
+          return 0;
+        }
+        return prev + (step / intervalTime) * 100;
+      });
+    }, step);
+
     return () => clearInterval(timer);
   }, [sponsoredBeats.length, isPaused, activeBeat, isPlaying]);
 
@@ -214,13 +225,20 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
       {/* Dedicated Top-Pinned Rotating Sponsored Row (Guarantees 100% prime visibility with fair-share rotation) */}
       {sponsoredBeats.length > 0 && (
         <div 
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-amber-500/10 via-[#151D28] to-[#0D1219] border border-amber-400/30 p-5 sm:p-6 shadow-2xl transition-all"
+          onPointerEnter={(e) => { if (e.pointerType === 'mouse') setIsPaused(true); }}
+          onPointerLeave={(e) => { if (e.pointerType === 'mouse') setIsPaused(false); }}
+          className="relative overflow-hidden rounded-2xl sm:rounded-[2rem] bg-gradient-to-r from-amber-500/10 via-[#151D28] to-[#0D1219] border border-amber-400/30 p-4 sm:p-6 shadow-2xl transition-all"
         >
           {/* Subtle Golden Ambient Light */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+          
+          {/* Animated 24k Gold Rotation Progress Bar */}
+          <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-white/[0.08] overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-amber-500 via-amber-300 to-yellow-400 shadow-sm shadow-amber-400/50 transition-all duration-75 ease-linear"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
 
           {/* Header Bar */}
           <div className="relative z-10 flex items-center justify-between mb-4">
@@ -231,7 +249,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
               <div className="flex items-center space-x-2">
                 <span className="text-xs font-black uppercase tracking-wider text-amber-300">Sponsored Spotlight</span>
                 <span className="text-xs text-gray-500">•</span>
-                <span className="text-xs text-gray-400 hidden sm:inline">Guaranteed Creator Visibility with Fair-Share Rotation</span>
+                <span className="text-xs text-gray-400 hidden sm:inline">Fair-Share Auto-Shuffle (4s)</span>
               </div>
             </div>
 
@@ -247,7 +265,22 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                 <div className="flex items-center space-x-1">
                   <button
                     type="button"
-                    onClick={() => setActiveSponsoredIndex((prev) => (prev - 1 + sponsoredBeats.length) % sponsoredBeats.length)}
+                    onClick={() => {
+                      const nextIdx = Math.floor(Math.random() * sponsoredBeats.length);
+                      setActiveSponsoredIndex(nextIdx === activeSponsoredIndex ? (nextIdx + 1) % sponsoredBeats.length : nextIdx);
+                      setProgress(0);
+                    }}
+                    className="w-7 h-7 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 flex items-center justify-center text-amber-400 hover:text-white transition-all cursor-pointer"
+                    title="Shuffle to random sponsored beat"
+                  >
+                    <Shuffle className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveSponsoredIndex((prev) => (prev - 1 + sponsoredBeats.length) % sponsoredBeats.length);
+                      setProgress(0);
+                    }}
                     className="w-7 h-7 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white transition-all cursor-pointer"
                     title="Previous sponsored beat"
                   >
@@ -255,7 +288,10 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                   </button>
                   <button
                     type="button"
-                    onClick={() => setActiveSponsoredIndex((prev) => (prev + 1) % sponsoredBeats.length)}
+                    onClick={() => {
+                      setActiveSponsoredIndex((prev) => (prev + 1) % sponsoredBeats.length);
+                      setProgress(0);
+                    }}
                     className="w-7 h-7 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white transition-all cursor-pointer"
                     title="Next sponsored beat"
                   >
