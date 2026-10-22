@@ -45,21 +45,13 @@ export function Logo({
 
       {/* Modern High-End Typography */}
       {showWordmark && (
-        <div className="flex flex-col justify-center leading-none">
-          <div className="flex items-center space-x-1.5">
-            <span className={`${current.font} font-black tracking-tight text-white`}>
-              BEATS
-            </span>
-            <span className={`${current.font} font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent-green via-emerald-300 to-accent-gold`}>
-              BAZAAR
-            </span>
-          </div>
-          <div className="flex items-center space-x-1.5 mt-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-green animate-pulse shadow-sm shadow-accent-green/50" />
-            <span className={`${current.sub} font-black uppercase tracking-[0.22em] text-gray-400`}>
-              CERTIFIED MASTER RIGHTS
-            </span>
-          </div>
+        <div className="flex items-center space-x-1.5 leading-none">
+          <span className={`${current.font} font-black tracking-tight text-white`}>
+            BEATS
+          </span>
+          <span className={`${current.font} font-black tracking-tight text-white`}>
+            BAZAAR
+          </span>
         </div>
       )}
     </div>

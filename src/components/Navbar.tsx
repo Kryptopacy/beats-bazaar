@@ -26,29 +26,34 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
         </div>
 
         {/* Surface Switcher Tabs (Sleek Glass Segmented Pill) */}
-        <nav className="flex items-center p-1 bg-white/[0.04] backdrop-blur-xl rounded-full border border-white/[0.08] shadow-inner">
+        <nav className="flex items-center p-1 bg-[#12171A]/90 backdrop-blur-xl rounded-full border border-white/[0.08] shadow-inner">
           <button
             onClick={() => setActiveSurface('marketplace')}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 ${
+            className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
               activeSurface === 'marketplace'
-                ? 'bg-gradient-to-r from-accent-green to-emerald-400 text-black shadow-md shadow-accent-green/20'
-                : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-white/[0.12] text-white shadow-sm ring-1 ring-white/10'
+                : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
-            <Music2 className="w-4 h-4" />
+            <Music2 className={`w-4 h-4 ${activeSurface === 'marketplace' ? 'text-accent-green' : 'text-zinc-400'}`} />
             <span>Marketplace</span>
           </button>
 
           <button
             onClick={() => setActiveSurface('cypher')}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 ${
+            className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
               activeSurface === 'cypher'
-                ? 'bg-gradient-to-r from-accent-gold to-yellow-400 text-black shadow-md shadow-accent-gold/20'
-                : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-white/[0.12] text-white shadow-sm ring-1 ring-white/10'
+                : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
-            <Radio className={`w-4 h-4 ${activeSurface === 'cypher' ? 'text-black' : 'text-accent-gold'} animate-pulse`} />
+            <Radio className={`w-4 h-4 ${activeSurface === 'cypher' ? 'text-accent-gold' : 'text-zinc-400'} animate-pulse`} />
             <span>Cypher Room</span>
+            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${
+              activeSurface === 'cypher' ? 'bg-accent-gold/20 text-accent-gold' : 'bg-white/[0.06] text-zinc-400'
+            }`}>
+              Live
+            </span>
           </button>
         </nav>
 
