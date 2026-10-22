@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { WaveformVisualizer } from '@/components/WaveformVisualizer';
 import { BazzaMascot } from '@/components/BazzaMascot';
+import { CypherSoundboard } from '@/components/CypherSoundboard';
 import { Beat, Genre } from '@/types';
 import { 
   Play, 
@@ -330,8 +331,11 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
             </div>
           </div>
 
+          {/* Interactive Cypher Crowd Soundboard */}
+          <CypherSoundboard />
+
           {/* Crossfade Controls */}
-          <div className="mt-6 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4 py-3 sm:py-3.5 px-5 sm:px-7 rounded-full bg-white/[0.03] backdrop-blur-md border border-white/[0.08] text-xs text-gray-300">
+          <div className="mt-4 sm:mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4 py-3 sm:py-3.5 px-5 sm:px-7 rounded-full bg-white/[0.03] backdrop-blur-md border border-white/[0.08] text-xs text-gray-300">
             <div className="flex items-center space-x-2.5">
               <input
                 type="checkbox"
