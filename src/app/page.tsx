@@ -131,10 +131,12 @@ export default function Home() {
         />
       </div>
 
-      {/* Persistent Bottom Audio Player Dock */}
-      <BottomPlayerDock 
-        onLicenseCurrentBeat={activeBeat ? () => handleOpenLicense(activeBeat, 'Standard Lease') : undefined} 
-      />
+      {/* Persistent Bottom Audio Player Dock (Active in Marketplace; Cypher has its own dedicated master deck) */}
+      {activeSurface === 'marketplace' && (
+        <BottomPlayerDock 
+          onLicenseCurrentBeat={activeBeat ? () => handleOpenLicense(activeBeat, 'Standard Lease') : undefined} 
+        />
+      )}
 
       {/* Modals */}
       <AiDjModal

@@ -36,8 +36,8 @@ export function LicenseCertificateModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl animate-fadeIn overflow-y-auto">
-      <div className="relative w-full max-w-2xl rounded-[2.5rem] bg-gradient-to-b from-[#141A23] via-[#0F141B] to-[#0A0D12] border border-amber-400/40 p-6 sm:p-10 shadow-2xl my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-xl animate-fadeIn overflow-y-auto">
+      <div className="relative w-full max-w-2xl rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-b from-[#141A23] via-[#0F141B] to-[#0A0D12] border border-amber-400/40 p-4 sm:p-10 shadow-2xl my-auto sm:my-8 max-h-[92vh] overflow-y-auto">
         
         {/* Certificate Watermark / Background Accent */}
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-accent-gold/10 rounded-full blur-3xl pointer-events-none" />

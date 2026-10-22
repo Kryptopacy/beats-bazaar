@@ -228,12 +228,12 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
       </div>
 
       {/* Main Cypher Deck */}
-      <div className="relative rounded-[2.5rem] bg-gradient-to-b from-[#141A24] via-[#0E131A] to-[#070A0E] border border-white/[0.08] p-8 sm:p-14 shadow-2xl overflow-hidden text-center">
+      <div className="relative rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-b from-[#141A24] via-[#0E131A] to-[#070A0E] border border-white/[0.08] p-5 sm:p-14 shadow-2xl overflow-hidden text-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-48 bg-accent-green/10 blur-3xl pointer-events-none rounded-full" />
 
         {/* Beat Tag & Producer */}
         <div className="relative z-10 flex flex-col items-center">
-          <div className="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-white/[0.04] backdrop-blur-md border border-white/[0.08] text-xs text-gray-300 mb-4 shadow-inner">
+          <div className="inline-flex items-center space-x-2 sm:space-x-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-white/[0.04] backdrop-blur-md border border-white/[0.08] text-[11px] sm:text-xs text-gray-300 mb-3 sm:mb-4 shadow-inner">
             <span className="text-accent-green font-black uppercase tracking-wider">{activeBeat?.genre || 'Afrobeats'}</span>
             <span className="text-gray-600">•</span>
             <span className="font-mono text-gray-300">{activeBeat?.bpm || 110} BPM</span>
@@ -243,15 +243,15 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-6xl font-black text-white tracking-tight">
+          <h1 className="text-2xl sm:text-6xl font-black text-white tracking-tight leading-tight">
             {activeBeat?.title || 'Selecting Track...'}
           </h1>
-          <p className="mt-3 text-sm sm:text-base text-gray-400">
+          <p className="mt-2 sm:mt-3 text-xs sm:text-base text-gray-400">
             Crafted by <span className="text-white font-extrabold hover:text-accent-green transition-colors">{activeBeat?.producer || 'Unknown'}</span>
           </p>
 
           {/* Animated Waveform Visualizer */}
-          <div className="w-full my-8">
+          <div className="w-full my-6 sm:my-8">
             <WaveformVisualizer isPlaying={isPlaying} color="#00E599" />
           </div>
 
@@ -272,45 +272,45 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
           </div>
 
           {/* Full Playback Controls (Studio Hardware Style) */}
-          <div className="mt-10 flex items-center justify-center space-x-4 sm:space-x-8">
+          <div className="mt-6 sm:mt-10 flex items-center justify-center space-x-2.5 sm:space-x-8">
             <button
               onClick={toggleShuffle}
-              className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-200 active:scale-95 ${
+              className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-all duration-200 active:scale-95 ${
                 isShuffle 
                   ? 'bg-amber-400/20 text-amber-300 border-amber-400/50 shadow-lg shadow-amber-400/10' 
                   : 'bg-white/[0.04] text-gray-400 hover:text-white border-white/[0.08] hover:border-white/[0.2]'
               }`}
               title="Toggle Shuffle / Randomize"
             >
-              <Shuffle className="w-5 h-5" />
+              <Shuffle className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
             <button
               onClick={prevTrack}
-              className="w-14 h-14 rounded-full bg-white/[0.04] border border-white/[0.08] text-gray-200 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.08] transition-all duration-200 flex items-center justify-center active:scale-95 shadow-md"
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/[0.04] border border-white/[0.08] text-gray-200 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.08] transition-all duration-200 flex items-center justify-center active:scale-95 shadow-md"
               title="Previous Track"
             >
-              <SkipBack className="w-6 h-6" />
+              <SkipBack className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
 
             <button
               onClick={togglePlay}
-              className="w-20 h-20 rounded-full bg-gradient-to-tr from-accent-green via-emerald-400 to-[#00E599] text-black flex items-center justify-center shadow-2xl shadow-accent-green/35 hover:scale-105 active:scale-95 transition-all duration-200 ring-4 ring-white/10"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-accent-green via-emerald-400 to-[#00E599] text-black flex items-center justify-center shadow-2xl shadow-accent-green/35 hover:scale-105 active:scale-95 transition-all duration-200 ring-4 ring-white/10"
               title={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? (
-                <Pause className="w-8 h-8 fill-black" />
+                <Pause className="w-7 h-7 sm:w-8 sm:h-8 fill-black" />
               ) : (
-                <Play className="w-8 h-8 fill-black ml-1" />
+                <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-black ml-1" />
               )}
             </button>
 
             <button
               onClick={nextTrack}
-              className="w-14 h-14 rounded-full bg-white/[0.04] border border-white/[0.08] text-gray-200 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.08] transition-all duration-200 flex items-center justify-center active:scale-95 shadow-md"
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/[0.04] border border-white/[0.08] text-gray-200 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.08] transition-all duration-200 flex items-center justify-center active:scale-95 shadow-md"
               title="Skip to Next Track"
             >
-              <SkipForward className="w-6 h-6" />
+              <SkipForward className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
 
             {/* Volume */}
@@ -331,7 +331,7 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
           </div>
 
           {/* Crossfade Controls */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 py-3.5 px-7 rounded-full bg-white/[0.03] backdrop-blur-md border border-white/[0.08] text-xs text-gray-300">
+          <div className="mt-6 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4 py-3 sm:py-3.5 px-5 sm:px-7 rounded-full bg-white/[0.03] backdrop-blur-md border border-white/[0.08] text-xs text-gray-300">
             <div className="flex items-center space-x-2.5">
               <input
                 type="checkbox"
@@ -346,7 +346,7 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
             </div>
 
             {isCrossfade && (
-              <div className="flex items-center space-x-3 pl-4 border-l border-white/[0.1]">
+              <div className="flex items-center space-x-3 pl-3 sm:pl-4 border-l border-white/[0.1]">
                 <span className="text-gray-400 font-medium">Transition Duration:</span>
                 <input
                   type="range"
@@ -355,7 +355,7 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
                   step={1}
                   value={crossfadeDuration}
                   onChange={(e) => setCrossfadeDuration(parseInt(e.target.value))}
-                  className="w-24 h-1 bg-white/[0.1] rounded-lg appearance-none cursor-pointer accent-accent-green"
+                  className="w-20 sm:w-24 h-1 bg-white/[0.1] rounded-lg appearance-none cursor-pointer accent-accent-green"
                 />
                 <span className="font-mono text-accent-green font-extrabold">{crossfadeDuration}s</span>
               </div>
@@ -364,10 +364,10 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
 
           {/* Direct Monetization Action Bar */}
           {activeBeat && (
-            <div className="mt-10 pt-10 border-t border-white/[0.08] w-full flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-6 sm:mt-10 pt-6 sm:pt-10 border-t border-white/[0.08] w-full flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <button
                 onClick={() => onTipProducer(activeBeat)}
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-7 py-3.5 rounded-full bg-white/[0.04] hover:bg-amber-400/10 border border-amber-400/30 hover:border-amber-400 text-amber-300 font-black text-sm shadow-md transition-all duration-200 active:scale-95"
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-7 py-3 sm:py-3.5 rounded-full bg-white/[0.04] hover:bg-amber-400/10 border border-amber-400/30 hover:border-amber-400 text-amber-300 font-black text-xs sm:text-sm shadow-md transition-all duration-200 active:scale-95 cursor-pointer"
               >
                 <Coins className="w-4 h-4" />
                 <span>Tip Producer</span>
@@ -375,7 +375,7 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenAiDj }: Cyp
 
               <button
                 onClick={() => onLicenseBeat(activeBeat)}
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black font-black text-sm shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 ring-1 ring-white/20"
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black font-black text-xs sm:text-sm shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 ring-1 ring-white/20 cursor-pointer"
               >
                 <ShieldCheck className="w-4 h-4" />
                 <span>License This Beat (${activeBeat.leasePrice})</span>

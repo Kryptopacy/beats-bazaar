@@ -83,11 +83,11 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat }: AiDjModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl animate-fadeIn overflow-y-auto">
-      <div className="relative w-full max-w-xl rounded-[2.5rem] bg-gradient-to-b from-[#151D28] via-[#0E141C] to-[#0A0D12] border border-white/[0.1] p-6 sm:p-10 shadow-2xl my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-xl animate-fadeIn overflow-y-auto">
+      <div className="relative w-full max-w-xl rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-b from-[#151D28] via-[#0E141C] to-[#0A0D12] border border-white/[0.1] p-4 sm:p-10 shadow-2xl my-auto sm:my-8 max-h-[92vh] overflow-y-auto">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-6 border-b border-white/[0.08]">
+        <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-white/[0.08]">
           <div className="flex items-center space-x-3.5">
             <BazzaMascot 
               state={isLoading ? 'mixing' : result ? 'success' : 'idle'} 
@@ -144,7 +144,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat }: AiDjModalProps) {
               type="button"
               disabled={isLoading || !prompt.trim()}
               onClick={() => handleAskDj()}
-              className="flex items-center space-x-2.5 px-8 py-3.5 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black font-black text-sm shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 disabled:opacity-40 transition-all ring-1 ring-white/20 cursor-pointer"
+              className="w-full sm:w-auto justify-center flex items-center space-x-2.5 px-8 py-3.5 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black font-black text-sm shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 disabled:opacity-40 transition-all ring-1 ring-white/20 cursor-pointer"
             >
               {isLoading ? (
                 <>
