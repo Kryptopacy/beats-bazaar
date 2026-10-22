@@ -18,8 +18,7 @@ import {
   ChevronRight, 
   UserCheck, 
   Flame, 
-  Music2, 
-  Radio, 
+  Store,
   Mic2,
   Heart,
   ArrowUpDown,
@@ -164,7 +163,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
               }}
               className="flex items-center justify-center space-x-2.5 bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-black shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 ring-1 ring-white/20"
             >
-              <Music2 className="w-4 h-4" />
+              <Store className="w-4 h-4" />
               <span>Explore Marketplace</span>
             </button>
 
@@ -172,7 +171,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
               onClick={() => setActiveSurface('cypher')}
               className="flex items-center justify-center space-x-2.5 bg-white/[0.05] hover:bg-white/[0.1] text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-bold border border-white/[0.1] hover:border-white/[0.2] active:scale-95 transition-all duration-200 group backdrop-blur-md"
             >
-              <Radio className="w-4 h-4 text-accent-gold animate-pulse" />
+              <Mic2 className="w-4 h-4 text-accent-gold" />
               <span>Enter Cypher Room</span>
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </button>

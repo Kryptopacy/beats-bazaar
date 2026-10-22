@@ -3,7 +3,7 @@
 import React from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { Logo } from '@/components/Logo';
-import { Music2, Mic2, PlusCircle, Radio, Sparkles } from 'lucide-react';
+import { Store, Mic2, PlusCircle, Sparkles } from 'lucide-react';
 
 interface NavbarProps {
   onOpenUpload: () => void;
@@ -35,7 +35,7 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
                 : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
-            <Music2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${activeSurface === 'marketplace' ? 'text-accent-green' : 'text-zinc-400'}`} />
+            <Store className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${activeSurface === 'marketplace' ? 'text-accent-green' : 'text-zinc-400'}`} />
             <span className="hidden sm:inline">Marketplace</span>
             <span className="sm:hidden">Market</span>
           </button>
@@ -48,7 +48,7 @@ export function Navbar({ onOpenUpload }: NavbarProps) {
                 : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
-            <Radio className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${activeSurface === 'cypher' ? 'text-accent-gold' : 'text-zinc-400'} animate-pulse`} />
+            <Mic2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${activeSurface === 'cypher' ? 'text-accent-gold' : 'text-zinc-400'}`} />
             <span className="hidden sm:inline">Cypher Room</span>
             <span className="sm:hidden">Cypher</span>
             <span className={`hidden md:inline-block text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${

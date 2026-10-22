@@ -3,7 +3,7 @@
 import React from 'react';
 import { Logo } from '@/components/Logo';
 import { useAudio } from '@/context/AudioContext';
-import { Music2, Radio, Sparkles, ShieldCheck } from 'lucide-react';
+import { Store, Mic2, Sparkles, ShieldCheck } from 'lucide-react';
 
 interface FooterProps {
   onOpenUpload: () => void;
@@ -49,7 +49,7 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
                   }}
                   className="hover:text-accent-green transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
-                  <Music2 className="w-3.5 h-3.5" />
+                  <Store className="w-3.5 h-3.5" />
                   <span>Marketplace Catalog</span>
                 </button>
               </li>
@@ -62,7 +62,7 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
                   }}
                   className="hover:text-accent-gold transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
-                  <Radio className="w-3.5 h-3.5" />
+                  <Mic2 className="w-3.5 h-3.5" />
                   <span>24/7 Cypher Room</span>
                 </button>
               </li>

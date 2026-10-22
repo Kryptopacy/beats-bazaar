@@ -16,11 +16,11 @@ export function Logo({
   glow = true
 }: LogoProps) {
   const sizeMap = {
-    xs: { icon: 28, font: 'text-sm', sub: 'text-[9px]', gap: 'space-x-2' },
-    sm: { icon: 36, font: 'text-base', sub: 'text-[10px]', gap: 'space-x-2.5' },
-    md: { icon: 46, font: 'text-xl', sub: 'text-[11px]', gap: 'space-x-3' },
-    lg: { icon: 60, font: 'text-2xl', sub: 'text-xs', gap: 'space-x-3.5' },
-    xl: { icon: 84, font: 'text-4xl', sub: 'text-sm', gap: 'space-x-4' }
+    xs: { icon: 26, font: 'text-[11px] sm:text-xs', sub: 'text-[9px]', gap: 'space-x-1.5' },
+    sm: { icon: 32, font: 'text-xs xs:text-sm sm:text-base', sub: 'text-[10px]', gap: 'space-x-1.5 sm:space-x-2.5' },
+    md: { icon: 44, font: 'text-lg sm:text-xl', sub: 'text-[11px]', gap: 'space-x-2.5 sm:space-x-3' },
+    lg: { icon: 56, font: 'text-xl sm:text-2xl', sub: 'text-xs', gap: 'space-x-3 sm:space-x-3.5' },
+    xl: { icon: 80, font: 'text-3xl sm:text-4xl', sub: 'text-sm', gap: 'space-x-3.5 sm:space-x-4' }
   };
 
   const current = sizeMap[size];
@@ -43,13 +43,13 @@ export function Logo({
         />
       </div>
 
-      {/* Modern High-End Typography */}
+      {/* Modern High-End Typography: Always render full BEATS BAZAAR */}
       {showWordmark && (
         <div className="flex items-center space-x-1 sm:space-x-1.5 leading-none">
           <span className={`${current.font} font-black tracking-tight text-white`}>
             BEATS
           </span>
-          <span className={`${current.font} font-black tracking-tight text-white hidden sm:inline`}>
+          <span className={`${current.font} font-black tracking-tight text-white`}>
             BAZAAR
           </span>
         </div>
