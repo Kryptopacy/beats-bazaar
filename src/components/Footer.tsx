@@ -25,7 +25,7 @@ export function Footer({ onOpenUpload, onOpenBazza, onOpenAiDj }: FooterProps) {
           <div className="md:col-span-2 space-y-4">
             <Logo size="md" showWordmark={true} />
             <p className="text-sm text-gray-400 max-w-md leading-relaxed">
-              The premier global beat marketplace and 24/7 freestyle cypher room. Direct master rights licensing with verified certificates, untagged studio audio, and resident sound curation by Bazza.
+              The premier global beat marketplace and 24/7 freestyle cypher room. Direct master rights licensing with verified certificates, untagged studio audio, and beat curation by Bazza.
             </p>
           </div>
 

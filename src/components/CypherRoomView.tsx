@@ -117,7 +117,7 @@ export function CypherRoomView({ onTipProducer, onLicenseBeat, onOpenBazza, onOp
               type="button"
               onClick={triggerBazza}
               className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gradient-to-r from-accent-green/20 via-emerald-500/15 to-accent-green/10 border border-accent-green/40 hover:border-accent-green/70 text-accent-green hover:text-white text-xs font-bold transition-all active:scale-95 shadow-sm shadow-accent-green/10 cursor-pointer group"
-              title="Ask Bazza (Resident Sound Selector)"
+              title="Ask Bazza (Beat Curator)"
             >
               <BazzaMascot size="sm" glow={false} className="group-hover:scale-110 transition-transform" />
               <span>Ask Bazza</span>

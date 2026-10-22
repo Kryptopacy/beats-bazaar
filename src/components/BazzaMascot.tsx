@@ -33,7 +33,7 @@ export function BazzaMascot({
           ? 'Bazza is digging through crates...' 
           : state === 'success' 
           ? 'Bazza found the perfect match!' 
-          : 'Bazza, Resident Sound Selector'
+          : 'Bazza, Beat Curator'
       }
     >
       <style>{`

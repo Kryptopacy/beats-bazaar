@@ -512,7 +512,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                 type="button"
                 onClick={triggerBazza}
                 className="flex items-center space-x-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-accent-green/15 via-emerald-500/10 to-accent-green/5 border border-accent-green/30 hover:border-accent-green/60 text-accent-green hover:text-white text-xs sm:text-sm font-bold shadow-lg shadow-accent-green/10 hover:shadow-accent-green/20 transition-all duration-200 active:scale-95 whitespace-nowrap cursor-pointer group"
-                title="Ask Bazza (Resident Sound Selector)"
+                title="Ask Bazza (Beat Curator)"
               >
                 <BazzaMascot size="sm" glow={false} className="group-hover:scale-110 transition-transform" />
                 <span className="hidden sm:inline">Ask Bazza</span>

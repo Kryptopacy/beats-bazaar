@@ -48,7 +48,7 @@ An interactive, hardware-inspired dual-turntable audio deck equipped with smooth
 
 ---
 
-### 3. Bazza: Resident AI Crate Selector (Powered by Google Gemini)
+### 3. Bazza: Beat Curator (Powered by Google Gemini)
 Bazza is an intelligent, street-smart music director with an animated hardware mascot. 
 * **In the Marketplace:** Artists describe their desired sound, tempo, mood, or artist reference (e.g., Burna Boy, Asake, Travis Scott) in natural language. Bazza inspects the live catalog schema and recommends the exact beat to license with authentic music-production commentary.
 * **In the Cypher Room:** MCs request a tempo or rhythm change, and Bazza automatically queues the matching instrumental directly onto the turntable deck.
