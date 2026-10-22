@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { Beat, Genre } from '@/types';
-import { X, Upload, Music, Sparkles, CheckCircle2, Camera } from 'lucide-react';
+import { X, Upload, Music, Sparkles, CheckCircle2, Camera, ChevronDown, Check } from 'lucide-react';
 
 interface BeatUploadModalProps {
   isOpen: boolean;
@@ -37,6 +37,20 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
   const [tagsInput, setTagsInput] = useState('New Heat, Club');
   const [isSponsored, setIsSponsored] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isGenreOpen, setIsGenreOpen] = useState(false);
+  const genreDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (genreDropdownRef.current && !genreDropdownRef.current.contains(event.target as Node)) {
+        setIsGenreOpen(false);
+      }
+    }
+    if (isGenreOpen) {
+      document.addEventListener('pointerdown', handleClickOutside);
+      return () => document.removeEventListener('pointerdown', handleClickOutside);
+    }
+  }, [isGenreOpen]);
 
   if (!isOpen) return null;
 
@@ -184,17 +198,46 @@ export function BeatUploadModal({ isOpen, onClose }: BeatUploadModalProps) {
 
             {/* Genre & BPM */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
+              <div className="relative" ref={genreDropdownRef}>
                 <label className="block text-xs font-bold text-gray-300 mb-1.5">Genre</label>
-                <select
-                  value={genre}
-                  onChange={(e) => setGenre(e.target.value as Genre)}
-                  className="w-full bg-[#141A22] border border-white/[0.08] rounded-2xl px-4 py-3 text-sm text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all cursor-pointer"
+                <button
+                  type="button"
+                  onClick={() => setIsGenreOpen(!isGenreOpen)}
+                  className={`w-full flex items-center justify-between bg-[#141A22] border rounded-2xl px-4 py-3 text-sm text-white transition-all cursor-pointer ${
+                    isGenreOpen ? 'border-accent-green ring-4 ring-accent-green/10' : 'border-white/[0.08] hover:border-white/[0.18]'
+                  }`}
                 >
-                  {GENRES.map((g) => (
-                    <option key={g} value={g}>{g}</option>
-                  ))}
-                </select>
+                  <span className="font-semibold">{genre}</span>
+                  <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isGenreOpen ? 'rotate-180 text-white' : ''}`} />
+                </button>
+
+                {isGenreOpen && (
+                  <div className="absolute left-0 top-full mt-2 w-full p-1.5 bg-[#0D1216]/95 backdrop-blur-2xl border border-white/[0.12] rounded-2xl shadow-2xl shadow-black/95 z-50 animate-in fade-in-0 zoom-in-95 duration-150 ring-1 ring-white/10 max-h-60 overflow-y-auto scrollbar-thin">
+                    <div className="space-y-0.5">
+                      {GENRES.map((g) => {
+                        const isSelected = genre === g;
+                        return (
+                          <button
+                            key={g}
+                            type="button"
+                            onClick={() => {
+                              setGenre(g);
+                              setIsGenreOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                              isSelected
+                                ? 'bg-accent-green/15 text-accent-green font-bold border border-accent-green/30'
+                                : 'text-gray-300 hover:text-white hover:bg-white/[0.06]'
+                            }`}
+                          >
+                            <span>{g}</span>
+                            {isSelected && <Check className="w-3.5 h-3.5 text-accent-green" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div>

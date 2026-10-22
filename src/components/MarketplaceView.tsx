@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAudio } from '@/context/AudioContext';
 import { Beat } from '@/types';
 import { BazzaMascot } from '@/components/BazzaMascot';
@@ -22,7 +22,11 @@ import {
   Mic2,
   Heart,
   ArrowUpDown,
-  Shuffle
+  Shuffle,
+  ChevronDown,
+  Zap,
+  DollarSign,
+  Activity
 } from 'lucide-react';
 
 interface MarketplaceViewProps {
@@ -31,6 +35,22 @@ interface MarketplaceViewProps {
   onSelectProducer: (producerName: string) => void;
   onOpenAiDj?: () => void;
 }
+
+type SortOptionId = 'likes' | 'newest' | 'price-asc' | 'bpm';
+
+interface SortOption {
+  id: SortOptionId;
+  label: string;
+  emoji: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const SORT_OPTIONS: SortOption[] = [
+  { id: 'likes', label: 'Most Liked', emoji: '❤️', icon: Heart },
+  { id: 'newest', label: 'Newest First', emoji: '⚡', icon: Zap },
+  { id: 'price-asc', label: 'Price: Low to High', emoji: '💎', icon: DollarSign },
+  { id: 'bpm', label: 'BPM Tempo', emoji: '🥁', icon: Activity },
+];
 
 export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer, onOpenAiDj }: MarketplaceViewProps) {
   const { 
@@ -52,8 +72,23 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
 
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortBy, setSortBy] = useState<'likes' | 'newest' | 'price-asc' | 'bpm'>('likes');
+  const [sortBy, setSortBy] = useState<SortOptionId>('likes');
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const sortDropdownRef = useRef<HTMLDivElement>(null);
   const itemsPerPage = 6;
+
+  // Close sort dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target as Node)) {
+        setIsSortOpen(false);
+      }
+    }
+    if (isSortOpen) {
+      document.addEventListener('pointerdown', handleClickOutside);
+      return () => document.removeEventListener('pointerdown', handleClickOutside);
+    }
+  }, [isSortOpen]);
 
   // Reset to page 1 when filtering, searching, or changing sort
   useEffect(() => {
@@ -485,20 +520,65 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
           </div>
 
           <div className="flex items-center space-x-2.5 self-center sm:self-auto">
-            {/* Rank / Sort Selector */}
-            <div className="flex items-center space-x-1.5 px-3 py-2 rounded-2xl bg-white/[0.03] border border-white/[0.08] text-xs">
-              <ArrowUpDown className="w-3.5 h-3.5 text-accent-green" />
-              <span className="text-gray-400 hidden sm:inline">Rank by:</span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-transparent text-white font-bold text-xs outline-none cursor-pointer pr-1"
+            {/* Custom 2026 Glassmorphic Rank / Sort Dropdown */}
+            <div ref={sortDropdownRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setIsSortOpen(!isSortOpen)}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-2xl bg-[#12171A]/90 hover:bg-[#182024] border text-xs transition-all duration-200 select-none shadow-sm cursor-pointer group ${
+                  isSortOpen ? 'border-accent-green/50 ring-2 ring-accent-green/10' : 'border-white/[0.08] hover:border-white/[0.18]'
+                }`}
+                title="Sort Catalog"
               >
-                <option value="likes" className="bg-[#121820] text-white">Most Liked ❤️</option>
-                <option value="newest" className="bg-[#121820] text-white">Newest First ⚡</option>
-                <option value="price-asc" className="bg-[#121820] text-white">Price: Low to High</option>
-                <option value="bpm" className="bg-[#121820] text-white">BPM Tempo</option>
-              </select>
+                <ArrowUpDown className="w-3.5 h-3.5 text-accent-green group-hover:scale-110 transition-transform" />
+                <span className="text-gray-400 hidden sm:inline">Rank by:</span>
+                <span className="text-white font-bold flex items-center space-x-1.5">
+                  <span>{(SORT_OPTIONS.find(opt => opt.id === sortBy) || SORT_OPTIONS[0]).label}</span>
+                  <span className="text-xs">{(SORT_OPTIONS.find(opt => opt.id === sortBy) || SORT_OPTIONS[0]).emoji}</span>
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${isSortOpen ? 'rotate-180 text-white' : ''}`} />
+              </button>
+
+              {/* Floating Glassmorphic Popover Menu */}
+              {isSortOpen && (
+                <div className="absolute right-0 top-full mt-2 w-52 p-1.5 bg-[#0D1216]/95 backdrop-blur-2xl border border-white/[0.12] rounded-2xl shadow-2xl shadow-black/90 z-50 animate-in fade-in-0 zoom-in-95 duration-150 ring-1 ring-white/10">
+                  <div className="px-3 py-1.5 text-[10px] font-black text-gray-400 uppercase tracking-wider border-b border-white/[0.06] mb-1 flex items-center justify-between">
+                    <span>Rank Beats</span>
+                    <span className="text-accent-green text-[9px] font-bold">2026</span>
+                  </div>
+                  <div className="space-y-0.5">
+                    {SORT_OPTIONS.map((opt) => {
+                      const isSelected = sortBy === opt.id;
+                      const IconComponent = opt.icon;
+                      return (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => {
+                            setSortBy(opt.id);
+                            setIsSortOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                            isSelected
+                              ? 'bg-accent-green/15 text-white font-bold border border-accent-green/30 shadow-sm'
+                              : 'text-gray-300 hover:text-white hover:bg-white/[0.06]'
+                          }`}
+                        >
+                          <div className="flex items-center space-x-2.5">
+                            <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
+                              isSelected ? 'bg-accent-green/20 text-accent-green' : 'bg-white/[0.04] text-gray-400'
+                            }`}>
+                              <IconComponent className="w-3.5 h-3.5" />
+                            </div>
+                            <span>{opt.label}</span>
+                          </div>
+                          <span className="text-sm">{opt.emoji}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="text-xs text-gray-400 font-medium px-3 py-2 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
