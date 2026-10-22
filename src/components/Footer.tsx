@@ -23,17 +23,8 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
           <div className="md:col-span-2 space-y-4">
             <Logo size="md" showWordmark={true} />
             <p className="text-sm text-gray-400 max-w-md leading-relaxed">
-              The premier global beat marketplace and 24/7 freestyle cypher room. Direct legal licensing with verified certificates, untagged master WAVs, and native AI DJ Bazza.
+              The premier global beat marketplace and 24/7 freestyle cypher room. Direct master rights licensing with verified certificates, untagged studio audio, and resident sound curation by Bazza.
             </p>
-            <div className="flex items-center space-x-3 text-xs text-gray-500 font-mono">
-              <span className="flex items-center gap-1.5 text-accent-green">
-                <ShieldCheck className="w-3.5 h-3.5" /> Verified Licensing
-              </span>
-              <span>•</span>
-              <span>Bachs Checkout</span>
-              <span>•</span>
-              <span>Gemini 3.8 Flash</span>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -73,7 +64,7 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
                   className="hover:text-accent-green transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Ask Bazza (AI DJ)</span>
+                  <span>Ask Bazza</span>
                 </button>
               </li>
             </ul>
