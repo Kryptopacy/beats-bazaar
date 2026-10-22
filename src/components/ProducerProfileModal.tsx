@@ -260,7 +260,7 @@ export function ProducerProfileModal({
                               <span className="font-mono">{beat.bpm} BPM</span>
                               {beat.isSponsored && (
                                 <span className="text-accent-yellow font-extrabold flex items-center gap-0.5">
-                                  <Flame className="w-3 h-3 text-accent-gold" /> SPONSORED
+                                  <Flame className="w-3 h-3 text-accent-gold" /> BOOSTED
                                 </span>
                               )}
                             </div>

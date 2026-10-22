@@ -89,7 +89,8 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
                   onClick={() => onOpenUpload(true)}
                   className="hover:text-accent-gold transition-colors cursor-pointer text-left flex items-center gap-1.5"
                 >
-                  <span>Sponsor &amp; Feature a Beat</span>
+                  <Sparkles className="w-3.5 h-3.5 text-accent-gold" />
+                  <span>Boost a Beat</span>
                 </button>
               </li>
               <li>

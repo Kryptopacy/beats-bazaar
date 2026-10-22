@@ -281,7 +281,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                 <Flame className="w-4 h-4 text-amber-400 fill-amber-400" />
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-xs font-black uppercase tracking-wider text-amber-300">Sponsored Spotlight</span>
+                <span className="text-xs font-black uppercase tracking-wider text-amber-300">Boosted Spotlight</span>
                 <span className="text-xs text-gray-500">•</span>
                 <span className="text-xs text-gray-400 hidden sm:inline">Fair-Share Auto-Shuffle (4s)</span>
               </div>
@@ -680,7 +680,7 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                           {beat.isSponsored && (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/35 text-amber-300 text-[10px] font-black uppercase tracking-wider">
                               <Flame className="w-3 h-3 fill-amber-400 text-amber-400" />
-                              Sponsored
+                              Boosted
                             </span>
                           )}
                           <span className="font-bold text-accent-green">{beat.genre}</span>
