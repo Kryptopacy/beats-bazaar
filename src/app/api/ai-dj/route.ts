@@ -40,7 +40,7 @@ Available Beat Catalog:
 ${JSON.stringify(catalogSummary, null, 2)}`;
 
         const response = await client.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-3.8-flash',
           contents: userContent,
           config: {
             systemInstruction: systemInstruction,
@@ -53,12 +53,12 @@ ${JSON.stringify(catalogSummary, null, 2)}`;
           const parsed = JSON.parse(outputText);
           return NextResponse.json({
             success: true,
-            source: 'gemini-2.5-flash',
+            source: 'gemini-3.8-flash',
             ...parsed
           });
         }
       } catch (geminiErr) {
-        console.warn('Gemini 2.5 Flash live call failed, falling back to local semantic matcher:', geminiErr);
+        console.warn('Gemini 3.8 Flash live call failed, falling back to local semantic matcher:', geminiErr);
       }
     }
 
@@ -66,7 +66,7 @@ ${JSON.stringify(catalogSummary, null, 2)}`;
     const match = performLocalSemanticMatch(prompt, beats);
     return NextResponse.json({
       success: true,
-      source: apiKey ? 'gemini-2.5-flash (fallback)' : 'gemini-2.5-flash-engine',
+      source: apiKey ? 'gemini-3.8-flash (fallback)' : 'gemini-3.8-flash-engine',
       ...match
     });
   } catch (err: any) {
