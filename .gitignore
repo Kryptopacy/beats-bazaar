@@ -18,6 +18,8 @@ recordings/
 .hyperframes/
 launch-film/
 scripts/record-1080p-walkthrough.mjs
+scripts/capture-fresh-gallery.mjs
+scripts/generate-clean-og-banner.ps1
 
 # Node / Next.js
 node_modules/
