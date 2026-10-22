@@ -10,6 +10,7 @@
   [![React 19](https://img.shields.io/badge/React-19.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
   [![Google Gemini](https://img.shields.io/badge/AI%20DJ-Google%20Gemini%203.8%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
   [![Web Audio API](https://img.shields.io/badge/Audio%20Engine-Web%20Audio%20API-F59E0B?style=for-the-badge&logo=webassembly&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+  [![PWA Ready](https://img.shields.io/badge/PWA-Installable%20Offline-00E599?style=for-the-badge&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 
 </div>
 
@@ -77,6 +78,7 @@ Artists can purchase **Standard Lease** or **Exclusive Buyout** rights, instantl
 | **Audio Processing** | Web Audio API (Stereo Crossfading, Dynamic Biquad Filters, FFT Frequency Analyser, Multi-Phase Waveform Synthesizer) |
 | **Artificial Intelligence** | Google Gemini (`gemini-3.8-flash` via `@google/genai` SDK with strict JSON schema constraints) |
 | **Licensing Engine** | Cryptographic hash generation, token attribution, and client-side certificate generation |
+| **Progressive Web App** | Service Worker (`public/sw.js`), Offline App Shell Caching, Rich Install Prompts, Web App Manifest |
 | **Deployment** | Vercel Serverless Edge Platform |
 
 ---

@@ -2,17 +2,20 @@
   "name": "Beats Bazaar",
   "short_name": "BeatsBazaar",
   "description": "The Global Beat Marketplace & 24/7 Freestyle Cypher Room",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
+  "id": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#0A0D12",
   "theme_color": "#00E599",
-  "orientation": "portrait-primary",
+  "categories": ["music", "entertainment", "productivity"],
   "icons": [
     {
       "src": "/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/icon-192.png",
@@ -24,13 +27,29 @@
       "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/apple-touch-icon.png",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "categories": ["music", "entertainment", "marketplace"]
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "24/7 Freestyle Cypher Room with Dual Turntables & FX Soundboard"
+    },
+    {
+      "src": "/screenshot-narrow.png",
+      "sizes": "780x1688",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Beats Bazaar Mobile Cypher Experience"
+    }
+  ]
 }

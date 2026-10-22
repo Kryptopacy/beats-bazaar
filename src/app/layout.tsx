@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AudioProvider } from '@/context/AudioContext';
+import { PWAInstaller } from '@/components/PWAInstaller';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -79,6 +80,14 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico?v=5',
   },
   manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Beats Bazaar',
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -138,6 +147,7 @@ export default function RootLayout({
         <AudioProvider>
           {children}
         </AudioProvider>
+        <PWAInstaller />
       </body>
     </html>
   );
