@@ -12,6 +12,8 @@
 .cdp-*
 e2e-*.png
 recordings/
+*.mp4
+*.webm
 
 # Node / Next.js
 node_modules/
