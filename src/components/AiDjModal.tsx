@@ -9,7 +9,6 @@ import {
   Disc3, 
   Play, 
   Pause,
-  Store, 
   Mic2, 
   ArrowRight, 
   Wand2,
@@ -26,47 +25,47 @@ interface AiDjModalProps {
 
 const MARKETPLACE_PRESETS = [
   { 
-    label: '📻 100-108 BPM Radio Afrobeats', 
-    prompt: 'Radio-ready Afrobeats around 104 BPM with melodic saxophone licks and energetic bounce for a streaming single' 
+    label: 'Afrobeats like Burna Boy or Rema (100-108 BPM)', 
+    prompt: 'Afrobeats instrumental around 104 BPM with saxophone licks, percussion, and bounce for a radio-ready single like Burna Boy or Rema' 
   },
   { 
-    label: '🔥 Heavy 808 Afro-Drill Single', 
-    prompt: 'Dark aggressive 808 drill slides with menacing hats and punchy snares for hard-hitting lead rap single' 
+    label: 'Hard-hitting 808 Drill for aggressive bars', 
+    prompt: 'Dark aggressive Afro-drill beat with sliding 808 basslines and fast hats for hard rap verses' 
   },
   { 
-    label: '🎹 3-Step Club Amapiano Log Drums', 
-    prompt: 'Authentic rolling log drum Amapiano with deep bass chords for high-energy club anthems' 
+    label: 'Rolling Amapiano log drums for club bounce', 
+    prompt: 'Amapiano beat with deep rolling 3-step log drums and piano chords for a dance club track' 
   },
   { 
-    label: '✨ Mellow Alté Guitar Chords', 
-    prompt: 'Mellow acoustic guitar licks, warm Rhodes chords, and laid-back rhythm like Seyi Vibez or Tems' 
+    label: 'Mellow Alté guitars (Tems / Seyi Vibez style)', 
+    prompt: 'Soulful, relaxed Alté beat with acoustic guitar chords and warm keys for melodic singing' 
   },
   { 
-    label: '💎 Commercial Buyout Under $400', 
-    prompt: 'High-tier master instrumentals with exclusive commercial buyout rights ready for major label release' 
+    label: 'Exclusive master buyout under $400', 
+    prompt: 'Beats with exclusive commercial rights buyout available under $400 for a commercial release' 
   }
 ];
 
 const CYPHER_PRESETS = [
   { 
-    label: '🎤 140 BPM Rapid-Fire Battle Drill', 
-    prompt: 'Fast 140 BPM drill beat with sharp percussive pockets designed for back-to-back rapid MC verses' 
+    label: 'Fast 140 BPM battle drill for quick flows', 
+    prompt: 'Fast-paced 140 BPM drill instrumental with punchy kicks designed for rapid freestyle bars' 
   },
   { 
-    label: '🔄 Smooth 4s Crossfade MC Groove', 
-    prompt: 'Medium tempo infectious bounce that flows effortlessly into subsequent tracks when switching rappers' 
+    label: 'Smooth mid-tempo bounce for switching MCs', 
+    prompt: 'Mid-tempo infectious rhythm that transitions smoothly when passing the microphone between rappers' 
   },
   { 
-    label: '🥁 Rolling Log Drums for Flow Cadence', 
-    prompt: 'Complex Amapiano 3-step syncopation to challenge lyricists and test freestyle cadence' 
+    label: 'Heavy 3-step log drums to challenge cadence', 
+    prompt: 'Syncopated Amapiano rhythm with rolling log drums to push MCs to switch their flow patterns' 
   },
   { 
-    label: '🌊 98 BPM Alté Pocket for Melodic Freestyle', 
-    prompt: 'Spacious, soulful Alté instrumental with open frequency room for vocal harmonies and freestyle singing' 
+    label: 'Laid-back 98 BPM pocket for melodic singing', 
+    prompt: 'Relaxed 98 BPM instrumental with plenty of open space for vocal harmonies and freestyle singing' 
   },
   { 
-    label: '⚡ High-Voltage Party Banger for the Room', 
-    prompt: 'Peak-energy club beat with explosive drops and heavy bottom end to hype up the room' 
+    label: 'High-energy party beat with heavy drops', 
+    prompt: 'Upbeat party instrumental with hard-hitting beat drops to bring high energy into the room' 
   }
 ];
 
@@ -116,7 +115,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
         source: data.source || 'gemini-3.8-flash'
       });
     } catch (err: any) {
-      setError(err.message || 'Error connecting to Bazza');
+      setError(err.message || 'Error finding beats');
     } finally {
       setIsLoading(false);
     }
@@ -134,7 +133,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-xl animate-fadeIn overflow-y-auto">
       <div className="relative w-full max-w-xl rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-b from-[#151D28] via-[#0E141C] to-[#0A0D12] border border-white/[0.1] p-4 sm:p-8 shadow-2xl my-auto sm:my-8 max-h-[92vh] overflow-y-auto">
         
-        {/* Context-Aware Header */}
+        {/* Clear Purpose-Driven Header */}
         <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-white/[0.08]">
           <div className="flex items-center space-x-3.5">
             <BazzaMascot 
@@ -142,30 +141,11 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
               size="md" 
             />
             <div>
-              <div className="flex items-center space-x-2">
-                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">Bazza</h2>
-                <span className={`inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
-                  isMarketplace 
-                    ? 'bg-accent-green/15 text-accent-green border-accent-green/30' 
-                    : 'bg-accent-gold/15 text-accent-gold border-accent-gold/30'
-                }`}>
-                  {isMarketplace ? (
-                    <>
-                      <Store className="w-2.5 h-2.5 mr-1" />
-                      <span>Crate Curator</span>
-                    </>
-                  ) : (
-                    <>
-                      <Mic2 className="w-2.5 h-2.5 mr-1" />
-                      <span>Cypher Selector</span>
-                    </>
-                  )}
-                </span>
-              </div>
-              <p className="text-xs text-gray-400 mt-1">
+              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">Ask Bazza</h2>
+              <p className="text-xs text-gray-400 mt-1 max-w-md leading-relaxed">
                 {isMarketplace 
-                  ? 'Describe the mood, tempo, artist reference, or production style you need to license.'
-                  : 'Describe the energy, tempo, or freestyle cadence for your next cypher round.'}
+                  ? "Describe the sound, artist reference, BPM, or budget you want, and Bazza will find the closest beats in the catalog."
+                  : "Tell Bazza the tempo, groove, or energy you want, and he'll queue the right beat onto the deck."}
               </p>
             </div>
           </div>
@@ -186,17 +166,17 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
               onChange={(e) => setPrompt(e.target.value)}
               placeholder={
                 isMarketplace
-                  ? "e.g. Need a hard-hitting Afro-Drill beat around 140 BPM with heavy 808 slides for a lead single..."
-                  : "e.g. Queue up high-energy Amapiano log drums with bouncy rhythm for 3 MCs passing the mic..."
+                  ? "e.g. Need an Afrobeats track with guitar chords like Asake or Rema around 105 BPM..."
+                  : "e.g. Drop a 140 BPM UK-style drill beat with rolling hi-hats for rapid bars..."
               }
               className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl p-4 text-xs sm:text-sm text-white placeholder-gray-500 focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all resize-none"
             />
           </div>
 
-          {/* Genuine Practical Session Presets */}
+          {/* Quick Examples */}
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-gray-400 mb-2">
-              {isMarketplace ? 'Production Requirements & Crate Presets:' : 'Cypher Session Presets:'}
+            <div className="text-[11px] font-bold text-gray-400 mb-2">
+              Try an example:
             </div>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {presets.map((pv, idx) => (
@@ -207,7 +187,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
                     setPrompt(pv.prompt);
                     handleAskDj(pv.prompt);
                   }}
-                  className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold bg-white/[0.03] hover:bg-white/[0.08] text-gray-300 hover:text-white border border-white/[0.06] transition-all active:scale-95 text-left cursor-pointer"
+                  className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium bg-white/[0.04] hover:bg-white/[0.09] text-gray-300 hover:text-white border border-white/[0.07] transition-all active:scale-95 text-left cursor-pointer"
                 >
                   {pv.label}
                 </button>
@@ -226,12 +206,12 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
               {isLoading ? (
                 <>
                   <BazzaMascot state="mixing" size="sm" glow={false} />
-                  <span>Bazza is digging through crates...</span>
+                  <span>{isMarketplace ? 'Searching catalog...' : 'Finding next beat...'}</span>
                 </>
               ) : (
                 <>
                   <Wand2 className="w-4 h-4" />
-                  <span>{isMarketplace ? 'Find Matching Beats' : 'Queue Cypher Rhythm'}</span>
+                  <span>{isMarketplace ? 'Find Beats' : 'Queue Beat'}</span>
                 </>
               )}
             </button>
@@ -250,8 +230,8 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
           <div className="mt-6 p-4 sm:p-6 rounded-3xl bg-white/[0.03] border border-accent-green/40 shadow-xl space-y-4 animate-fadeIn">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <span className="text-[10px] font-black uppercase tracking-wider text-accent-green block mb-1">
-                  {isMarketplace ? 'Recommended Production Match' : 'Selected Cypher Beat'}
+                <span className="text-[10px] font-bold uppercase tracking-wider text-accent-green block mb-1">
+                  {isMarketplace ? 'Matching Beat' : 'Next Beat on Deck'}
                 </span>
                 <h3 className="text-lg sm:text-xl font-black text-white tracking-tight truncate">
                   {result.recommendedBeat.title}
@@ -269,11 +249,11 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
               </div>
             </div>
 
-            {/* Bazza's Verdict Commentary */}
+            {/* Why It Matches */}
             <div className="flex items-start space-x-3.5 p-3.5 sm:p-4 rounded-2xl bg-[#090D10] border border-white/[0.08]">
               <BazzaMascot state="success" size="sm" glow={false} />
               <div className="flex-1 min-w-0">
-                <div className="text-[11px] font-black uppercase tracking-wider text-accent-green mb-0.5">Bazza&apos;s Verdict</div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-accent-green mb-0.5">Why it matches</div>
                 <p className="text-xs text-gray-200 leading-relaxed italic">
                   &ldquo;{result.reasoning}&rdquo;
                 </p>
