@@ -142,6 +142,7 @@ export default function Home() {
       <AiDjModal
         isOpen={isAiDjOpen}
         onClose={() => setIsAiDjOpen(false)}
+        onLicenseBeat={(beat) => handleOpenLicense(beat, 'Standard Lease')}
       />
 
       <BeatUploadModal

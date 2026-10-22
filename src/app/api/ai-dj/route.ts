@@ -4,7 +4,7 @@ import { Beat } from '@/types';
 
 export async function POST(req: NextRequest) {
   try {
-    const { prompt, beats } = await req.json();
+    const { prompt, beats, context = 'marketplace' } = await req.json();
     if (!prompt || !beats || !Array.isArray(beats) || beats.length === 0) {
       return NextResponse.json({ error: 'Missing prompt or beats' }, { status: 400 });
     }
@@ -20,18 +20,32 @@ export async function POST(req: NextRequest) {
           producer: b.producer,
           genre: b.genre,
           bpm: b.bpm,
+          leasePrice: b.leasePrice,
+          exclusivePrice: b.exclusivePrice,
           tags: b.tags || []
         }));
 
-        const systemInstruction = `You are Bazza, the native AI DJ and cypher selector on Beats Bazaar.
-You are charismatic, street-smart, and deeply knowledgeable about global and African urban music (Afrobeats, Amapiano, Afro-Drill, Alté, Trap, R&B, Hip Hop).
-Your goal is to parse natural language music vibe requests and pick the single best matching beat from the catalog, along with a concise, punchy 1-sentence commentary in Bazza's voice explaining why this beat fits the session.
+        const isMarketplace = context === 'marketplace';
+        const systemInstruction = isMarketplace
+          ? `You are Bazza, the resident sound selector and beat crate curator on Beats Bazaar.
+You are street-smart, audiophile-trained, and deeply knowledgeable about global and African music production (Afrobeats, Amapiano, Afro-Drill, Alté, Trap, R&B, Hip Hop).
+Your goal is to parse artists' and songwriters' project vibe requests and select the single best beat to license from the catalog, along with a concise, punchy 1-sentence commentary explaining why this production fits their record.
 Return your answer strictly in valid JSON format:
 {
   "recommendedBeatId": "string (the matching beat id)",
   "vibeTags": ["tag1", "tag2"],
   "matchedGenre": "string",
-  "reasoning": "1 punchy sentence from Bazza explaining why this beat fits the session"
+  "reasoning": "1 punchy sentence from Bazza on why this beat fits the project"
+}`
+          : `You are Bazza, the cypher rhythm selector on Beats Bazaar.
+You are street-smart, rhythm-obsessed, and know how to keep freestyle sessions ignited with relentless flow.
+Your goal is to parse MCs' freestyle session vibe requests and pick the single best instrumental to keep the cypher moving, along with a punchy 1-sentence commentary explaining why this pocket will challenge the MCs.
+Return your answer strictly in valid JSON format:
+{
+  "recommendedBeatId": "string (the matching beat id)",
+  "vibeTags": ["tag1", "tag2"],
+  "matchedGenre": "string",
+  "reasoning": "1 punchy sentence from Bazza on why this instrumental sets the cypher ablaze"
 }`;
 
         const userContent = `User Mood/Vibe Request: "${prompt}"
@@ -63,7 +77,7 @@ ${JSON.stringify(catalogSummary, null, 2)}`;
     }
 
     // Local semantic matching fallback (zero-dependency resilience)
-    const match = performLocalSemanticMatch(prompt, beats);
+    const match = performLocalSemanticMatch(prompt, beats, context);
     return NextResponse.json({
       success: true,
       source: apiKey ? 'gemini-3.8-flash (fallback)' : 'gemini-3.8-flash-engine',
@@ -74,7 +88,7 @@ ${JSON.stringify(catalogSummary, null, 2)}`;
   }
 }
 
-function performLocalSemanticMatch(prompt: string, beats: Beat[]) {
+function performLocalSemanticMatch(prompt: string, beats: Beat[], context: string = 'marketplace') {
   const p = prompt.toLowerCase();
   
   let bestBeat = beats[0];
@@ -105,10 +119,15 @@ function performLocalSemanticMatch(prompt: string, beats: Beat[]) {
     }
   }
 
+  const isMarketplace = context === 'marketplace';
+  const reasoning = isMarketplace
+    ? `Bazza pulled "${bestBeat.title}" by ${bestBeat.producer} (${bestBeat.genre}, ${bestBeat.bpm} BPM) from the crates: ideal sonic pocket and commercial arrangement for your record.`
+    : `Bazza queued up "${bestBeat.title}" by ${bestBeat.producer} (${bestBeat.genre}, ${bestBeat.bpm} BPM): unrelenting cadence and punchy pocket engineered to challenge the MCs.`;
+
   return {
     recommendedBeatId: bestBeat.id,
     vibeTags: bestBeat.tags?.slice(0, 3) || [bestBeat.genre],
     matchedGenre: bestBeat.genre,
-    reasoning: `Bazza selected "${bestBeat.title}" by ${bestBeat.producer} (${bestBeat.genre}, ${bestBeat.bpm} BPM) to match your requested vibe.`
+    reasoning
   };
 }
