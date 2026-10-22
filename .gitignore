@@ -14,6 +14,10 @@ e2e-*.png
 recordings/
 *.mp4
 *.webm
+*.wav
+.hyperframes/
+launch-film/
+scripts/record-1080p-walkthrough.mjs
 
 # Node / Next.js
 node_modules/
