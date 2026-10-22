@@ -1,8 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { playAirhorn, playLaserDrop, playRecordScratch, playSubDrop } from '@/utils/soundboard';
-import { Volume2, Zap, Disc3, Bomb, Megaphone } from 'lucide-react';
+import {
+  playAirhorn,
+  playLaserDrop,
+  playRecordScratch,
+  playSubDrop,
+  setSoundboardVolume,
+  getSoundboardVolume
+} from '@/utils/soundboard';
+import { Volume2, VolumeX, Zap, Disc3, Bomb, Megaphone } from 'lucide-react';
 
 interface SoundPad {
   id: string;
@@ -17,6 +24,9 @@ interface SoundPad {
 
 export function CypherSoundboard() {
   const [activePad, setActivePad] = useState<string | null>(null);
+  const [volume, setVolume] = useState<number>(() => Math.round(getSoundboardVolume() * 100));
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [prevVolume, setPrevVolume] = useState<number>(80);
 
   const pads: SoundPad[] = [
     {
@@ -61,6 +71,26 @@ export function CypherSoundboard() {
     }
   ];
 
+  const handleVolumeChange = (newVal: number) => {
+    setVolume(newVal);
+    if (newVal > 0) setIsMuted(false);
+    setSoundboardVolume(newVal / 100);
+  };
+
+  const toggleMute = () => {
+    if (isMuted) {
+      setIsMuted(false);
+      const restore = prevVolume || 80;
+      setVolume(restore);
+      setSoundboardVolume(restore / 100);
+    } else {
+      setPrevVolume(volume);
+      setIsMuted(true);
+      setVolume(0);
+      setSoundboardVolume(0);
+    }
+  };
+
   const triggerPad = (pad: SoundPad) => {
     setActivePad(pad.id);
     pad.play();
@@ -89,18 +119,50 @@ export function CypherSoundboard() {
 
   return (
     <div className="w-full max-w-xl mx-auto my-6 p-4 rounded-2xl bg-black/40 border border-white/[0.08] backdrop-blur-md">
-      <div className="flex items-center justify-between mb-3 px-1">
+      {/* Soundboard Header with Interactive FX Volume Slider */}
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-3 px-1">
         <div className="flex items-center space-x-2">
-          <Volume2 className="w-3.5 h-3.5 text-accent-green" />
+          <button
+            type="button"
+            onClick={toggleMute}
+            className="text-accent-green hover:text-white transition-colors cursor-pointer"
+            title={isMuted ? 'Unmute FX Soundboard' : 'Mute FX Soundboard'}
+          >
+            {isMuted || volume === 0 ? (
+              <VolumeX className="w-3.5 h-3.5 text-red-400" />
+            ) : (
+              <Volume2 className="w-3.5 h-3.5 text-accent-green" />
+            )}
+          </button>
           <span className="text-[11px] font-bold text-gray-300 uppercase tracking-wider">
             Cypher FX Soundboard
           </span>
+          <span className="text-[10px] text-gray-500 font-mono hidden md:inline">
+            [1] [2] [3] [4]
+          </span>
         </div>
-        <span className="text-[10px] text-gray-400 font-mono hidden sm:inline">
-          Hotkeys: [1] [2] [3] [4]
-        </span>
+
+        {/* Real-time FX Volume Slider */}
+        <div className="flex items-center space-x-2 bg-white/[0.04] px-2.5 py-1 rounded-full border border-white/[0.06]">
+          <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider">
+            FX Vol
+          </span>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={isMuted ? 0 : volume}
+            onChange={(e) => handleVolumeChange(Number(e.target.value))}
+            className="w-16 sm:w-20 h-1.5 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-[#00E599]"
+            title={`Soundboard FX Volume: ${isMuted ? 0 : volume}%`}
+          />
+          <span className="text-[10px] font-mono text-gray-300 w-7 text-right">
+            {isMuted ? '0%' : `${volume}%`}
+          </span>
+        </div>
       </div>
 
+      {/* FX Trigger Pads */}
       <div className="grid grid-cols-4 gap-2 sm:gap-3">
         {pads.map((pad) => {
           const Icon = pad.icon;
