@@ -33,6 +33,7 @@ interface MarketplaceViewProps {
   onLicenseBeat: (beat: Beat, tier: 'Standard Lease' | 'Exclusive Rights') => void;
   onOpenUpload: () => void;
   onSelectProducer: (producerName: string) => void;
+  onOpenBazza?: () => void;
   onOpenAiDj?: () => void;
 }
 
@@ -52,7 +53,8 @@ const SORT_OPTIONS: SortOption[] = [
   { id: 'bpm', label: 'BPM Tempo', emoji: '🥁', icon: Activity },
 ];
 
-export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer, onOpenAiDj }: MarketplaceViewProps) {
+export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer, onOpenBazza, onOpenAiDj }: MarketplaceViewProps) {
+  const triggerBazza = onOpenBazza || onOpenAiDj;
   const { 
     beats, 
     activeBeat, 
@@ -505,12 +507,12 @@ export function MarketplaceView({ onLicenseBeat, onOpenUpload, onSelectProducer,
                 className="w-full bg-white/[0.03] backdrop-blur-md border border-white/[0.08] focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-white placeholder-gray-500 outline-none transition-all duration-200"
               />
             </div>
-            {onOpenAiDj && (
+            {triggerBazza && (
               <button
                 type="button"
-                onClick={onOpenAiDj}
+                onClick={triggerBazza}
                 className="flex items-center space-x-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-accent-green/15 via-emerald-500/10 to-accent-green/5 border border-accent-green/30 hover:border-accent-green/60 text-accent-green hover:text-white text-xs sm:text-sm font-bold shadow-lg shadow-accent-green/10 hover:shadow-accent-green/20 transition-all duration-200 active:scale-95 whitespace-nowrap cursor-pointer group"
-                title="Ask Bazza (Native AI DJ)"
+                title="Ask Bazza (Resident Sound Selector)"
               >
                 <BazzaMascot size="sm" glow={false} className="group-hover:scale-110 transition-transform" />
                 <span className="hidden sm:inline">Ask Bazza</span>

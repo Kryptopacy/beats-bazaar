@@ -11,7 +11,7 @@ import { BeatUploadModal } from '@/components/BeatUploadModal';
 import { BachsModal } from '@/components/BachsModal';
 import { LicenseCertificateModal } from '@/components/LicenseCertificateModal';
 import { ProducerProfileModal } from '@/components/ProducerProfileModal';
-import { AiDjModal } from '@/components/AiDjModal';
+import { BazzaModal } from '@/components/BazzaModal';
 import { Beat, LicenseTier, LicenseCertificate } from '@/types';
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
   // Modals state
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [uploadSponsoredInitial, setUploadSponsoredInitial] = useState(false);
-  const [isAiDjOpen, setIsAiDjOpen] = useState(false);
+  const [isBazzaOpen, setIsBazzaOpen] = useState(false);
 
   const handleOpenUpload = (sponsored: boolean = false) => {
     setUploadSponsoredInitial(sponsored);
@@ -127,20 +127,20 @@ export default function Home() {
               onLicenseBeat={(beat, tier) => handleOpenLicense(beat, tier)}
               onOpenUpload={() => handleOpenUpload(false)}
               onSelectProducer={(prod) => setSelectedProducer(prod)}
-              onOpenAiDj={() => setIsAiDjOpen(true)}
+              onOpenBazza={() => setIsBazzaOpen(true)}
             />
           ) : (
             <CypherRoomView 
               onTipProducer={(beat) => handleOpenTip(beat)}
               onLicenseBeat={(beat) => handleOpenLicense(beat, 'Standard Lease')}
-              onOpenAiDj={() => setIsAiDjOpen(true)}
+              onOpenBazza={() => setIsBazzaOpen(true)}
             />
           )}
         </div>
 
         <Footer 
           onOpenUpload={handleOpenUpload} 
-          onOpenAiDj={() => setIsAiDjOpen(true)} 
+          onOpenBazza={() => setIsBazzaOpen(true)} 
         />
       </div>
 
@@ -152,9 +152,9 @@ export default function Home() {
       )}
 
       {/* Modals */}
-      <AiDjModal
-        isOpen={isAiDjOpen}
-        onClose={() => setIsAiDjOpen(false)}
+      <BazzaModal
+        isOpen={isBazzaOpen}
+        onClose={() => setIsBazzaOpen(false)}
         onLicenseBeat={(beat) => handleOpenLicense(beat, 'Standard Lease')}
       />
 

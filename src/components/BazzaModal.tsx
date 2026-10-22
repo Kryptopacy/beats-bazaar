@@ -15,7 +15,7 @@ import {
   DollarSign
 } from 'lucide-react';
 
-interface AiDjModalProps {
+export interface BazzaModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectBeat?: (beat: Beat) => void;
@@ -69,7 +69,7 @@ const CYPHER_PRESETS = [
   }
 ];
 
-export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, context }: AiDjModalProps) {
+export function BazzaModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, context }: BazzaModalProps) {
   const { beats, playBeat, setActiveSurface, activeSurface, activeBeat, isPlaying, togglePlay } = useAudio();
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +87,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
   const isMarketplace = currentContext === 'marketplace';
   const presets = isMarketplace ? MARKETPLACE_PRESETS : CYPHER_PRESETS;
 
-  const handleAskDj = async (queryText?: string) => {
+  const handleAskBazza = async (queryText?: string) => {
     const finalPrompt = queryText || prompt;
     if (!finalPrompt.trim()) return;
 
@@ -96,7 +96,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
     setResult(null);
 
     try {
-      const res = await fetch('/api/ai-dj', {
+      const res = await fetch('/api/bazza', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: finalPrompt, beats, context: currentContext })
@@ -185,7 +185,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
                   type="button"
                   onClick={() => {
                     setPrompt(pv.prompt);
-                    handleAskDj(pv.prompt);
+                    handleAskBazza(pv.prompt);
                   }}
                   className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium bg-white/[0.04] hover:bg-white/[0.09] text-gray-300 hover:text-white border border-white/[0.07] transition-all active:scale-95 text-left cursor-pointer"
                 >
@@ -200,7 +200,7 @@ export function AiDjModal({ isOpen, onClose, onSelectBeat, onLicenseBeat, contex
             <button
               type="button"
               disabled={isLoading || !prompt.trim()}
-              onClick={() => handleAskDj()}
+              onClick={() => handleAskBazza()}
               className="w-full sm:w-auto justify-center flex items-center space-x-2.5 px-7 py-3 rounded-full bg-gradient-to-r from-accent-green via-emerald-400 to-[#00E599] text-black font-black text-xs sm:text-sm shadow-xl shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.02] active:scale-95 disabled:opacity-40 transition-all ring-1 ring-white/20 cursor-pointer"
             >
               {isLoading ? (

@@ -7,10 +7,12 @@ import { Store, Mic2, Sparkles, ShieldCheck } from 'lucide-react';
 
 interface FooterProps {
   onOpenUpload: (sponsored?: boolean) => void;
-  onOpenAiDj: () => void;
+  onOpenBazza?: () => void;
+  onOpenAiDj?: () => void;
 }
 
-export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
+export function Footer({ onOpenUpload, onOpenBazza, onOpenAiDj }: FooterProps) {
+  const triggerBazza = onOpenBazza || onOpenAiDj;
   const { setActiveSurface, setSelectedGenre } = useAudio();
 
   return (
@@ -60,7 +62,7 @@ export function Footer({ onOpenUpload, onOpenAiDj }: FooterProps) {
               <li>
                 <button
                   type="button"
-                  onClick={onOpenAiDj}
+                  onClick={triggerBazza}
                   className="hover:text-accent-green transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5" />

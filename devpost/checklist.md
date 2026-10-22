@@ -71,7 +71,7 @@ Build mode: fast
 - [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
 Activity and evidence: Verified end-to-end user journey across Marketplace discovery, Cypher Room continuous streaming with crossfading, Bachs checkout with digital license certificate generation, and Gemini 3.8 Flash AI Cypher DJ endpoint and modal. All verified mechanically via `npx next build` (exit 0) and HTTP 200 checks on `http://localhost:3001`.
-Route and stops: 1) `src/context/AudioContext.tsx` (central audio player engine, crossfade, queue), 2) `src/app/api/ai-dj/route.ts` & `src/components/AiDjModal.tsx` (Gemini 3.8 Flash integration & semantic fallback), 3) `src/app/page.tsx` (`handleBachsSuccess` verified digital license generation).
+Route and stops: 1) `src/context/AudioContext.tsx` (central audio player engine, crossfade, queue), 2) `src/app/api/bazza/route.ts` & `src/components/BazzaModal.tsx` (Bazza Gemini 3.8 Flash integration & semantic fallback), 3) `src/app/page.tsx` (`handleBachsSuccess` verified digital license generation).
 Edit outcome: AI Cypher DJ feature with `@google/genai` (model `gemini-3.8-flash`) and searchable genre combobox added, verified, and committed.
 Reflection: Connected requirement to implementation of zero-downtime semantic fallback when external LLM credentials or network rate-limits occur.
 Activity mode: live app and editor on `http://localhost:3001`.
@@ -84,5 +84,5 @@ Activity mode: live app and editor on `http://localhost:3001`.
 - Added Producer Public Storefront modal (`ProducerProfileModal.tsx`) with discography, instant inline audio previewing, direct leasing, Bachs tipping, and verified released streaming placements (Spotify, Apple Music, Audiomack).
 - Set official producer persona to `TCG-m`.
 - Added Sponsored / Boosted Beat feature with gold `🔥 SPONSORED` badge and priority grid placement, toggleable via `BeatUploadModal.tsx` ($15 Bachs boost).
-- Integrated AI Cypher DJ powered by Gemini 3.8 Flash (`@google/genai` model `gemini-3.8-flash`) in `src/app/api/ai-dj/route.ts` and `src/components/AiDjModal.tsx`, accessible from both the Marketplace and Cypher Room, with intelligent semantic fallback.
+- Integrated Bazza: Resident Sound Selector powered by Gemini 3.8 Flash (`@google/genai` model `gemini-3.8-flash`) in `src/app/api/bazza/route.ts` and `src/components/BazzaModal.tsx`, accessible from both the Marketplace and Cypher Room, with intelligent semantic fallback.
 - Elevated all buttons, cards, and cypher knobs to studio-grade dark glassmorphism.
