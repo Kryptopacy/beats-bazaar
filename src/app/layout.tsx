@@ -1,6 +1,13 @@
 import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { AudioProvider } from '@/context/AudioContext';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://beatsbazaar.com';
 
@@ -96,7 +103,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-background text-gray-100 min-h-screen antialiased selection:bg-accent-green selection:text-black relative">
+      <body className={`${inter.variable} font-sans bg-background text-gray-100 min-h-screen antialiased selection:bg-accent-green selection:text-black relative`}>
         {/* Tactile Hardware Studio Noise Overlay (Hardware Anodized Matte Grain) */}
         <svg 
           className="pointer-events-none fixed inset-0 z-50 h-full w-full opacity-20 mix-blend-screen select-none"
